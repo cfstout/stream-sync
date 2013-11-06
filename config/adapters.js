@@ -12,6 +12,10 @@
  * http://sailsjs.org/#documentation
  */
 
+ var mongoUri = process.env.MONGOLAB_URI ||
+                process.env.MONGOHQ_URL ||
+                'mongodb://localhost/mydb';
+
 module.exports.adapters = {
   'default': 'mongo',
 
@@ -27,9 +31,7 @@ module.exports.adapters = {
 
     // OR
     module   : 'sails-mongo',
-    url      : 'mongodb://heroku:fdecedf5cbea804428ed7433628c19b1@paulo.mongohq.com
-:10002/app19190792'
-
+    url      : mongoUri
 
   }
 
