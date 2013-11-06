@@ -1,2 +1,2 @@
-# stream-sync
-### a Sails application
+# Stream Sync
+### The Stream Sync Prototype
