@@ -10,9 +10,14 @@ module.exports = {
 
   attributes: {
   	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
+  	username: {
+  		type: 'string',
+  		required: true
+  	},
+  	emailAddress: {
+      type: 'email',
+      required: true
+    }
     
   }
 

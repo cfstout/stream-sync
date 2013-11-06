@@ -78,6 +78,13 @@ module.exports = function (grunt) {
     'linker/**/*.html'
   ];
 
+  var fontFilesToInject = [
+    'linker/**/*.eot',
+    'linker/**/*.svg',
+    'linker/**/*.ttf',
+    'linker/**/*.woff'
+  ];
+
 
 
   /////////////////////////////////////////////////////////////////
@@ -108,6 +115,11 @@ module.exports = function (grunt) {
 
   // Modify css file injection paths to use 
   cssFilesToInject = cssFilesToInject.map(function (path) {
+    return '.tmp/public/' + path;
+  });
+
+  // Modify font file injection paths to use 
+  fontFilesToInject = fontFilesToInject.map(function (path) {
     return '.tmp/public/' + path;
   });
 
