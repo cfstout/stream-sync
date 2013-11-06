@@ -14,6 +14,7 @@
 
  var mongoUri = process.env.MONGOLAB_URI ||
                 process.env.MONGOHQ_URL ||
+                'mongodb://heroku:fdecedf5cbea804428ed7433628c19b1@paulo.mongohq.com:10002/app19190792' ||
                 'mongodb://localhost/mydb';
 
 module.exports.adapters = {
