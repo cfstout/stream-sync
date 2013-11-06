@@ -16,7 +16,7 @@
 
 module.exports = function (grunt) {
 
-
+  'use strict';
 
   /**
    * CSS files to inject in order
@@ -56,7 +56,14 @@ module.exports = function (grunt) {
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
 
-    // *->    put other dependencies here   <-*
+    // Jquery
+    'linker/js/vendor/jquery.js',
+
+    // Underscore for Backbone
+    'linker/js/vendor/underscore.js',
+
+    // Backbone for models
+    'linker/js/vendor/backbone.js',
 
     // All of the rest of your app scripts imported here
     'linker/**/*.js'
