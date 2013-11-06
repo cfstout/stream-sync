@@ -17,17 +17,19 @@ module.exports.adapters = {
 
   // sails v.0.9.0
   mongo: {
-    module   : 'sails-mongo',
-    host     : 'localhost',
-    // port     : 27017,
-    user     : '',
-    password : '',
+    // module   : 'sails-mongo',
+    // host     : 'localhost',
+    // // port     : 27017,
+    // user     : '',
+    // password : '',
 
-    database : 'db'
+    // database : 'db'
 
     // OR
-    // module   : 'sails-mongo',
-    // url      : 'mongodb://USER:PASSWORD@localhost:27017/db'
+    module   : 'sails-mongo',
+    url      : 'mongodb://heroku:fdecedf5cbea804428ed7433628c19b1@paulo.mongohq.com
+:10002/app19190792'
+
 
   }
 
