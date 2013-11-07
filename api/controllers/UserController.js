@@ -17,7 +17,18 @@
 
 module.exports = {
     
-  
+  create: function(req, res) {
+  	User.create({
+  		username: req.param('username'),
+  		email: req.param('email')
+  	}).done(function(err, user) {
+		if (err) {
+			return console.log(err);
+		} else {
+		console.log("User created:", user.username);
+		}
+	});
+  },
 
 
   /**
