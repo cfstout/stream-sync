@@ -1,5 +1,5 @@
 /**
- * UserController
+ * PostController
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
@@ -15,40 +15,17 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var passport = require('passport');
-
 module.exports = {
+
+	test: function(req, res) {
+		var track = tomahk.getTrack("Death Cab For Cutie", "I Will Follow You Into the Dark");
+		return res.view({track: track}, "site/test");
+	},
     
-	signup: function (req, res) {
-		User.create({
-			username: req.param('username'),
-			password: req.param('password')
-		}).done(function(err, user) {
-			if (err) {
-				console.log(err);
-				return res.send(err, 500);
-			}
-			console.log("User created: " + user.username);
-			return res.redirect('/u/' + user.username);
-		});
-	},
-	find: function (req, res) {
-		var username = req.param('username');
-		User.findOne({username: username}, (function (err, user){
-			if (!user) {
-				err = 'No User found with username: ' + username;
-				return res.json(err, 500);
-			};
-			return res.view({user: user}, 'user/profile');
-		}));
-	},
-	test: function (req, res) {
-		res.send(req.user);
-	},
 
   /**
    * Overrides for the settings in `config/controllers.js`
-   * (specific to UserController)
+   * (specific to PostController)
    */
   _config: {}
 

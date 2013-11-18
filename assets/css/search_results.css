@@ -1,0 +1,25 @@
+#list_results { padding: 0; }
+
+#list_results.segment { min-height: 50px; }
+
+#list_results .divider { margin: 0 0 0 0; }
+
+#list_results .content { padding: 20px; }
+
+#list_results .image { 
+	margin: 10px 20px;
+	height: 60px;
+	width: auto;
+}
+
+#list_results .item:hover { background: #FAFAFA; }
+
+#list_results h5.error {
+	text-align: center;
+	line-height: 3;
+}
+
+#list_results span.album-name {
+	font-weight: 100;
+	font-style: italic;
+}

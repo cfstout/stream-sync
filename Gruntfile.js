@@ -16,7 +16,7 @@
 
 module.exports = function (grunt) {
 
-  'use strict';
+
 
   /**
    * CSS files to inject in order
@@ -29,6 +29,8 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
+    'linker/css/reset.css',
+    'linker/css/semantic.min.css',
     'linker/**/*.css'
   ];
 
@@ -56,8 +58,8 @@ module.exports = function (grunt) {
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
 
-    // JQuery
-    'linker/js/vendor/jquery.min.js',
+    'linker/js/jquery.min.js',
+    'linker/js/semantic.min.js',
 
     // All of the rest of your app scripts imported here
     'linker/**/*.js'
@@ -113,13 +115,13 @@ module.exports = function (grunt) {
   /////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////
 
-  // Modify css file injection paths to use 
-  cssFilesToInject = cssFilesToInject.map(function (path) {
+  // Modify font file injection paths to use 
+  fontFilesToInject = fontFilesToInject.map(function (path) {
     return '.tmp/public/' + path;
   });
 
-  // Modify font file injection paths to use 
-  fontFilesToInject = fontFilesToInject.map(function (path) {
+  // Modify css file injection paths to use 
+  cssFilesToInject = cssFilesToInject.map(function (path) {
     return '.tmp/public/' + path;
   });
 
@@ -127,7 +129,6 @@ module.exports = function (grunt) {
   jsFilesToInject = jsFilesToInject.map(function (path) {
     return '.tmp/public/' + path;
   });
-  
   
   templateFilesToInject = templateFilesToInject.map(function (path) {
     return 'assets/' + path;

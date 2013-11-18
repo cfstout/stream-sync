@@ -1,0 +1,45 @@
+<!--SCRIPTS-->
+<script src="/linker/js/socket.io.js"></script>
+<script src="/linker/js/sails.io.js"></script>
+<script src="/linker/js/app.js"></script>
+<script src="/linker/js/jquery.min.js"></script>
+<script src="/linker/js/semantic.min.js"></script>
+<!--SCRIPTS END-->
+<!--STYLES-->
+<link rel="stylesheet" href="/linker/css/reset.css">
+<link rel="stylesheet" href="/linker/css/semantic.min.css">
+<link rel="stylesheet" href="/linker/css/general.css">
+<!--STYLES END-->
+<link rel="stylesheet" href="/css/search_results.css">
+
+<%- partial('../site/partials/header') %>
+<%- partial('../site/partials/page_open') %>
+
+<div class="two wide column"></div>
+<div class="twelve wide column">
+
+  <div class="ui form segment" action="search" method="post">
+    <div class="field">
+      <div class="ui left labeled icon input">
+        <input name="query" type="text" placeholder="Search Query" id="search-box">
+        <i class="search icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div id="list_results"></div>
+
+</div>
+
+<%- partial('../site/partials/page_close') %>
+
+<script type="text/javascript" src="/js/client_search.js"></script>
+<script type="text/javascript">
+  $(function() {
+    var input = $('input[name="query"]');
+    var output = $('#list_results');
+    poll_search(input, output);
+  });
+</script>
+
+

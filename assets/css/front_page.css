@@ -1,0 +1,43 @@
+body {
+	padding: 40px;
+	background: #63b480;
+}
+
+#main_title {
+	color: #FFF;
+	font-size: 100px;
+}
+
+#description_text {
+	color: #FFF;
+}
+
+#button_options {
+	float: right;
+	margin: 50px 20px;
+}
+
+.ui.solid.button {
+	border: 2px solid #63B480;
+	background-color: #FFF !important;
+	color: #63B480 !important;
+}
+
+.ui.solid.button:hover {
+	border-color: #FFF;
+	background-color: #63B480 !important;
+	color: #FFF !important;
+}
+
+#login_button {
+	color: #FFF;
+	margin: 0 0 0 20px;
+}
+
+#login_button a{
+	color: #FFF;
+}
+
+.muted {
+	color: #BBB;
+}

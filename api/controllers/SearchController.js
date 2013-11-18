@@ -1,5 +1,5 @@
 /**
- * UserController
+ * SearchController
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
@@ -15,40 +15,26 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var passport = require('passport');
+var request = require('request');
 
 module.exports = {
     
-	signup: function (req, res) {
-		User.create({
-			username: req.param('username'),
-			password: req.param('password')
-		}).done(function(err, user) {
-			if (err) {
-				console.log(err);
-				return res.send(err, 500);
-			}
-			console.log("User created: " + user.username);
-			return res.redirect('/u/' + user.username);
-		});
-	},
-	find: function (req, res) {
-		var username = req.param('username');
-		User.findOne({username: username}, (function (err, user){
-			if (!user) {
-				err = 'No User found with username: ' + username;
-				return res.json(err, 500);
-			};
-			return res.view({user: user}, 'user/profile');
-		}));
-	},
-	test: function (req, res) {
-		res.send(req.user);
-	},
+  search: function(req, res) {
+  	var query = req.param('query');
+    query = String(query).replace(/\s/g, "+");
+    console.log(query);
+  	var uri = 'https://itunes.apple.com/search?term='+query+'&limit=10';
+  	request({uri: uri, json: true}, function (err, reply, data) {
+  	   if (!err && reply.statusCode == 200) {
+  	    res.json(data);
+  	   };
+	   });
+  	},
+
 
   /**
    * Overrides for the settings in `config/controllers.js`
-   * (specific to UserController)
+   * (specific to SearchController)
    */
   _config: {}
 

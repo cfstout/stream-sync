@@ -1,0 +1,46 @@
+/* CONTAINERS */
+.container{
+	max-width: 960px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+#page_content {
+	padding-top: 43px;
+}
+
+.the.segment {
+	margin-top: 60px !important;
+}
+
+/* FONTS */ 
+.muted {
+	color: #AAA;
+}
+
+.muted a {
+	color: #888;
+}
+
+/* EFFECTS */
+.transparent {
+	opacity: 0.9;
+}
+
+/* GENERAL HELPERS */
+
+.right.floated {
+	float: right;
+}
+
+.left.floated {
+	float: left;
+}
+
+.left.tabbed {
+	margin-left: 15px;
+}
+
+.right.tabbed {
+	margin-right: 15px;
+}

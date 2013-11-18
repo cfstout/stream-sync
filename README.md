@@ -1,2 +1,2 @@
 # Stream Sync
-### The Stream Sync Prototype
+### the Stream Sync Prototype

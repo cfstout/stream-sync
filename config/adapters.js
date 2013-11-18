@@ -1,4 +1,4 @@
-/**
+	/**
  * Global adapter config
  * 
  * The `adapters` configuration object lets you create different global "saved settings"
@@ -12,28 +12,10 @@
  * http://sailsjs.org/#documentation
  */
 
- var mongoUri = process.env.MONGOLAB_URI ||
-                process.env.MONGOHQ_URL ||
-                // 'mongodb://heroku:fdecedf5cbea804428ed7433628c19b1@paulo.mongohq.com:10002/app19190792' ||
-                'mongodb://localhost/mydb';
-
 module.exports.adapters = {
   'default': 'mongo',
-
-  // sails v.0.9.0
   mongo: {
-    // module   : 'sails-mongo',
-    // host     : 'localhost',
-    // // port     : 27017,
-    // user     : '',
-    // password : '',
-
-    // database : 'db'
-
-    // OR
-    module   : 'sails-mongo',
-    url      : mongoUri
-
+    module: 'sails-mongo',
+    url: 'mongodb://localhost/mydb'
   }
-
 };

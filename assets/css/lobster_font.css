@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  src: url('/linker/fonts/lobster.otf');
+}
+
+.lobster.font {
+	font-family: 'Lobster';
+	font-weight: 300;
+}

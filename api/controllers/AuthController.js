@@ -1,5 +1,5 @@
 /**
- * UserController
+ * AuthController
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
@@ -19,36 +19,20 @@ var passport = require('passport');
 
 module.exports = {
     
-	signup: function (req, res) {
-		User.create({
-			username: req.param('username'),
-			password: req.param('password')
-		}).done(function(err, user) {
-			if (err) {
-				console.log(err);
-				return res.send(err, 500);
-			}
-			console.log("User created: " + user.username);
-			return res.redirect('/u/' + user.username);
-		});
+  login: function (req, res) {
+		passport.authenticate('local', function(err, user, info) {
+			if (err || !user) return res.send(401, { message: "Not Authorized"});
+			req.login(user, function(err) {
+				if (err) { return next(err); }
+				return res.redirect('/user/profile/' + req.user.username);
+			});
+		})(req, res);
 	},
-	find: function (req, res) {
-		var username = req.param('username');
-		User.findOne({username: username}, (function (err, user){
-			if (!user) {
-				err = 'No User found with username: ' + username;
-				return res.json(err, 500);
-			};
-			return res.view({user: user}, 'user/profile');
-		}));
-	},
-	test: function (req, res) {
-		res.send(req.user);
-	},
+
 
   /**
    * Overrides for the settings in `config/controllers.js`
-   * (specific to UserController)
+   * (specific to AuthController)
    */
   _config: {}
 
