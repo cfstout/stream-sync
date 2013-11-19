@@ -17,7 +17,51 @@
 
 module.exports = {
     
-  
+  create: function(req, res) {
+  	Audio.create({
+  		type: 'song',
+  		artist: req.param('artist_name'),
+  		track: req.param('track_name')
+  	}).done(function(err, audio) {
+  		if (err) {
+			  console.log(err);
+			  return res.send(err, 500);
+		  }
+      var time = new Date();
+      var tcomps = req.param('time').split(":");
+      time.setHours(tcomps[0],tcomps[1],0);
+
+  		Event.create({
+        name: req.param('name'),
+  			host: req.user.username,
+  			audio: audio.id,
+  			time: time
+  		}).done(function(err, event) {
+        if (err) {
+          console.log(err);
+          return res.send(err, 500);
+        }
+        return res.view({event: event}, 'event/view');
+  		});
+  	});
+  },
+  find: function (req, res) {
+    var name = req.param('name');
+    name = String(name).replace(/-/g, " ");
+    Event.findOne({name: name}, (function (err, event) {
+      if (!event) {
+        err = 'No Event found with name: ' + name;
+        return res.json(err, 500);
+      }
+      Audio.findOne(event.audio, (function (err, audio) {
+        if (!audio) {
+          err = 'No Event found with audio: ' + event.audio;
+          return res.json(err, 500);
+        }
+        return res.view({event: event, audio: audio}, 'event/view');
+      }));
+    }));
+  },
 
 
   /**

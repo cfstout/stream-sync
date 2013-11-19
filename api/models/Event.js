@@ -9,11 +9,11 @@
 module.exports = {
 
   attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
     
+    name: 'string',
+    host: 'string',
+    audio: 'string',
+    time: 'datetime'
   }
 
 };

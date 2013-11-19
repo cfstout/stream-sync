@@ -29,7 +29,10 @@ module.exports = {
 				return res.send(err, 500);
 			}
 			console.log("User created: " + user.username);
-			return res.redirect('/u/' + user.username);
+			req.login(user, function(err) {
+			  if (err) { return res.send(err, 500); }
+			  return res.redirect('/u/' + req.user.username);
+			});
 		});
 	},
 	find: function (req, res) {
@@ -37,7 +40,7 @@ module.exports = {
 		User.findOne({username: username}, (function (err, user){
 			if (!user) {
 				err = 'No User found with username: ' + username;
-				return res.json(err, 500);
+				return res.send(err, 500);
 			};
 			return res.view({user: user}, 'user/profile');
 		}));

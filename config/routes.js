@@ -54,15 +54,20 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'find'
   },  
-  'get /p/new': {
-    view: 'post/create'
+  'get /e/new': {
+    view: 'event/create'
+  },
+  'post /event/create': {
+    controller: 'EventController',
+    action: 'create'
+  },
+  'get /e/:name': {
+    controller: 'EventController',
+    action: 'find'
   },
   'post /search': {
     controller: 'SearchController',
     action: 'search'
-  },
-  'get /test': {
-    view: 'site/test'
   },
   
 

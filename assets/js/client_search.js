@@ -2,8 +2,10 @@ var timer;
 var typingDelay = 750;
 var query;
 var output_container;
+var click_func;
 
-function poll_search(input, output) {
+function poll_search(input, output, click_func_name) {
+  click_func = click_func_name;
   output_container = output;
   $(input).keyup(function() {
     clearTimeout(timer);
@@ -33,12 +35,15 @@ function display_results(results) {
 
 function create_result_item(result) {
   var artist_name = result.artistName;
-  var track_name = result.trackName;
-  var album_img = result.artworkUrl60;
+  var track_name = result.trackName
+  var album_img_sm = result.artworkUrl60;
+  var album_img_lg = result.artworkUrl100;
   var album_name = result.collectionName;
 
-  var html = '<a class="item">';
-  html += '<img class="ui image rounded right floated album-image" src="'+ album_img +'">';
+  var html = '<a class="item" onclick="'+ 
+    click_func +'(\''+ artist_name.replace(/'/g, "\\'") +'\', \''+ track_name.replace(/'/g, "\\'") +'\', \''+ album_img_lg +'\');">';
+  // var html = '<a class="item">';
+  html += '<img class="ui image rounded right floated album-image" src="'+ album_img_sm +'">';
   html += '<div class="content">';
   html += '<div class="header">'+ track_name +'</div>';
   html += '<span class="artist-name">'+ artist_name +'</span>&#09;';

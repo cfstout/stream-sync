@@ -24,7 +24,7 @@ module.exports = {
 			if (err || !user) return res.send(401, { message: "Not Authorized"});
 			req.login(user, function(err) {
 				if (err) { return next(err); }
-				return res.redirect('/user/profile/' + req.user.username);
+				return res.redirect('/u/' + req.user.username);
 			});
 		})(req, res);
 	},

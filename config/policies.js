@@ -21,6 +21,10 @@ module.exports.policies = {
   UserController: {
   	profile: 'isAuthenticated',
   	test: 'isAuthenticated'
+  },
+
+  EventController: {
+  	create: 'isAuthenticated'
   }
 
 };

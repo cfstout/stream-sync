@@ -1,46 +1,31 @@
 /* CONTAINERS */
-.container{
+.container {
 	max-width: 960px;
 	width: 100%;
 	margin: 0 auto;
 }
 
-#page_content {
-	padding-top: 43px;
-}
+#page_content { padding-top: 43px; }
 
-.the.segment {
-	margin-top: 60px !important;
-}
+.the.segment { margin-top: 60px !important; }
 
 /* FONTS */ 
-.muted {
-	color: #AAA;
-}
-
-.muted a {
-	color: #888;
-}
+.muted { color: #AAA; }
+.muted a { color: #888; }
 
 /* EFFECTS */
-.transparent {
-	opacity: 0.9;
-}
+.transparent { opacity: 0.9; }
 
 /* GENERAL HELPERS */
 
-.right.floated {
-	float: right;
+.hidden {
+	display: none;
 }
 
-.left.floated {
-	float: left;
-}
+.right.floated { float: right; }
 
-.left.tabbed {
-	margin-left: 15px;
-}
+.left.floated { float: left; }
 
-.right.tabbed {
-	margin-right: 15px;
-}
+.left.tabbed { margin-left: 15px; }
+
+.right.tabbed { margin-right: 15px; }

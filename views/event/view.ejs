@@ -14,22 +14,9 @@
 <%- partial('../site/partials/header') %>
 <%- partial('../site/partials/page_open') %>
 
-<div class="two wide column"></div>
-<div class="twelve wide column">
-
-  <div id="output"></div>
-
-</div>
+<h1 class="ui header"><%= event.name %></h1>
+<h2 class="ui header"><%= event.host %></h2>
+<h2 class="ui header"><%= audio.track %></h2>
+<h2 class="ui header"><%= event.time %></h2>
 
 <%- partial('../site/partials/page_close') %>
-
-<script type="text/javascript" src="/js/tomahk_api.js"></script>
-<script type="text/javascript" src="/js/track_render.js"></script>
-<script type="text/javascript">
-  $(function() {
-    var output = $('#output');
-    render_track("Death Cab For Cutie", "I Will Follow You Into the Dark", output);
-  });
-</script>
-
-

@@ -14,7 +14,6 @@
  */
 module.exports = function(req, res, next) {
 	// User is allowed, proceed to controller
-	console.log("AUTHENTICATING");
 	if (req.isAuthenticated()) {
 		return next();
 	} else {
