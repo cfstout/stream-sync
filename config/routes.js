@@ -69,7 +69,9 @@ module.exports.routes = {
     controller: 'SearchController',
     action: 'search'
   },
-
+  'get /home': {
+    view: 'event/list'
+  },
   'get /a/uploader': {
 
     view: 'audio/uploader'
