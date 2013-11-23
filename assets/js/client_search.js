@@ -41,7 +41,6 @@ function create_result_item(result) {
 
   var html = '<a class="item" onclick="'+ 
     'check_stream(\''+ artist_name.replace(/'/g, "\\'") +'\', \''+ track_name.replace(/'/g, "\\'") +'\');">';
-  // var html = '<a class="item">';
   html += '<img class="ui image rounded right floated album-image" src="'+ album_img_sm +'">';
   html += '<div class="content">';
   html += '<div class="header">'+ track_name +'</div>';

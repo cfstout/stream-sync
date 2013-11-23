@@ -90,6 +90,10 @@ module.exports.routes = {
     controller: 'PlaylistController',
     action: 'addSong'
   },
+  'post /subscribe/:playlistid': {
+    controller: 'PlaylistController',
+    action: 'subscribe'
+  },
   
 
 
