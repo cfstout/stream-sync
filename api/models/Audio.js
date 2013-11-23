@@ -12,8 +12,7 @@ module.exports = {
   	
   	type: 'string',
   	artist: 'string',
-  	track: 'string',
-  	file_name: 'string'
+  	track: 'string'
     
   }
 

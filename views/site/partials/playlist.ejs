@@ -1,4 +1,4 @@
-<div class="ui sidebar">
+<div class="ui sidebar" id="playlist">
 	<div id="search_bar" class="ui form segment" action="search" method="post">
 	    <div class="field">
 	      <div class="ui left labeled icon input">
@@ -17,6 +17,6 @@
   $(function() {
     var input = $('input[name="query"]');
     var output = $('#list_results');
-    poll_search(input, output, "display_choice");
+    poll_search(input, output, "check_choice");
   });
 </script>

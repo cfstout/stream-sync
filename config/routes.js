@@ -51,7 +51,7 @@ module.exports.routes = {
     action: 'login'
   },
   'get /u/:username': {
-    controller: 'UserController',EventController
+    controller: 'UserController',
     action: 'find'
   },  
   'get /e/new': {
@@ -73,7 +73,6 @@ module.exports.routes = {
     view: 'event/list'
   },
   'get /a/uploader': {
-
     view: 'audio/uploader'
   },
 

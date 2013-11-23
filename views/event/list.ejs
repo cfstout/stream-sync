@@ -16,26 +16,20 @@
 <%- partial('../site/partials/page_open') %>
 
 <div class="sixteen wide column">
-	<form class="ui the fluid form segment" action="event/create" method="post">
-		<div class="ui action input">
-	  		<input type="text" placeholder="Event Name">
-	  		<div class="ui teal right labeled icon button"><i class="add icon"></i> Create Event</div>
-	  	</div>
-	</form>
-	<div class="ui horizontal divider">Or</div>
-	<form class="ui form segment">
+	<form class="ui the form segment">
 		<div class="ui fluid icon input">
 	  		<input type="text" placeholder="Find Event">
 	  		<i class="search icon"></i>
 	  	</div>
 	</form>
 </div>
+<a id="create_event">Create Event</a>
 
 <%- partial('../site/partials/page_close') %>
 
 <script type="text/javascript" src="/js/client_search.js"></script>
 <script type="text/javascript">
   $(function() {
-
+  	$('#create_event').click($('#create_event_modal').show(););
   });
 </script>
