@@ -19,16 +19,20 @@
     <div id="track"></div>
   </div>
   <div class="ui segment" id="controls">
-
+    <a id="show_playlist">Show Playlist</a>
   </div>
 </div>
 
 <%- partial('../site/partials/page_close') %>
 
+<%- partial('../site/partials/playlist') %>
+
+
 <script type="text/javascript" src="/js/tomahk_api.js"></script>
 <script type="text/javascript" src="/js/track_render.js"></script>
 <script type="text/javascript">
   $(function() {
-    
+    $('#playlist').sidebar({overlay: true})
+      .sidebar('show');
   });
 </script>

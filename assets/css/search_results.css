@@ -4,11 +4,15 @@
 
 #list_results .divider { margin: 0 0 0 0; }
 
-#list_results .content { padding: 20px; }
+#list_results .content { 
+	max-width: 270px;
+	padding: 20px; 
+}
 
 #list_results .image { 
 	margin: 10px 20px;
-	height: 60px;
+	max-height: 60px;
+	max-width: 60px;
 	width: auto;
 }
 
