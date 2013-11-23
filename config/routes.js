@@ -72,6 +72,16 @@ module.exports.routes = {
   'get /home': {
     view: 'event/list'
   },
+
+  'get /user/home':{
+    view: 'user/list'
+  },
+
+  'post /user/home/search':{
+    controller:'UserController',
+    action: 'searchUsers'
+  },
+
   'get /a/uploader': {
     view: 'audio/uploader'
   },
@@ -81,10 +91,17 @@ module.exports.routes = {
     action: 'upload'
   },
 
+    'post /u/:username/inviteToEvent': {
+    controller: 'UserController',
+    action: 'inviteToEvent'
+  },
+
   'post /u/:username': {
     controller: 'UserController',
     action: 'addFriend'
   },
+
+
 
   'post /addsong/:playlistid': {
     controller: 'PlaylistController',
