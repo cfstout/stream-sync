@@ -9,7 +9,8 @@
 	      </div>
 		</div>
 	</form>
-	<div id="list_results"></div>
+	<div id="playlist_results" class="ui segment"></div>
+	<div id="list_results" class="hidden"></div>
 </div>
 
 <div class="ui page dimmer" id="checking_dimmer">
@@ -25,10 +26,25 @@
 <script type="text/javascript" src="/js/client_search.js"></script>
 <script type="text/javascript" src="/js/client_playlist.js"></script>
 <script type="text/javascript">
+
+var input = $('input[name="query"]');
+var output_search = $('#list_results');
+var output_playlist = $('#playlist_results');
+
   $(function() {
-    var input = $('input[name="query"]');
-    var output = $('#list_results');
-    poll_search(input, output, '<%= playlist.id %>');
-    subscribe('<%= playlist.id %>');
+    poll_search(input, output_search, '<%= playlist.id %>');
+    listen_to('<%= playlist.id %>', output_playlist);
   });
+
+  function swap_containers() {
+  	if (output_search.transition('is visible')) {
+    	output_search.transition('fade up', function () {
+    		output_playlist.transition('fade up');
+    	});
+	} else {
+		output_playlist.transition('fade up', function () {
+    		output_search.transition('fade up');
+    	});
+	}
+  }
 </script>

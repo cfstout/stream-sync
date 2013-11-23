@@ -56,6 +56,9 @@ function style_container() {
     output_container.addClass("ui");
     output_container.addClass("segment");
   }
+  if (!output_container.transition('is visible')) {
+    swap_containers();
+  }
 }
 
 function add_loader() {

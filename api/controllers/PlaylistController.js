@@ -39,18 +39,18 @@ module.exports = {
 			  return res.send(err, 500);
 			}
 			playlist.audio.push(audio.id);
+
+			Playlist.publishUpdate(playlist.id, {audio: audio});
 			playlist.save(function(err) {
 				if (err) {
 					return console.log("playlist save fucked up");
 				}
 			});
-			Playlist.publishUpdate( playlist.id, {
-			  audio: playlist.audio
-			});
+			// sails.io.emit('added_song_to'+playlist.id, {audio: audio});
 		});
   	});
   },
-  subscribe: function(req, res) {
+  current: function(req, res) {
   	Playlist.findOne(req.param('playlistid'), function(err, playlist) {
   		if (!playlist) {
 			err = "Playlist could not be found";
@@ -59,8 +59,14 @@ module.exports = {
 		  console.log(err);
 		  return res.send(err, 500);
 		}
-  		Playlist.subscribe(req.socket, playlist.id);
-		return res.send({audio: playlist.audio, curTrack: playlist.curTrack});
+		Playlist.subscribe(req.socket, playlist);
+		Audio.find({where: {id: playlist.audio}}, function(err, data) {
+			if (err) {
+				console.log(err);
+				return res.send(err, 500);
+			}
+			return res.send({audio: data, curTrack: playlist.curTrack});
+		});
   	});
   },
 

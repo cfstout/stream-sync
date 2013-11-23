@@ -29,10 +29,21 @@
 
 
 <script type="text/javascript" src="/js/tomahk_api.js"></script>
-<script type="text/javascript" src="/js/track_render.js"></script>
+<script type="text/javascript" src="/js/client_playlist.js"></script>
 <script type="text/javascript">
   $(function() {
-    $('#playlist').sidebar({overlay: true})
-      .sidebar('show');
+    control_sidebar();
   });
+
+  function control_sidebar() {
+    $('#playlist').sidebar('attach events', '#show_playlist', 'toggle');
+    $(document).click(function(e){
+        if (!$(e.target).closest('#playlist').length
+          && !$(e.target).is('#show_playlist')
+          && !$('#checking_dimmer').dimmer('is active')) {
+            $('#playlist').sidebar('hide');
+        }
+    });
+
+  }
 </script>
