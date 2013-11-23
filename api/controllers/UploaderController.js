@@ -19,25 +19,50 @@ var exec = require("child_process").exec;
 var querystring = require("querystring");
 var fs = require("fs");
 var formidable = require("formidable");
+var UUIDGenerator = require('node-uuid');
 
 module.exports = {
     
 
-   	upload: function(response, request){
+   	upload: function(req, res) {
+
+   		console.log("BABY");
+
    		var form = new formidable.IncomingForm();
-   		form.parse(request, function(error, field, files){
 
-   			console.log(files.upload.path);
-   			fs.rename(files.upload.path, "/assets/audio/test.mp3", function(error){
-   				if(error){
-   					fs.unlink("");
-   					fs.rename(files.upload.path, "/assets/audio/test.mp3");
-   				}
-   			});
+		form.parse(request, function(error, field, files){
+			console.log("Parsing done");
 
-   			response.end();
+			/* Possible error on Windows systems:
+			tried to rename to an already existing file */
+			console.log(files.upload.path);
+			fs.rename(files.upload.path, "/assets/test.png", function(error) {
+				if (error) {
+					fs.unlink("/tmp/test.png");
+					fs.rename(files.upload.path, "/tmp/test.png");
+				}
+			});
+
+			response.end();
+		});
+
+   		Audio.create({
+   			track: req.param('songName'),
+   			arstist: req.param('artistName')
+   		}).done(function(err, user){
+   			if(err)
+   			{
+   				console.log(err);
+   				return res.send(err, 500);
+   			}
+   			else
+   			{
+   				console.log("Audio created");
+   			}
    		});
-   	},
+
+        
+    },
     
   
 

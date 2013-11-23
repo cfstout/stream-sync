@@ -78,7 +78,7 @@ module.exports.routes = {
 
   'post /a/uploader': {
     controller: 'UploaderController',
-    action: 'upload',
+    action: 'upload'
   },
   
 
