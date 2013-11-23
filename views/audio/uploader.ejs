@@ -16,7 +16,7 @@
 
 <div class="four wide column"></div>
 <div class="eight wide column">
-<form class="ui the form segment"  method="post" action="/a/uploader">
+<form class="ui the form segment"  method="post" action="/a/uploader" enctype="multipart/form-data">
   <div class="field">
     <label>Song Name</label>
     <div class="ui left labeled icon input">
@@ -34,6 +34,9 @@
         <i class="icon asterisk"></i>
       </div>
     </div>
+  </div>
+  <div>
+  <input type="file" name="upload">
   </div>
   <div class="ui error message">
     <div class="header">We noticed some issues</div>

@@ -28,24 +28,20 @@ module.exports = {
 
    		console.log("BABY");
 
+
    		var form = new formidable.IncomingForm();
 
-		form.parse(request, function(error, field, files){
-			console.log("Parsing done");
+		    form.parse(req, function(err, fields, files) {
+		    	console.log("Parse");
+		      res.writeHead(200, {'content-type': 'text/plain'});
+		      res.write('received upload:\n\n');
+		      res.end(util.inspect({fields: fields, files: files}));
+		    });
 
-			/* Possible error on Windows systems:
-			tried to rename to an already existing file */
-			console.log(files.upload.path);
-			fs.rename(files.upload.path, "/assets/test.png", function(error) {
-				if (error) {
-					fs.unlink("/tmp/test.png");
-					fs.rename(files.upload.path, "/tmp/test.png");
-				}
-			});
-
-			response.end();
-		});
-
+		return;
+		
+   		console.log(req.param('songName'));
+   		console.log(req.param('artistName'));
    		Audio.create({
    			track: req.param('songName'),
    			arstist: req.param('artistName')
@@ -60,8 +56,6 @@ module.exports = {
    				console.log("Audio created");
    			}
    		});
-
-        
     },
     
   
