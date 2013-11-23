@@ -80,6 +80,10 @@ module.exports.routes = {
     controller: 'UploaderController',
     action: 'upload'
   },
+  'post /addsong/:playlistid': {
+    controller: 'PlaylistController',
+    action: 'addSong'
+  },
   
 
 

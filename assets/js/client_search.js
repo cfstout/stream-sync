@@ -2,12 +2,11 @@ var timer;
 var typingDelay = 750;
 var query;
 var output_container;
-var click_func;
+var playlist;
 
-function poll_search(input, output, success) {
-  click_func = click_func_name;
+function poll_search(input, output, playlist_id) {
+  playlist = playlist_id;
   output_container = output;
-  success_ouput = success;
   $(input).keyup(function() {
     clearTimeout(timer);
     query = input.val();
@@ -38,11 +37,10 @@ function create_result_item(result) {
   var artist_name = result.artistName;
   var track_name = result.trackName
   var album_img_sm = result.artworkUrl60;
-  var album_img_lg = result.artworkUrl100;
   var album_name = result.collectionName;
 
   var html = '<a class="item" onclick="'+ 
-    'check_stream(\''+ artist_name.replace(/'/g, "\\'") +'\', \''+ track_name.replace(/'/g, "\\'") +'\', \''+ album_img_lg +'\');">';
+    'check_stream(\''+ artist_name.replace(/'/g, "\\'") +'\', \''+ track_name.replace(/'/g, "\\'") +'\');">';
   // var html = '<a class="item">';
   html += '<img class="ui image rounded right floated album-image" src="'+ album_img_sm +'">';
   html += '<div class="content">';
@@ -65,4 +63,34 @@ function add_loader() {
   output_container.html('<div class="ui active loader"></div>');
 }
 
-function 
+function check_stream(artist_name, track_name) {
+  $('#checking_dimmer .content .center').html('<h2 class="ui text loader">Checking Music Availability</h2>');
+  $('#checking_dimmer').addClass('checking');
+  $('#checking_dimmer').dimmer({'closable': false}).dimmer('toggle');
+  var tmout = setTimeout('rejected_stream()', 10000);
+  var track = window.tomahkAPI.Track(track_name, artist_name, {
+      handlers: {
+          onresolved: function(resolver, result) {
+              if ($('#checking_dimmer').hasClass('checking')) {
+                clearTimeout(tmout);
+                verified_stream(artist_name, track_name);
+              }
+          }
+      }
+  });
+  $('#track_checker').html(track.render());
+}
+
+function verified_stream(artist_name, track_name) {
+  $('#checking_dimmer').removeClass('checking');
+  $('#checking_dimmer .content .center').html('<h2 class="ui inverted icon header"><i class="icon smile"></i>It Fucking Worked!</h2>');
+  $('#checking_dimmer').dimmer({'closable': true});
+  socket.post('/addsong/'+playlist, {artist: artist_name, track: track_name});
+  $('#track_checker').html().remove();
+}
+
+function rejected_stream() {
+  $('#checking_dimmer').removeClass('checking');
+  $('#checking_dimmer .content .center').html('<h2 class="ui inverted icon header"><i class="icon frown"></i>It Didn\'t Work!</h2>');
+  $('#checking_dimmer').dimmer({'closable': true});
+}
