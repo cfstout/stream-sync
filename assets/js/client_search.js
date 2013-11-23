@@ -4,9 +4,10 @@ var query;
 var output_container;
 var click_func;
 
-function poll_search(input, output, click_func_name) {
+function poll_search(input, output, success) {
   click_func = click_func_name;
   output_container = output;
+  success_ouput = success;
   $(input).keyup(function() {
     clearTimeout(timer);
     query = input.val();
@@ -41,7 +42,7 @@ function create_result_item(result) {
   var album_name = result.collectionName;
 
   var html = '<a class="item" onclick="'+ 
-    click_func +'(\''+ artist_name.replace(/'/g, "\\'") +'\', \''+ track_name.replace(/'/g, "\\'") +'\', \''+ album_img_lg +'\');">';
+    'check_stream(\''+ artist_name.replace(/'/g, "\\'") +'\', \''+ track_name.replace(/'/g, "\\'") +'\', \''+ album_img_lg +'\');">';
   // var html = '<a class="item">';
   html += '<img class="ui image rounded right floated album-image" src="'+ album_img_sm +'">';
   html += '<div class="content">';
@@ -63,3 +64,5 @@ function style_container() {
 function add_loader() {
   output_container.html('<div class="ui active loader"></div>');
 }
+
+function 

@@ -25,12 +25,14 @@
 
 <%- partial('../site/partials/page_close') %>
 
+<%- partial('../site/partials/playlist') %>
 
 
 <script type="text/javascript" src="/js/tomahk_api.js"></script>
 <script type="text/javascript" src="/js/track_render.js"></script>
 <script type="text/javascript">
   $(function() {
-    $('#playlist').sidebar();
+    $('#playlist').sidebar({overlay: true})
+      .sidebar('show');
   });
 </script>

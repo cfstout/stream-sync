@@ -22,14 +22,16 @@
 	  		<i class="search icon"></i>
 	  	</div>
 	</form>
+	<a id="create_event">Create Event</a>
 </div>
-<a id="create_event">Create Event</a>
 
 <%- partial('../site/partials/page_close') %>
+
+<%- partial('../site/partials/new_event') %>
 
 <script type="text/javascript" src="/js/client_search.js"></script>
 <script type="text/javascript">
   $(function() {
-  	$('#create_event').click($('#create_event_modal').show(););
+  	$('#create_event_modal').modal('attach events', '#create_event', 'show');
   });
 </script>
