@@ -80,6 +80,11 @@ module.exports.routes = {
     controller: 'UploaderController',
     action: 'upload'
   },
+
+  'post /u/:username': {
+    controller: 'UserController',
+    action: 'addFriend'
+  },
   
 
 

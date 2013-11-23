@@ -20,9 +20,11 @@ var passport = require('passport');
 module.exports = {
     
 	signup: function (req, res) {
+		var arr = [];
 		User.create({
 			username: req.param('username'),
-			password: req.param('password')
+			password: req.param('password'),
+			friends: arr
 		}).done(function(err, user) {
 			if (err) {
 				console.log(err);
@@ -47,6 +49,29 @@ module.exports = {
 	},
 	test: function (req, res) {
 		res.send(req.user);
+	},
+
+	addFriend: function(req, res){
+		console.log("Inside AddFriend");
+		console.log(req.param('username'));
+		console.log(req.param('friends'));
+		var un = req.param('username');
+		
+
+		User.update({
+		  username: req.param('username')
+		},{
+		  $addToSet:{friends: un}
+		}, function(err, users) {
+		  // Error handling
+		  if (err) {
+		    return console.log(err);
+		  // Updated users successfully!
+		  } else {
+		    console.log("Users updated:", users);
+		  }
+		});
+		res.send();
 	},
 
   /**

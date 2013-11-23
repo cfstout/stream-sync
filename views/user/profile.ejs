@@ -16,7 +16,7 @@
 
 <div class="four wide column"></div>
 <div class="eight wide column">
-<form class="ui the form segment">
+<form class="ui the form segment" method="post" action="/u/<%= user.username %>">
 	<h4 class="ui top attached header">
 	  User Information
 	</h4>
@@ -45,6 +45,7 @@
 	<li>This is another one</li>
 </ul>
 <div class="ui divider"></div>
+<input name = "friends" type="text" placeholder="Artist Name"><%= user.friends %><input>
 <button type="submit" class="ui blue submit button left floated">Add Friend</button>
 <button type="submit" class="ui blue submit button right floated">Invite To Event</button>
 </form>

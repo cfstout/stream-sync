@@ -20,6 +20,10 @@ module.exports = {
 			minLength: '6',
 			required: true
 		},
+		friends: {
+			type: 'array'
+		},
+
 
 		validPassword: function(password) {
 			return true;
