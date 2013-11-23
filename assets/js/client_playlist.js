@@ -1,6 +1,8 @@
 var tracks;
 var curTrack;
 var output_container;
+var curRenderedTrack;
+var nextRenderedTrack;
 
 function listen_to(playlistid, output_playlist) {
 	output_container = output_playlist;
@@ -25,6 +27,9 @@ function listen_to(playlistid, output_playlist) {
 
 function display_playlist() {
   var html = '<div class="ui list">';
+  if (tracks.length == 0) {
+  	html += '<h5 class="error">No Songs Found. Add Some.</h5>';
+  }
   for (i = 0; i < tracks.length; i++) {
     html += create_playlist_item(tracks[i]);
     html += (i < tracks.length-1) ? '<div class="ui divider"></div>' : "";
@@ -56,22 +61,21 @@ function playlist_ontop() {
 
 function getCurTrack(output) {
 	if (tracks.length == curTrack) {
-		return;
+		return 0;
 	}
-	alert(curTrack);
-	var track = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
+	curRenderedTrack track = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
 	    handlers: {
 	        onloaded: function() {
-	            alert("loaded");
+
 	        },
 	        onended: function() {
 	            
 	        },
 	        onplayable: function() {
-	            track.play();
+
 	        },
 	        onresolved: function(resolver, result) {
-	            
+
 	        },
 	        ontimeupdate: function(timeupdate) {
 	            
@@ -79,4 +83,8 @@ function getCurTrack(output) {
 	    }
 	});
 	output.html(track.render());
+}
+
+function playTrack() {
+	curRenderedTrack.play();
 }
