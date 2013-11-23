@@ -71,7 +71,13 @@ module.exports.routes = {
   },
 
   'get /a/uploader': {
+
     view: 'audio/uploader'
+  },
+
+  'post /a/uploader': {
+    controller: 'UploaderController',
+    action: 'upload',
   },
   
 
