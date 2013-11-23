@@ -18,7 +18,8 @@
         "passport-local": "*",
         "passport-facebook": "*",
         "bcrypt": "*",
-        "request": "*"
+        "request": "*",
+        "formidable": "*"
     },
     "scripts": {
         "start": "node app.js",

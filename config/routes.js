@@ -71,7 +71,10 @@ module.exports.routes = {
   },
   'get /home': {
     view: 'event/list'
-  }
+  },
+  'get /a/uploader': {
+    view: 'audio/uploader'
+  },
   
 
 
