@@ -23,10 +23,14 @@ module.exports = {
   		artist: req.param('artist_name'),
   		track: req.param('track_name')
   	}).done(function(err, audio) {
+      if (!audio) {
+        err = "Audio could not be created";
+      }
   		if (err) {
 			  console.log(err);
 			  return res.send(err, 500);
 		  }
+
       var time = new Date();
       var tcomps = req.param('time').split(":");
       time.setHours(tcomps[0],tcomps[1],0);
@@ -37,11 +41,14 @@ module.exports = {
   			audio: audio.id,
   			time: time
   		}).done(function(err, event) {
+        if (!event) {
+          err = "Event could not be created";
+        }
         if (err) {
           console.log(err);
           return res.send(err, 500);
         }
-        return res.view({event: event}, 'event/view');
+        return res.view({event: event, audio: audio}, 'event/view');
   		});
   	});
   },

@@ -19,4 +19,15 @@
 <h2 class="ui header"><%= audio.track %></h2>
 <h2 class="ui header"><%= event.time %></h2>
 
+<div id="track"></div>
+
 <%- partial('../site/partials/page_close') %>
+
+<script type="text/javascript" src="/js/tomahk_api.js"></script>
+<script type="text/javascript" src="/js/track_render.js"></script>
+<script type="text/javascript">
+  var output = $("#track");
+  $(function() {
+    render_track("<%= audio.artist %>", "<%= audio.track %>", output);
+  });
+</script>
