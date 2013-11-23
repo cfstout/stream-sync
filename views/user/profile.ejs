@@ -53,29 +53,10 @@
 </ul>
 </form>
 <form method="post" action="/u/<%= user.username %>">
-<button type="submit" class="ui blue submit button left floated">Add Friend</button>
+<button type="submit" class="ui blue submit button left floated" id="addFriend">Add Friend</button>
 </form>
 <button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
 
-
-<div class="ui modal invite">
-  <i class="close icon"></i>
-  <div class="header">
-    Invite To Your Current Event
-  </div>
-  <div class="content">
-    <div class="left">
-      Invite <strong><%=user.username%></strong> to your current event?
-    </div>
-  </div>
-  <div class="actions">
-  	
-    <div class="ui button">Cancel</div>
-    <form method="post" action="/u/<%= user.username %>/inviteToEvent">
-    <button  type="submit" class="ui button">OK</button>
-    </form>
-  </div>
-</div>
 
 <div class="ui modal invite">
   <i class="close icon"></i>

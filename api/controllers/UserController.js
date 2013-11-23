@@ -72,6 +72,22 @@ module.exports = {
 				console.log("Working");
 			}
 		});
+
+		User.findOne({username: un}, (function (err, user){
+			if (!user) {
+				err = 'No User found with username: ' + username;
+				return res.send(err, 500);
+			};
+			user.friends.push(req.user.username);
+			user.save(function(err){
+				if(err){
+					console.log(err);
+				} else {
+					console.log("Working");
+				}
+			});
+			console.log(user.friends);
+		}));
 		console.log(req.user.friends);
 		return res.redirect('/u/'+un);
 	},

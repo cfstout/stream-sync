@@ -46,21 +46,17 @@ module.exports = {
   		});
   	});
   },
+
   find: function (req, res) {
-    var name = req.param('name');
-    name = String(name).replace(/-/g, " ");
-    Event.findOne({name: name}, (function (err, event) {
-      if (err || !event) {
+    var name = req.param('eventName');
+    console.log(name);
+    Event.find({name: name}, (function (err, events) {
+      if (err || !events) {
         err = 'No Event found with name: ' + name;
         return res.json(err, 500);
       }
-      Playlist.findOne(event.playlist, (function (err, playlist) {
-        if (err || !playlist) {
-          err = 'No Event found with playlist: ' + event.playlist;
-          return res.json(err, 500);
-        }
-        return res.view({event: event, playlist: playlist}, 'event/view');
-      }));
+      console.log(events);
+      return res.view({events: events}, 'event/list');
     }));
   },
 

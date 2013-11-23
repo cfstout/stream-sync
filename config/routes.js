@@ -61,6 +61,12 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'create'
   },
+
+  'post /home/search': {
+    controller: 'EventController',
+    action: 'find'
+  },
+
   'get /e/:name': {
     controller: 'EventController',
     action: 'find'
@@ -100,8 +106,6 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'addFriend'
   },
-
-
 
   'post /addsong/:playlistid': {
     controller: 'PlaylistController',
