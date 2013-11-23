@@ -1,2 +1,53 @@
-<h1><%= user.username %></h1>
-<h2><%= user.password %></h2>
+<!--SCRIPTS-->
+<script src="/linker/js/socket.io.js"></script>
+<script src="/linker/js/sails.io.js"></script>
+<script src="/linker/js/app.js"></script>
+<script src="/linker/js/jquery.min.js"></script>
+<script src="/linker/js/semantic.min.js"></script>
+<!--SCRIPTS END-->
+<!--STYLES-->
+<link rel="stylesheet" href="/linker/css/reset.css">
+<link rel="stylesheet" href="/linker/css/semantic.min.css">
+<link rel="stylesheet" href="/linker/css/general.css">
+<!--STYLES END-->
+
+<%- partial('../site/partials/header') %>
+<%- partial('../site/partials/page_open') %>
+
+<div class="four wide column"></div>
+<div class="eight wide column">
+<form class="ui the form segment">
+	<h4 class="ui top attached header">
+	  User Information
+	</h4>
+
+	<img src="/images/face.png" class="left floated"></img>
+	<div class="right floated">
+		<i>Username:</i>
+		<h1 class="left tabbed"><%= user.username %></h1>
+		<i>Location:</i>
+		<h1 class="left tabbed">Address<%= user.username %></h1>
+	</div>
+<div class="ui divider"></div>
+<h4 class="ui top attached header soft top tabbed">
+	  Recent Playlist
+	</h4>
+<ul class="left tabbed padding top">
+	<li>This is one Song</li>
+	<li>This is another one</li>
+</ul>
+<div class="ui divider"></div>
+<h4 class="ui top attached header">
+	  Recent Events
+	</h4>
+<ul class="left tabbed">
+	<li>This is one event</li>
+	<li>This is another one</li>
+</ul>
+<div class="ui divider"></div>
+<button type="submit" class="ui blue submit button left floated">Add Friend</button>
+<button type="submit" class="ui blue submit button right floated">Invite To Event</button>
+</form>
+<div id="list_results"></div>
+
+<%- partial('../site/partials/page_close') %>
