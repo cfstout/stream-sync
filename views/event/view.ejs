@@ -22,9 +22,8 @@
   <div class="ui segment" id="controls">
     <div class="container">
       <div class="ui basic icon control buttons">
-        <a class="ui control button" onclick=""><i class="step backward icon"></i></a>
-        <!-- <a class="ui control button" onclick="playTrack();"><i class="play icon"></i></a> -->
-        <a class="ui control button" onclick=""><i class="step forward icon"></i></a>
+        <a class="ui control button" onclick="playTrack();"><i class="play icon"></i></a>
+        <a class="ui control button" onclick="nextTrack();"><i class="step forward icon"></i></a>
       </div>
       <div class="item" id="seekbar">
         <div class="outer">
@@ -53,10 +52,11 @@
   });
 
   function control_sidebar() {
+    $('#playlist').sidebar({'overlay': true});
     $('#playlist').sidebar('attach events', '#toggle_playlist', 'toggle');
     $(document).click(function(e){
         if (!$(e.target).closest('#playlist').length
-          && !$(e.target).is('#toggle_playlist')
+          && !$(e.target).is('#toggle_playlist', '#toggle_playlist *')
           && !$('#checking_dimmer').dimmer('is active')) {
             $('#playlist').sidebar('hide');
         }

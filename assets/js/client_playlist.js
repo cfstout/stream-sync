@@ -2,15 +2,18 @@ var tracks;
 var curTrack;
 var output_container;
 var curRenderedTrack;
-var nextRenderedTrack;
+var track_output;
+var duration;
 
-function listen_to(playlistid, output_playlist) {
+function listen_to(playlistid, output_playlist, ouput_track) {
 	output_container = output_playlist;
+	track_output = ouput_track;
+
 	socket.get('/current/'+playlistid, function(res) {
 		tracks = res.audio;
 		curTrack = res.curTrack;
 		display_playlist();
-		getCurTrack($('#track'));
+		getCurTrack(0);
 	});
 	socket.on('message', function(res) {
 		switch(res.model) {
@@ -59,11 +62,12 @@ function playlist_ontop() {
 }
 
 
-function getCurTrack(output) {
+function getCurTrack(autoplay) {
 	if (tracks.length == curTrack) {
 		return 0;
 	}
-	curRenderedTrack track = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
+	curRenderedTrack = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
+		autoplay: autoplay,
 	    handlers: {
 	        onloaded: function() {
 
@@ -78,13 +82,28 @@ function getCurTrack(output) {
 
 	        },
 	        ontimeupdate: function(timeupdate) {
-	            
+	            var currentTime = parseInt(timeupdate.currentTime);
+	            duration = parseInt(timeupdate.duration);
+
+	            set_seekbar(currentTime/duration);
+
 	        }
 	    }
 	});
-	output.html(track.render());
+	track_output.html(curRenderedTrack.render());
 }
 
 function playTrack() {
 	curRenderedTrack.play();
+}
+
+function nextTrack() {
+	if (tracks.length > curTrack) {
+		curTrack++;
+		getCurTrack(1);
+	}
+}
+
+function seekTrack(percentage) {
+	curRenderedTrack.seek(percentage*duration);
 }

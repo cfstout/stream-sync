@@ -63,6 +63,15 @@ module.exports = {
       }));
     }));
   },
+  verifyHost: function(req, res) {
+    Event.findOne(req.param('eventid'), function(err, event) {
+      if (err || !event) return false;
+      if (req.user.username == event.host) {
+        return true;
+      }
+      return false;
+    });
+  }
 
 
   /**

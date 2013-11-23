@@ -30,10 +30,11 @@
 var input = $('input[name="query"]');
 var output_search = $('#list_results');
 var output_playlist = $('#playlist_results');
+var track_output = $('#track');
 
   $(function() {
     poll_search(input, output_search, '<%= playlist.id %>');
-    listen_to('<%= playlist.id %>', output_playlist);
+    listen_to('<%= playlist.id %>', output_playlist, track_output);
   });
 
   function swap_containers() {
