@@ -22,13 +22,26 @@
 	  		<i class="search icon"></i>
 	  	</div>
 	</form>
-	<ul class="left tabbed padding top soft padded">
-	<%if(typeof users != 'undefined'){%>
-	<% _.each(users, function (user) { %>
-    <li><%= user.username %></li>
+
+<table class="ui inverted blue table segment">
+  <thead>
+    <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Current Event</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%if(typeof users != 'undefined'){%>
+	<% _.each(users, function (user, i) { %>
+	<tr>
+    <td><a href='/u/<%= user.username %>'><%= user.username %></a></td>
+    <td><%= user.location %></td>
+    <td><%= user.currentEvent %></td></a>
+    </tr>
     <% })} %>
-    <li>Hello There</li>
-</ul>
+  </tbody>
+</table>
 </div>
 
 
