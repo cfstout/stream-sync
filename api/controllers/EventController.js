@@ -18,29 +18,12 @@
 module.exports = {
     
   create: function(req, res) {
-  	Audio.create({
-  		type: 'song',
-  		artist: req.param('artist_name'),
-  		track: req.param('track_name')
-  	}).done(function(err, audio) {
-      if (!audio) {
-        err = "Audio could not be created";
-      }
-  		if (err) {
-			  console.log(err);
-			  return res.send(err, 500);
-		  }
-
-      var time = new Date();
-      var tcomps = req.param('time').split(":");
-      time.setHours(tcomps[0],tcomps[1],0);
-
-  		Event.create({
+  	Event.create({
         name: req.param('name'),
-  			host: req.user.username,
-  			audio: audio.id,
-  			time: time
-  		}).done(function(err, event) {
+        host: req.user.username,
+        audio: audio.id,
+        time: time
+      }).done(function(err, event) {
         if (!event) {
           err = "Event could not be created";
         }
@@ -49,8 +32,7 @@ module.exports = {
           return res.send(err, 500);
         }
         return res.view({event: event, audio: audio}, 'event/view');
-  		});
-  	});
+      });
   },
   find: function (req, res) {
     var name = req.param('name');
