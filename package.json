@@ -19,8 +19,7 @@
         "passport-facebook": "*",
         "bcrypt": "*",
         "request": "*",
-        "formidable": "*",
-        "node-uuid": "*"
+        "formidable": "*"
     },
     "scripts": {
         "start": "node app.js",
