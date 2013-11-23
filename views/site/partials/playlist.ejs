@@ -11,14 +11,22 @@
 	</form>
 	<div id="list_results"></div>
 </div>
-<div id="#result_added_sucess">
 
+<div class="ui page dimmer" id="checking_dimmer">
+  <div class="content">
+    <div class="center"></div>
+  </div>
+</div>
+
+
+<div id="track_checker" class="hidden"></div>
+
+<script type="text/javascript" src="/js/tomahk_api.js"></script>
 <script type="text/javascript" src="/js/client_search.js"></script>
 <script type="text/javascript">
   $(function() {
     var input = $('input[name="query"]');
     var output = $('#list_results');
-    var success = $('#result_added_success');
-    poll_search(input, output, "verify_choice");
+    poll_search(input, output, '<%= playlist.id %>');
   });
 </script>

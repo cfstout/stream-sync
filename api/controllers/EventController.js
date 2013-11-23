@@ -19,7 +19,7 @@ module.exports = {
     
   create: function(req, res) {
   	Playlist.create({
-  		audio: [],
+  		audio: new Array(),
       radio: false,
       curTrack: -1
   	}).done(function(err, playlist) {
@@ -50,12 +50,12 @@ module.exports = {
     var name = req.param('name');
     name = String(name).replace(/-/g, " ");
     Event.findOne({name: name}, (function (err, event) {
-      if (!event) {
+      if (err || !event) {
         err = 'No Event found with name: ' + name;
         return res.json(err, 500);
       }
       Playlist.findOne(event.playlist, (function (err, playlist) {
-        if (!playlist) {
+        if (err || !playlist) {
           err = 'No Event found with playlist: ' + event.playlist;
           return res.json(err, 500);
         }

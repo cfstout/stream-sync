@@ -17,7 +17,44 @@
 
 module.exports = {
     
-  
+  addSong: function(req, res) {
+  	Audio.create({
+  		artist: req.param('artist'),
+  		track: req.param('track'),
+  		curTime: 0
+  	}).done(function(err, audio) {
+  		if (!audio) {
+			err = "Audio could not be created";
+		}
+		if (err) {
+		  console.log(err);
+		  return res.send(err, 500);
+		}
+		Playlist.findOne(req.param('playlistid'), function(err, playlist) {
+			if (!playlist) {
+				err = "Playlist could not be found";
+			}
+			if (err) {
+			  console.log(err);
+			  return res.send(err, 500);
+			}
+			playlist.audio.push(audio.id);
+			// Playlist.update(playlist.id, {audio: playlist.audio}, function(err, playlist) {
+			// 	if (err || !playlist) {
+			// 	    return console.log(err);
+			// 	  } else {
+			// 	    console.log("Playlist updated: "+ playlist.id);
+			// 	  }
+			// });
+			playlist.save(function(err) {
+				if (err) {
+					return console.log("playlist save fucked up");
+				}
+			});
+			console.log("SONG ADDED! WOOO");
+		});
+  	});
+  },
 
 
   /**

@@ -10,9 +10,9 @@ module.exports = {
 
   attributes: {
   	
-  	type: 'string',
   	artist: 'string',
-  	track: 'string'
+  	track: 'string',
+  	curTime: 'integer'
     
   }
 
