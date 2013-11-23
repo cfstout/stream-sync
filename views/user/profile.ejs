@@ -17,22 +17,22 @@
 <div class="four wide column"></div>
 <div class="eight wide column">
 <form class="ui the form segment" method="post" action="/u/<%= user.username %>">
-	<h4 class="ui top attached header">
+	<h4 class="ui top attached header soft padded">
 	  User Information
 	</h4>
 
 	<img src="/images/face.png" class="left floated"></img>
-	<div class="right floated">
+	<div class="right floated  soft padded">
 		<i>Username:</i>
 		<h1 class="left tabbed"><%= user.username %></h1>
 		<i>Location:</i>
 		<h1 class="left tabbed">Address<%= user.username %></h1>
 	</div>
 <div class="ui divider"></div>
-<h4 class="ui top attached header soft top tabbed">
+<h4 class="ui top attached header">
 	  Recent Playlist
 	</h4>
-<ul class="left tabbed padding top">
+<ul class="left tabbed padding top soft padded">
 	<li>This is one Song</li>
 	<li>This is another one</li>
 </ul>
@@ -40,12 +40,11 @@
 <h4 class="ui top attached header">
 	  Recent Events
 	</h4>
-<ul class="left tabbed">
+<ul class="left tabbed soft padded">
 	<li>This is one event</li>
 	<li>This is another one</li>
 </ul>
 <div class="ui divider"></div>
-<input name = "friends" type="text" placeholder="Artist Name"><%= user.friends %><input>
 <button type="submit" class="ui blue submit button left floated">Add Friend</button>
 <button type="submit" class="ui blue submit button right floated">Invite To Event</button>
 </form>

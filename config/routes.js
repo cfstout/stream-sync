@@ -80,16 +80,15 @@ module.exports.routes = {
     controller: 'UploaderController',
     action: 'upload'
   },
-<<<<<<< HEAD
 
   'post /u/:username': {
     controller: 'UserController',
     action: 'addFriend'
-=======
+  },
+
   'post /addsong/:playlistid': {
     controller: 'PlaylistController',
     action: 'addSong'
->>>>>>> 56b1c7296b2cba9975ee8379e75d453b59b3c825
   },
   
 

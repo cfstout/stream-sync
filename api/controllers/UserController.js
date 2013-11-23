@@ -58,20 +58,18 @@ module.exports = {
 		var un = req.param('username');
 		
 
-		User.update({
-		  username: req.param('username')
-		},{
-		  $addToSet:{friends: un}
-		}, function(err, users) {
-		  // Error handling
-		  if (err) {
-		    return console.log(err);
-		  // Updated users successfully!
-		  } else {
-		    console.log("Users updated:", users);
-		  }
+		req.user.friends.push(un);
+		req.user.save(function(err){
+			if(err)
+			{
+				console.log(err);
+			}
+			else
+			{
+				console.log("it worked bitches");
+			}
 		});
-		res.send();
+		console.log(req.user.friends);
 	},
 
   /**
