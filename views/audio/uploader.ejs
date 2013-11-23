@@ -16,11 +16,11 @@
 
 <div class="four wide column"></div>
 <div class="eight wide column">
-<div class="ui the form segment" method="post" action="upload">
+<form class="ui the form segment"  method="post" action="/a/uploader">
   <div class="field">
     <label>Song Name</label>
     <div class="ui left labeled icon input">
-      <input type="text" placeholder="Song Name">
+      <input name = "songName" type="text" placeholder="Song Name">
       <div class="ui corner label">
         <i class="icon asterisk"></i>
       </div>
@@ -29,7 +29,7 @@
   <div class="field">
     <label>Artist</label>
     <div class="ui left labeled icon input">
-      <input type="text" placeholder="Artist Name">
+      <input name = "artistName" type="text" placeholder="Artist Name">
       <div class="ui corner label">
         <i class="icon asterisk"></i>
       </div>
@@ -38,8 +38,8 @@
   <div class="ui error message">
     <div class="header">We noticed some issues</div>
   </div>
-  <div class="ui blue submit button">Upload</div>
-</div>
+  <button type="submit" class="ui blue submit button">Upload</button>
+</form>
 
 <div id="list_results"></div>
 

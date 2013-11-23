@@ -73,13 +73,12 @@ module.exports.routes = {
     view: 'event/list'
   },
   'get /a/uploader': {
-
     view: 'audio/uploader'
   },
 
   'post /a/uploader': {
     controller: 'UploaderController',
-    action: 'upload',
+    action: 'upload'
   },
   
 
