@@ -14,20 +14,21 @@
 <%- partial('../site/partials/header') %>
 <%- partial('../site/partials/page_open') %>
 
-<h1 class="ui header"><%= event.name %></h1>
-<h2 class="ui header"><%= event.host %></h2>
-<h2 class="ui header"><%= audio.track %></h2>
-<h2 class="ui header"><%= event.time %></h2>
+<div class="sixteen wide column">
+  <div class="ui the segment">
+    <div id="track"></div>
+  </div>
+  <div class="ui segment" id="controls">
 
-<div id="track"></div>
+  </div>
+</div>
 
 <%- partial('../site/partials/page_close') %>
 
 <script type="text/javascript" src="/js/tomahk_api.js"></script>
 <script type="text/javascript" src="/js/track_render.js"></script>
 <script type="text/javascript">
-  var output = $("#track");
   $(function() {
-    render_track("<%= audio.artist %>", "<%= audio.track %>", output);
+    
   });
 </script>
