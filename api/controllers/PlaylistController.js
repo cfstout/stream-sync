@@ -39,20 +39,28 @@ module.exports = {
 			  return res.send(err, 500);
 			}
 			playlist.audio.push(audio.id);
-			// Playlist.update(playlist.id, {audio: playlist.audio}, function(err, playlist) {
-			// 	if (err || !playlist) {
-			// 	    return console.log(err);
-			// 	  } else {
-			// 	    console.log("Playlist updated: "+ playlist.id);
-			// 	  }
-			// });
 			playlist.save(function(err) {
 				if (err) {
 					return console.log("playlist save fucked up");
 				}
 			});
-			console.log("SONG ADDED! WOOO");
+			Playlist.publishUpdate( playlist.id, {
+			  audio: playlist.audio
+			});
 		});
+  	});
+  },
+  subscribe: function(req, res) {
+  	Playlist.findOne(req.param('playlistid'), function(err, playlist) {
+  		if (!playlist) {
+			err = "Playlist could not be found";
+		}
+		if (err) {
+		  console.log(err);
+		  return res.send(err, 500);
+		}
+  		Playlist.subscribe(req.socket, playlist.id);
+		return res.send({audio: playlist.audio, curTrack: playlist.curTrack});
   	});
   },
 

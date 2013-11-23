@@ -11,7 +11,6 @@ module.exports = {
   attributes: {
   	
   	audio: 'array',
-  	radio: 'boolean',
   	curTrack: 'integer'
     
   }
