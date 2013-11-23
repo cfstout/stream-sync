@@ -12,8 +12,8 @@ module.exports = {
     
     name: 'string',
     host: 'string',
-    audio: 'string',
-    time: 'datetime'
+    playlist: 'string'
+    
   }
 
 };

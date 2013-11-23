@@ -18,28 +18,20 @@
 module.exports = {
     
   create: function(req, res) {
-  	Audio.create({
-  		type: 'song',
-  		artist: req.param('artist_name'),
-  		track: req.param('track_name')
-  	}).done(function(err, audio) {
-      if (!audio) {
-        err = "Audio could not be created";
+  	Playlist.create({
+  		
+  	}).done(function(err, playlist) {
+      if (!playlist) {
+        err = "playlist could not be created";
       }
   		if (err) {
 			  console.log(err);
 			  return res.send(err, 500);
 		  }
-
-      var time = new Date();
-      var tcomps = req.param('time').split(":");
-      time.setHours(tcomps[0],tcomps[1],0);
-
   		Event.create({
         name: req.param('name'),
   			host: req.user.username,
-  			audio: audio.id,
-  			time: time
+  			playlist: playlist.id,
   		}).done(function(err, event) {
         if (!event) {
           err = "Event could not be created";
@@ -48,7 +40,7 @@ module.exports = {
           console.log(err);
           return res.send(err, 500);
         }
-        return res.view({event: event, audio: audio}, 'event/view');
+        return res.view({event: event, playlist: playlist}, 'event/view');
   		});
   	});
   },
@@ -60,12 +52,12 @@ module.exports = {
         err = 'No Event found with name: ' + name;
         return res.json(err, 500);
       }
-      Audio.findOne(event.audio, (function (err, audio) {
-        if (!audio) {
-          err = 'No Event found with audio: ' + event.audio;
+      Playlist.findOne(event.playlist, (function (err, playlist) {
+        if (!playlist) {
+          err = 'No Event found with playlist: ' + event.playlist;
           return res.json(err, 500);
         }
-        return res.view({event: event, audio: audio}, 'event/view');
+        return res.view({event: event, playlist: playlist}, 'event/view');
       }));
     }));
   },
