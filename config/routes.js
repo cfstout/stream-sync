@@ -84,9 +84,9 @@ module.exports.routes = {
     controller: 'PlaylistController',
     action: 'addSong'
   },
-  'post /subscribe/:playlistid': {
+  'get /current/:playlistid': {
     controller: 'PlaylistController',
-    action: 'subscribe'
+    action: 'current'
   },
   
 

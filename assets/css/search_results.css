@@ -27,3 +27,21 @@
 	font-weight: 100;
 	font-style: italic;
 }
+
+#playlist_results { padding: 0; }
+
+#playlist_results.segment { min-height: 50px; }
+
+#playlist_results .divider { margin: 0 0 0 0; }
+
+#playlist_results .content { 
+	max-width: 270px;
+	padding: 20px; 
+}
+
+#playlist_results .item:hover { background: #FAFAFA; }
+
+#playlist_results h5.error {
+	text-align: center;
+	line-height: 3;
+}

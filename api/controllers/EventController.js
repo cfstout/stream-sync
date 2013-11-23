@@ -21,7 +21,7 @@ module.exports = {
   	Playlist.create({
   		audio: new Array(),
       radio: false,
-      curTrack: -1
+      curTrack: 0
   	}).done(function(err, playlist) {
       if (!playlist) {
         err = "Playlist could not be created";
