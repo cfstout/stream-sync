@@ -22,6 +22,22 @@ var formidable = require("formidable");
 
 module.exports = {
     
+
+   	upload: function(response, request){
+   		var form = new formidable.IncomingForm();
+   		form.parse(request, function(error, field, files){
+
+   			console.log(files.upload.path);
+   			fs.rename(files.upload.path, "/assets/audio/test.mp3", function(error){
+   				if(error){
+   					fs.unlink("");
+   					fs.rename(files.upload.path, "/assets/audio/test.mp3");
+   				}
+   			});
+
+   			response.end();
+   		});
+   	},
     
   
 
