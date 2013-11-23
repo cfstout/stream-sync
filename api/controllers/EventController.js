@@ -19,10 +19,12 @@ module.exports = {
     
   create: function(req, res) {
   	Playlist.create({
-  		
+  		audio: [],
+      radio: false,
+      curTrack: -1
   	}).done(function(err, playlist) {
       if (!playlist) {
-        err = "playlist could not be created";
+        err = "Playlist could not be created";
       }
   		if (err) {
 			  console.log(err);
