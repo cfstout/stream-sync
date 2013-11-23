@@ -10,8 +10,9 @@
 <link rel="stylesheet" href="/linker/css/semantic.min.css">
 <link rel="stylesheet" href="/linker/css/general.css">
 <!--STYLES END-->
+<link rel="stylesheet" type="text/css" href="/css/playbar.css">
 
-<%- partial('../site/partials/header') %>
+<%- partial('../site/partials/event_header') %>
 <%- partial('../site/partials/page_open') %>
 
 <div class="sixteen wide column">
@@ -19,7 +20,18 @@
     <div id="track"></div>
   </div>
   <div class="ui segment" id="controls">
-    <a id="show_playlist">Show Playlist</a>
+    <div class="container">
+      <div class="ui basic icon control buttons">
+        <a class="ui control button" onclick=""><i class="step backward icon"></i></a>
+        <!-- <a class="ui control button" onclick="playTrack();"><i class="play icon"></i></a> -->
+        <a class="ui control button" onclick=""><i class="step forward icon"></i></a>
+      </div>
+      <div class="item" id="seekbar">
+        <div class="outer">
+          <div class="inner"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -28,18 +40,23 @@
 <%- partial('../site/partials/playlist') %>
 
 
+<script type="text/javascript" src="/js/playbar_control.js"></script>
 <script type="text/javascript" src="/js/tomahk_api.js"></script>
 <script type="text/javascript" src="/js/client_playlist.js"></script>
 <script type="text/javascript">
   $(function() {
     control_sidebar();
+
+    var outer = $('#seekbar .outer');
+    var inner = $('#seekbar .inner');
+    move_seekbar(outer, inner);
   });
 
   function control_sidebar() {
-    $('#playlist').sidebar('attach events', '#show_playlist', 'toggle');
+    $('#playlist').sidebar('attach events', '#toggle_playlist', 'toggle');
     $(document).click(function(e){
         if (!$(e.target).closest('#playlist').length
-          && !$(e.target).is('#show_playlist')
+          && !$(e.target).is('#toggle_playlist')
           && !$('#checking_dimmer').dimmer('is active')) {
             $('#playlist').sidebar('hide');
         }
@@ -47,3 +64,4 @@
 
   }
 </script>
+
