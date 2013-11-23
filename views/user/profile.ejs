@@ -17,37 +17,92 @@
 <div class="four wide column"></div>
 <div class="eight wide column">
 <form class="ui the form segment">
-	<h4 class="ui top attached header">
+	<h4 class="ui top attached header soft padded">
 	  User Information
 	</h4>
 
 	<img src="/images/face.png" class="left floated"></img>
-	<div class="right floated">
+	<div class="right floated  soft padded">
 		<i>Username:</i>
 		<h1 class="left tabbed"><%= user.username %></h1>
 		<i>Location:</i>
-		<h1 class="left tabbed">Address<%= user.username %></h1>
+		<h1 class="left tabbed"><%= user.location %></h1>
+		<i>Current Event:</i>
+		<h1 class="left tabbed"><%= user.currentEvent %></h1>
 	</div>
 <div class="ui divider"></div>
-<h4 class="ui top attached header soft top tabbed">
-	  Recent Playlist
+<h4 class="ui top attached header">
+	  Recent Event
 	</h4>
-<ul class="left tabbed padding top">
-	<li>This is one Song</li>
-	<li>This is another one</li>
+<ul class="left tabbed padding top soft padded">
+	<% _.each(user.pastEvents, function (event, i) { %>
+    <li><%= event %></li>
+    <% return (i < 4); %>
+    <% }) %>
 </ul>
 <div class="ui divider"></div>
 <h4 class="ui top attached header">
-	  Recent Events
+	  Friends
 	</h4>
-<ul class="left tabbed">
-	<li>This is one event</li>
-	<li>This is another one</li>
+<ul class="left tabbed soft padded">
+	<% _.each(user.friends, function (friend, i) { %>
+    <li><%= friend %></li>
+    <% return (i < 4); %>
+    <% }) %>
+    <p class="soft padded"><%= "Total Friends: " + user.friends.length %></p>
 </ul>
-<div class="ui divider"></div>
-<button type="submit" class="ui blue submit button left floated">Add Friend</button>
-<button type="submit" class="ui blue submit button right floated">Invite To Event</button>
 </form>
+<form method="post" action="/u/<%= user.username %>">
+<button type="submit" class="ui blue submit button left floated">Add Friend</button>
+</form>
+<button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
+
+
+<div class="ui modal invite">
+  <i class="close icon"></i>
+  <div class="header">
+    Invite To Your Current Event
+  </div>
+  <div class="content">
+    <div class="left">
+      Invite <strong><%=user.username%></strong> to your current event?
+    </div>
+  </div>
+  <div class="actions">
+  	
+    <div class="ui button">Cancel</div>
+    <form method="post" action="/u/<%= user.username %>/inviteToEvent">
+    <button  type="submit" class="ui button">OK</button>
+    </form>
+  </div>
+</div>
+
+<div class="ui modal invite">
+  <i class="close icon"></i>
+  <div class="header">
+    Invite To Your Current Event
+  </div>
+  <div class="content">
+    <div class="left">
+      Invite <strong><%=user.username%></strong> to your current event?
+    </div>
+  </div>
+  <div class="actions">
+  	
+    <div class="ui button">Cancel</div>
+    <form method="post" action="/u/<%= user.username %>/inviteToEvent">
+    <button  type="submit" class="ui button">OK</button>
+    </form>
+  </div>
+</div>
+
+
 <div id="list_results"></div>
+
+<script type="text/javascript">
+	$("#inviteToEvent").click(function(){
+		$('.ui.modal.invite').modal('show');
+	});
+</script>
 
 <%- partial('../site/partials/page_close') %>
