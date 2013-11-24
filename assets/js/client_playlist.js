@@ -98,9 +98,13 @@ function getCurTrack(autoplay) {
 		            nextTrack();
 		        },
 		        onplayable: function() {
-		        	setTimeout('updateSong()', 2000);
+		        	curTime = -1;
 		        },
 		        ontimeupdate: function(timeupdate) {
+		        	if (curTime == -1) {
+		        		curTime = 0;
+		        		updateSong();
+		        	}
 		        	oCurTime = curTime;
 		            curTime = parseInt(timeupdate.currentTime);
 		            duration = parseInt(timeupdate.duration);
@@ -159,6 +163,7 @@ function seekTrack(percentage) {
 }
 
 function updateSong() {
+	$('#logs').html('<strong>TIME UPDATE</strong>');
 	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: Date.now()});
 }
 
