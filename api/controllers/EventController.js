@@ -41,6 +41,14 @@ module.exports = {
           console.log(err);
           return res.send(err, 500);
         }
+        req.user.currentEvent = event.name;
+        req.user.save(function(err){
+          if(err){
+            console.log(err);
+          } else {
+            console.log("Working");
+          }
+        });
         return res.view({event: event, playlist: playlist, user: req.user}, 'event/view');
   		});
   	});
@@ -66,7 +74,9 @@ module.exports = {
   find: function (req, res) {
     var name = req.param('eventName');
     console.log(name);
-    Event.find({name: name}, (function (err, events) {
+    Event.find({name: {
+      contains: name
+        }}, (function (err, events) {
       if (err || !events) {
         err = 'No Event found with name: ' + name;
         return res.json(err, 500);
