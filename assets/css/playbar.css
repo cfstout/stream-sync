@@ -1,0 +1,32 @@
+.control.buttons {
+	width: 15%;
+	text-align: center;
+}
+
+.control.button {
+	width: 50%;
+}
+
+#seekbar {
+	padding: 0;
+	width: 83%;
+	float: right;
+}
+
+#seekbar .outer {
+	background: transparent;
+	width: 100%;
+	height: 45px;
+}
+
+#seekbar .outer:hover {
+	cursor: pointer;
+}
+
+#seekbar .inner {
+	/*position: absolute;*/
+	background: #000;
+	opacity: .3;
+	width: 0;
+	height: 100%;
+}

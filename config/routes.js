@@ -61,13 +61,79 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'create'
   },
-  'get /e/:name': {
+
+  'post /home/search': {
     controller: 'EventController',
     action: 'find'
+  },
+
+  'get /e/:name': {
+    controller: 'EventController',
+    action: 'get'
   },
   'post /search': {
     controller: 'SearchController',
     action: 'search'
+  },
+  'get /home': {
+    view: 'event/list'
+  },
+
+  'get /user/home':{
+    view: 'user/list'
+  },
+
+  'post /user/home/search':{
+    controller:'UserController',
+    action: 'searchUsers'
+  },
+
+  'get /a/uploader': {
+    view: 'audio/uploader'
+  },
+
+  'post /a/uploader': {
+    controller: 'UploaderController',
+    action: 'upload'
+  },
+
+    'post /u/:username/inviteToEvent': {
+    controller: 'UserController',
+    action: 'inviteToEvent'
+  },
+
+  'post /u/:username': {
+    controller: 'UserController',
+    action: 'addFriend'
+  },
+
+  'post /addsong/:playlistid': {
+    controller: 'PlaylistController',
+    action: 'addSong'
+  },
+  'get /current/:playlistid': {
+    controller: 'PlaylistController',
+    action: 'current'
+  },
+  'post /verify_host/:eventid': {
+    controller: 'EventController',
+    action: 'verifyHost'
+  },
+  'post /audio/sync': {
+    controller: 'AudioController',
+    action: 'syncTime'
+  },
+  'post /audio/unsync': {
+    controller: 'AudioController',
+    action: 'unsyncTime'
+  },
+  'post /audio/update': {
+    controller: 'AudioController',
+    action: 'updateTime'
+  },
+  'post /playlist/update/:playlistid': {
+    controller: 'PlaylistController',
+    action: 'updateSong'
   },
   
 

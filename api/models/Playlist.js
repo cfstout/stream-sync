@@ -10,9 +10,8 @@ module.exports = {
 
   attributes: {
   	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
+  	audio: 'array',
+  	curTrack: 'integer'
     
   }
 

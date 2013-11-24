@@ -11,11 +11,12 @@
 <link rel="stylesheet" href="/linker/css/general.css">
 <!--STYLES END-->
 
-<%- partial('../site/partials/header') %>
+
 <%- partial('../site/partials/page_open') %>
 
 <div class="four wide column"></div>
 <div class="eight wide column">
+<h1 class="main">Sign Up</h1>
 <form class="ui the form segment" method="post" action="/signup">
   <div class="field">
     <label>Username</label>
@@ -32,6 +33,15 @@
     <div class="ui left labeled icon input">
       <input name="password" type="password">
       <i class="lock icon"></i>
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Location</label>
+    <div class="ui left labeled icon input">
+      <input name="location" type="text" placeholder="City">
       <div class="ui corner label">
         <i class="icon asterisk"></i>
       </div>

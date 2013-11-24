@@ -1,11 +1,11 @@
-<nav class="ui fixed inverted transparent main menu">
+<nav class="ui large fixed inverted transparent main menu">
   <div class="container">
-    <h3 class="header item">Title</h3>
-    <a class="active item">Home</a>
-    <a class="item">Link</a>
-    <a class="item">Link</a>
+  <a class="active item" href="/home">Search Events</a>
+    <h1 class="header item">Wave Sync</h3>
+    
+    <a class="active item" href="/user/home">Search Users</a>
     <span class="right floated item">
-      Signed in as <a href="#">user</a>
+      Signed in as <a href="/u/<%=req.user.username%>"><%=req.user.username%></a>
     </span>
   </div>
 </nav>

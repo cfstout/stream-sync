@@ -17,7 +17,76 @@
 
 module.exports = {
     
-  
+  addSong: function(req, res) {
+  	Audio.create({
+  		artist: req.param('artist'),
+  		track: req.param('track'),
+  		curTime: 0
+  	}).done(function(err, audio) {
+  		if (!audio) {
+			err = "Audio could not be created";
+		}
+		if (err) {
+		  console.log(err);
+		  return res.send(err, 500);
+		}
+		Playlist.findOne(req.param('playlistid'), function(err, playlist) {
+			if (!playlist) {
+				err = "Playlist could not be found";
+			}
+			if (err) {
+			  console.log(err);
+			  return res.send(err, 500);
+			}
+			playlist.audio.push(audio.id);
+
+			Playlist.publishUpdate(playlist.id, {audio: audio});
+			playlist.save(function(err) {
+				if (err) {
+					return console.log("playlist save fucked up");
+				}
+			});
+			// sails.io.emit('added_song_to'+playlist.id, {audio: audio});
+		});
+  	});
+  },
+  current: function(req, res) {
+  	Playlist.findOne(req.param('playlistid'), function(err, playlist) {
+  		if (!playlist) {
+			err = "Playlist could not be found";
+		}
+		if (err) {
+		  console.log(err);
+		  return res.send(err, 500);
+		}
+		Playlist.subscribe(req.socket, playlist);
+		Audio.find({where: {id: playlist.audio}}, function(err, data) {
+			if (err) {
+				console.log(err);
+				return res.send(err, 500);
+			}
+			return res.send({audio: data, curTrack: playlist.curTrack});
+		});
+  	});
+  },
+  updateSong: function(req, res) {
+  	Playlist.findOne(req.param('playlistid'), function(err, playlist) {
+  		if (!playlist) {
+			err = "Playlist could not be found";
+		}
+		if (err) {
+		  console.log(err);
+		  return res.send(err, 500);
+		}
+		playlist.curTrack = req.param('curTrack');
+		Playlist.publishUpdate(playlist.id, {curTrack: curTrack});
+		playlist.save(function(err) {
+			if (err) {
+				return console.log("playlist save fucked up");
+			}
+		});
+	});
+  },
 
 
   /**

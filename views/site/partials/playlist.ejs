@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="/css/search_results.css">
+
+<div class="ui very wide styled sidebar" id="playlist">
+	<form class="ui form">
+		<div class="field">
+		  <div class="ui left labeled icon input">
+	        <input name="query" type="text" placeholder="Find New Music...">
+	        <i class="search icon"></i>
+	      </div>
+		</div>
+	</form>
+	<div id="playlist_results" class="ui segment"></div>
+	<div id="list_results" class="hidden"></div>
+</div>
+
+<div class="ui page dimmer" id="checking_dimmer">
+  <div class="content">
+    <div class="center"></div>
+  </div>
+</div>
+
+
+<div id="track_checker" class="hidden"></div>
+
+<script type="text/javascript" src="/js/tomahk_api.js"></script>
+<script type="text/javascript" src="/js/client_search.js"></script>
+<script type="text/javascript" src="/js/client_playlist.js"></script>
+<script type="text/javascript">
+
+var input = $('input[name="query"]');
+var output_search = $('#list_results');
+var output_playlist = $('#playlist_results');
+var track_output = $('#track');
+
+  $(function() {
+    poll_search(input, output_search, '<%= playlist.id %>');
+    listen_to('<%= playlist.id %>', output_playlist, track_output, <%= event.host == user.username %>);
+  });
+
+  function swap_containers() {
+  	if (output_search.transition('is visible')) {
+    	output_search.transition('fade up', function () {
+    		output_playlist.transition('fade up');
+    	});
+	} else {
+		output_playlist.transition('fade up', function () {
+    		output_search.transition('fade up');
+    	});
+	}
+  }
+</script>

@@ -20,11 +20,14 @@ module.exports.policies = {
 
   UserController: {
   	profile: 'isAuthenticated',
-  	test: 'isAuthenticated'
+  	test: 'isAuthenticated',
+    addFriend: 'isAuthenticated'
   },
 
   EventController: {
-  	create: 'isAuthenticated'
+  	create: 'isAuthenticated',
+    verifyHost: 'isAuthenticated',
+    get: 'isAuthenticated'
   }
 
 };
