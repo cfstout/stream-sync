@@ -69,6 +69,10 @@ module.exports = {
 		});
   	});
   },
+  updateSong: function(req, res) {
+
+  },
+  
 
 
   /**
