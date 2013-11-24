@@ -55,17 +55,13 @@
 
 </form>
 <div>
-	<form method="post" action="/u/<%= user.username %>">
-	<button type="submit" class="ui blue submit button left floated" id="addFriend">Add Friend</button>
-	</form>
-	<button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
-
-	<a href="/user/home">
-	<button class="ui icon button relative middle">
-
-	  <i class="search icon"></i>
-	  <label>Search</label>
-	</button></a>
+	<%if(user.username != req.user.username){%>
+		<form method="post" action="/u/<%= user.username %>">
+		<button type="submit" class="ui blue submit button left floated" id="addFriend">Add Friend</button>
+		</form>
+		<button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
+	<% } %>
+	
 </div>
 
 <div class="ui modal invite">

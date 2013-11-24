@@ -34,12 +34,13 @@
   <tbody>
   <%if(typeof users != 'undefined'){%>
 	<% _.each(users, function (user, i) { %>
+  <%if(user.username != req.user.username){%>
 	<tr>
     <td><a href='/u/<%= user.username %>'><%= user.username %></a></td>
     <td><%= user.location %></td>
     <td><%= user.currentEvent %></td></a>
     </tr>
-    <% })} %>
+    <% }})} %>
   </tbody>
 </table>
 </div>
