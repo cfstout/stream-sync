@@ -51,12 +51,22 @@
     <% }) %>
     <p class="soft padded"><%= "Total Friends: " + user.friends.length %></p>
 </ul>
-</form>
-<form method="post" action="/u/<%= user.username %>">
-<button type="submit" class="ui blue submit button left floated" id="addFriend">Add Friend</button>
-</form>
-<button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
 
+
+</form>
+<div>
+	<form method="post" action="/u/<%= user.username %>">
+	<button type="submit" class="ui blue submit button left floated" id="addFriend">Add Friend</button>
+	</form>
+	<button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
+
+	<a href="/user/home">
+	<button class="ui icon button relative middle">
+
+	  <i class="search icon"></i>
+	  <label>Search</label>
+	</button></a>
+</div>
 
 <div class="ui modal invite">
   <i class="close icon"></i>
@@ -78,12 +88,15 @@
 </div>
 
 
+
+
 <div id="list_results"></div>
 
 <script type="text/javascript">
 	$("#inviteToEvent").click(function(){
 		$('.ui.modal.invite').modal('show');
 	});
+
 </script>
 
 <%- partial('../site/partials/page_close') %>
