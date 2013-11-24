@@ -9,7 +9,8 @@ var curTime;
 var counter = 0;
 var playlist_id;
 var isHost;
-var waiting_track;
+var waiting_track = null;
+var diffs = [];
 
 function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	output_container = output_playlist;
@@ -31,7 +32,7 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	socket.on('message', function(res) {
 		switch(res.model) {
 			case "audio":
-				checkSync(res.data.curTime);
+				checkSync(res.data.curTime, res.data.hostTime);
 				break;
 			case "playlist":
 				if (res.data.audio) {
@@ -98,8 +99,7 @@ function getCurTrack(autoplay) {
 		        	oCurTime = curTime;
 		            curTime = parseInt(timeupdate.currentTime);
 		            if (oCurTime != curTime) {
-		            	// alert(tracks[curTrack].id);
-		            	socket.post('/audio/update', {audio_id: audio_id, curTime: curTime});
+		            	socket.post('/audio/update', {audio_id: audio_id, curTime: curTime, hostTime: Date.now()});
 		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
@@ -120,7 +120,7 @@ function getCurTrack(autoplay) {
 		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
-		            $('#logs').html('<strong>'+ curTime +'</strong>'+counter);
+		            $('#logs').html('<strong>'+ curTime +'</strong>'+counter + ' <em>'+ diffs[diffs.length-1] +'</em>');
 		        }
 		    }
 		});
@@ -147,10 +147,17 @@ function seekTrack(percentage) {
 	}
 }
 
-function checkSync(time) {
-	if ((Math.abs((time*20) - (curTime*20+counter)) > 2) && (waiting_track == null)) {
-		curRenderedTrack.seek(time+1);
+function checkSync(track_time, host_time) {
+	roundtrip = Date.now()-host_time;
+	track_time = track_time - (roundtrip/1000);
+	diffs.push((track_time*20) - (curTime*20+counter));
+	if ((Math.abs(diffs[diffs.length-1]) > 2) && (waiting_track == null)) {
+		curRenderedTrack.seek(track_time + 1);
 		curRenderedTrack.pause();
-		waiting_track = setTimeout('playTrack()', 50*counter);
+		if (Math.abs(diffs[diffs.length-1]) > 10) {
+			waiting_track = setTimeout('playTrack()', 1000);
+		} else {
+			waiting_track = setTimeout('playTrack()', 1000- 50*diffs[diffs.length-1]);
+		}
 	}
 }

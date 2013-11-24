@@ -22,7 +22,7 @@ module.exports = {
   		if (err || !audio) return console.log("coudn't find audio with: "+ req.param('audio_id'));
 	  	var curTime = req.param('curTime');
 	  	audio.curTime = curTime;
-	  	Audio.publishUpdate(audio.id, {curTime: curTime});
+	  	Audio.publishUpdate(audio.id, {curTime: curTime, hostTime: req.param('hostTime')});
 	  	audio.save(function(err) {
 			if (err) {
 				return console.log("audio save fucked up");
