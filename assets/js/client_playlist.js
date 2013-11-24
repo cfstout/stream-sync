@@ -167,11 +167,13 @@ function updateSong() {
 	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: Date.now()});
 }
 
+var roundtrip;
 
 function setSync(track_time, host_time) {
-	var roundtrip = Date.now() - host_time;
-	start_user_time = host_time + 2*roundtrip;
+	roundtrip = Date.now() - host_time;
+	start_user_time = host_time + roundtrip;
 	start_track_time = track_time;
+	$('#logs').append("r: " + roundtrip);
 }
 
 function checkSync() {
@@ -182,5 +184,5 @@ function checkSync() {
 	if (diff > .2) {
 		curRenderedTrack.seek(theor_cur_time);
 	}
-	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time);
+	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time + "| r: " + roundtrip);
 }
