@@ -49,6 +49,7 @@ window.tomahkAPI = {
 
     	var defaults = {
             autoplay:0,
+            audio_id: 0,
             disabledResolvers:["SpotifyMetadata"],
     		handlers: {
     			onload: function(api) {

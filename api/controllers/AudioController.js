@@ -18,21 +18,26 @@
 module.exports = {
     
   updateTime: function(req, res) {
-  	var audio = req.param('audio');
-  	var curTime = req.param('curTime');
-  	audio.curTime = curTime;
-  	Audio.publishUpdate(audio.id, {curTime: curTime});
-  	audio.save(function(err) {
-		if (err) {
-			return console.log("audio save fucked up");
-		}
+  	Audio.findOne(req.param('audio_id'), function(err, audio) {
+  		if (err || !audio) return console.log("coudn't find audio with: "+ req.param('audio_id'));
+	  	var curTime = req.param('curTime');
+	  	audio.curTime = curTime;
+	  	Audio.publishUpdate(audio.id, {curTime: curTime});
+	  	audio.save(function(err) {
+			if (err) {
+				return console.log("audio save fucked up");
+			}
+		});
 	});
   },
   syncTime: function(req, res) {
-  	Audio.subscribe(req.socket, audio);
+  	Audio.findOne(req.param('audio_id'), function(err, audio) {
+  		if (! err && audio) Audio.subscribe(req.socket, audio);
+  		else console.log("errors with syncTime");
+  	});
   },
   unsyncTime: function(req, res) {
-  	Audio.unsubscribe(req.socket);
+  	Audio.unsubscribe(req.socket, req.param('audio_id'));
   },
 
   /**

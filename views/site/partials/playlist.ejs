@@ -34,7 +34,7 @@ var track_output = $('#track');
 
   $(function() {
     poll_search(input, output_search, '<%= playlist.id %>');
-    listen_to('<%= playlist.id %>', output_playlist, track_output, '<%= event.host == user.username %>');
+    listen_to('<%= playlist.id %>', output_playlist, track_output, <%= event.host == user.username %>);
   });
 
   function swap_containers() {

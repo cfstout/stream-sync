@@ -22,10 +22,11 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 		audio = tracks[curTrack];
 		curTime = audio.curTime;
 		oCurTime = curTime;
-		socket.post('/audio/sync', {audio: audio});
+		if (!isHost) socket.post('/audio/sync', {audio_id: audio.id});
 		display_playlist();
 		getCurTrack(1);
 	});
+
 	socket.on('message', function(res) {
 		switch(res.model) {
 			case "audio":
@@ -36,7 +37,7 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 					tracks.push(res.data.audio);
 					display_playlist();
 				} else {
-					socket.post('/audio/unsync', {audio: tracks[curTrack]});
+					socket.post('/audio/unsync', {audio_id: (tracks[curTrack]).id});
 					curTrack = res.data.curTrack;
 					getCurTrack(1);
 				}
@@ -84,6 +85,7 @@ function getCurTrack(autoplay) {
 		return 0;
 	}
 	if (isHost) {
+		var audio_id = tracks[curTrack].id;
 		curRenderedTrack = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
 			autoplay: autoplay,
 		    handlers: {
@@ -95,7 +97,8 @@ function getCurTrack(autoplay) {
 		        	oCurTime = curTime;
 		            curTime = parseInt(timeupdate.currentTime);
 		            if (oCurTime != curTime) {
-		            	socket.post('/audio/update', {audio: tracks[curTrack], curTime: curTime});
+		            	// alert(tracks[curTrack].id);
+		            	socket.post('/audio/update', {audio_id: audio_id, curTime: curTime});
 		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
