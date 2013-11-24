@@ -85,7 +85,7 @@ function check_stream(artist_name, track_name) {
 
 function verified_stream(artist_name, track_name) {
   $('#checking_dimmer').removeClass('checking');
-  $('#checking_dimmer .content .center').html('<h2 class="ui inverted icon header"><i class="icon smile"></i>It Fucking Worked!</h2>');
+  $('#checking_dimmer .content .center').html('<h2 class="ui inverted icon header"><i class="icon smile"></i>Your File Has Been Added!</h2>');
   $('#checking_dimmer').dimmer({'closable': true});
   socket.post('/addsong/'+playlist, {artist: artist_name, track: track_name});
   $('#track_checker').html().remove();
@@ -93,6 +93,6 @@ function verified_stream(artist_name, track_name) {
 
 function rejected_stream() {
   $('#checking_dimmer').removeClass('checking');
-  $('#checking_dimmer .content .center').html('<h2 class="ui inverted icon header"><i class="icon frown"></i>It Didn\'t Work!</h2>');
+  $('#checking_dimmer .content .center').html('<h2 class="ui inverted icon header"><i class="icon frown"></i>It Didn\'t Work...</h2>');
   $('#checking_dimmer').dimmer({'closable': true});
 }
