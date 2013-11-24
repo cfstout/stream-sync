@@ -170,7 +170,7 @@ function updateSong() {
 
 function setSync(track_time, host_time) {
 	var roundtrip = Date.now() - host_time;
-	start_user_time = host_time + roundtrip;
+	start_user_time = host_time + 2*roundtrip;
 	start_track_time = track_time;
 }
 
