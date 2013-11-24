@@ -31,3 +31,5 @@
 .right.tabbed { margin-right: 15px; }
 
 .soft.padded {padding: 15px 15px;}
+
+.relative.middle {position: relative; margin-right: auto; margin-right: auto;}
