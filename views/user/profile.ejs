@@ -56,9 +56,11 @@
 </form>
 <div>
 	<%if(user.username != req.user.username){%>
+		<%if(req.user.friends.indexOf(user.username) == -1){%>
 		<form method="post" action="/u/<%= user.username %>">
 		<button type="submit" class="ui blue submit button left floated" id="addFriend">Add Friend</button>
 		</form>
+		<%}%>
 		<button class="ui blue submit button right floated" id="inviteToEvent">Invite To Event</button>
 	<% } %>
 	
