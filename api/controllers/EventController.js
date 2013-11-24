@@ -20,7 +20,6 @@ module.exports = {
   create: function(req, res) {
   	Playlist.create({
   		audio: new Array(),
-      radio: false,
       curTrack: 0
   	}).done(function(err, playlist) {
       if (!playlist) {
@@ -46,6 +45,23 @@ module.exports = {
   		});
   	});
   },
+  get: function(req, res) {
+      var name = req.param('name');
+      name = String(name).replace(/-/g, " ");
+      Event.findOne({name: name}, (function (err, event) {
+        if (err || !event) {
+          err = 'No Event found with name: ' + name;
+          return res.json(err, 500);
+        }
+        Playlist.findOne(event.playlist, (function (err, playlist) {
+          if (err || !playlist) {
+            err = 'No Event found with playlist: ' + event.playlist;
+            return res.json(err, 500);
+          }
+          return res.view({event: event, playlist: playlist}, 'event/view');
+        }));
+      }));
+    },
 
   find: function (req, res) {
     var name = req.param('eventName');
@@ -59,6 +75,7 @@ module.exports = {
       return res.view({events: events}, 'event/list');
     }));
   },
+
   verifyHost: function(req, res) {
     Event.findOne(req.param('eventid'), function(err, event) {
       if (err || !event) return false;
