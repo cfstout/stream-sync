@@ -145,9 +145,9 @@ function seekTrack(percentage) {
 }
 
 function checkSync(time) {
-	if (Math.abs((time*20) - (curTime+counter)) > 2) {
+	if (Math.abs((time*20) - (curTime*20+counter)) > 2) {
 		curRenderedTrack.seek(time);
 		playTrack();
-		setTimeout('playTrack()', 1050);
+		setTimeout('playTrack()', 1000);
 	}
 }
