@@ -9,6 +9,7 @@ var curTime;
 var counter = 0;
 var playlist_id;
 var isHost;
+var waiting_track;
 
 function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	output_container = output_playlist;
@@ -102,6 +103,7 @@ function getCurTrack(autoplay) {
 		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
+		            $('#logs').html('<strong>'+ curTime +'</strong>');
 		        }
 		    }
 		});
@@ -118,7 +120,7 @@ function getCurTrack(autoplay) {
 		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
-
+		            $('#logs').html('<strong>'+ curTime +'</strong>'+counter);
 		        }
 		    }
 		});
@@ -128,6 +130,7 @@ function getCurTrack(autoplay) {
 
 function playTrack() {
 	curRenderedTrack.play();
+	waiting_track = null;
 }
 
 function nextTrack() {
@@ -145,9 +148,9 @@ function seekTrack(percentage) {
 }
 
 function checkSync(time) {
-	if (Math.abs((time*20) - (curTime*20+counter)) > 2) {
+	if ((Math.abs((time*20) - (curTime*20+counter)) > 2) && (waiting_track == null)) {
 		curRenderedTrack.seek(time+1);
 		curRenderedTrack.pause();
-		setTimeout('playTrack()', 1000);
+		waiting_track = setTimeout('playTrack()', 50*counter);
 	}
 }
