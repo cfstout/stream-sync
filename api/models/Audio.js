@@ -12,7 +12,8 @@ module.exports = {
   	
   	artist: 'string',
   	track: 'string',
-  	curTime: 'integer'
+  	curTime: 'integer',
+  	atTime: 'integer'
     
   }
 

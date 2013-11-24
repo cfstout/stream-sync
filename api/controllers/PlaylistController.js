@@ -21,7 +21,8 @@ module.exports = {
   	Audio.create({
   		artist: req.param('artist'),
   		track: req.param('track'),
-  		curTime: 0
+  		curTime: 0,
+  		atTime: 0
   	}).done(function(err, audio) {
   		if (!audio) {
 			err = "Audio could not be created";

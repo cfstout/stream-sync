@@ -9,8 +9,8 @@ var curTime;
 var counter = 0;
 var playlist_id;
 var isHost;
-var waiting_track = null;
-var diffs = [];
+var start_user_time = 0;
+var start_track_time = 0;
 
 function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	output_container = output_playlist;
@@ -24,6 +24,8 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 		audio = tracks[curTrack];
 		curTime = audio.curTime;
 		oCurTime = curTime;
+		start_track_time = curTime;
+		start_user_time = audio.atTime;
 		if (!isHost) socket.post('/audio/sync', {audio_id: audio.id});
 		display_playlist();
 		getCurTrack(1);
@@ -32,7 +34,7 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	socket.on('message', function(res) {
 		switch(res.model) {
 			case "audio":
-				checkSync(res.data.curTime, res.data.hostTime);
+				setSync(res.data.curTime, res.data.hostTime);
 				break;
 			case "playlist":
 				if (res.data.audio) {
@@ -95,15 +97,17 @@ function getCurTrack(autoplay) {
 		        	socket.post('/playlist/update/'+playlist_id, {curTrack: (curTrack+1)});
 		            nextTrack();
 		        },
+		        onplayable: function() {
+		        	setTimeout('updateSong()', 2000);
+		        },
 		        ontimeupdate: function(timeupdate) {
 		        	oCurTime = curTime;
 		            curTime = parseInt(timeupdate.currentTime);
-		            if (oCurTime != curTime) {
-		            	socket.post('/audio/update', {audio_id: audio_id, curTime: curTime, hostTime: Date.now()});
-		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
-		            $('#logs').html('<strong>'+ curTime +'</strong>');
+		            if (oCurTime != curTime) {
+		            	$('#logs').html('<strong>'+ curTime +'</strong>');
+		        	}
 		        }
 		    }
 		});
@@ -120,7 +124,8 @@ function getCurTrack(autoplay) {
 		            }
 		            duration = parseInt(timeupdate.duration);
 		            set_seekbar(curTime/duration);
-		            $('#logs').html('<strong>'+ curTime +'</strong>'+counter + ' <em>'+ diffs[diffs.length-1] +'</em>');
+		            checkSync();
+		            //$('#logs').html('<strong>'+ curTime +'</strong>'+counter);
 		        }
 		    }
 		});
@@ -129,8 +134,13 @@ function getCurTrack(autoplay) {
 }
 
 function playTrack() {
-	curRenderedTrack.play();
-	waiting_track = null;
+	if (isHost) {
+		curRenderedTrack.seek(curTime);
+		curRenderedTrack.play();
+		updateSong();
+	} else {
+		curRenderedTrack.play();
+	}
 }
 
 function nextTrack() {
@@ -144,20 +154,28 @@ function nextTrack() {
 function seekTrack(percentage) {
 	if (isHost) {
 		curRenderedTrack.seek(percentage*duration);
+		updateSong();
 	}
 }
 
-function checkSync(track_time, host_time) {
-	roundtrip = Date.now()-host_time;
-	track_time = track_time - (roundtrip/1000);
-	diffs.push((track_time*20) - (curTime*20+counter));
-	if ((Math.abs(diffs[diffs.length-1]) > 2) && (waiting_track == null)) {
-		curRenderedTrack.seek(track_time + 1);
-		curRenderedTrack.pause();
-		if (Math.abs(diffs[diffs.length-1]) > 10) {
-			waiting_track = setTimeout('playTrack()', 1000);
-		} else {
-			waiting_track = setTimeout('playTrack()', 1000- 50*diffs[diffs.length-1]);
-		}
+function updateSong() {
+	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: Date.now()});
+}
+
+
+function setSync(track_time, host_time) {
+	start_user_time = host_time;
+	var roundtrip = Date.now() - host_time;
+	start_track_time = track_time + (roundtrip/1000);
+}
+
+function checkSync() {
+	var offset = Date.now() - start_user_time;
+	var theor_cur_time = start_track_time + offset/1000;
+	var act_cur_time = curTime + (counter/20);
+	var diff = Math.abs(theor_cur_time - act_cur_time);
+	if (diff > .2) {
+		curRenderedTrack.seek(theor_cur_time);
 	}
+	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time);
 }

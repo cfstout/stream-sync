@@ -21,8 +21,10 @@ module.exports = {
   	Audio.findOne(req.param('audio_id'), function(err, audio) {
   		if (err || !audio) return console.log("coudn't find audio with: "+ req.param('audio_id'));
 	  	var curTime = req.param('curTime');
+      var atTime = req.param('hostTime');
 	  	audio.curTime = curTime;
-	  	Audio.publishUpdate(audio.id, {curTime: curTime, hostTime: req.param('hostTime')});
+      audio.atTime = atTime;
+	  	Audio.publishUpdate(audio.id, {curTime: curTime, hostTime: atTime});
 	  	audio.save(function(err) {
 			if (err) {
 				return console.log("audio save fucked up");
