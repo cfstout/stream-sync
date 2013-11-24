@@ -131,6 +131,7 @@ function playTrack() {
 }
 
 function nextTrack() {
+	// if (isHost) socket.post('/playlist/update/'+playlist_id, {curTrack: (curTrack+1)});
 	if (tracks.length > curTrack) {
 		curTrack++;
 		getCurTrack(1);
@@ -147,6 +148,6 @@ function checkSync(time) {
 	if (Math.abs((time*20) - (curTime+counter)) > 2) {
 		curRenderedTrack.seek(time);
 		playTrack();
-		setTimeout('playTrack()', 1000);
+		setTimeout('playTrack()', 1050);
 	}
 }
