@@ -66,30 +66,58 @@ function getCurTrack(autoplay) {
 	if (tracks.length == curTrack) {
 		return 0;
 	}
-	curRenderedTrack = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
-		autoplay: autoplay,
-	    handlers: {
-	        onloaded: function() {
-
-	        },
-	        onended: function() {
-	            
-	        },
-	        onplayable: function() {
-
-	        },
-	        onresolved: function(resolver, result) {
-
-	        },
-	        ontimeupdate: function(timeupdate) {
-	            var currentTime = parseInt(timeupdate.currentTime);
-	            duration = parseInt(timeupdate.duration);
-
-	            set_seekbar(currentTime/duration);
-
-	        }
-	    }
+	var host_priveledge;
+	socket.post('/verifyHost', function(isHost) {
+		host_priveledge = isHost;
 	});
+	if (host_priveledge) {
+		curRenderedTrack = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
+			autoplay: autoplay,
+		    handlers: {
+		        onended: function() {
+		            nextTrack();
+		        },
+		        onplayable: function() {
+
+		        },
+		        onresolved: function(resolver, result) {
+
+		        },
+		        ontimeupdate: function(timeupdate) {
+		            var currentTime = parseInt(timeupdate.currentTime);
+		            duration = parseInt(timeupdate.duration);
+
+		            set_seekbar(currentTime/duration);
+
+		        }
+		    }
+		});
+	} else {
+		curRenderedTrack = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
+			autoplay: autoplay,
+		    handlers: {
+		        onloaded: function() {
+
+		        },
+		        onended: function() {
+		            
+		        },
+		        onplayable: function() {
+
+		        },
+		        onresolved: function(resolver, result) {
+
+		        },
+		        ontimeupdate: function(timeupdate) {
+		            var currentTime = parseInt(timeupdate.currentTime);
+		            duration = parseInt(timeupdate.duration);
+
+		            set_seekbar(currentTime/duration);
+
+		        }
+		    }
+		});
+	}
 	track_output.html(curRenderedTrack.render());
 }
 
@@ -105,5 +133,9 @@ function nextTrack() {
 }
 
 function seekTrack(percentage) {
-	curRenderedTrack.seek(percentage*duration);
+	socket.post('/verifyHost', function(isHost) {
+		if (isHost) {
+			curRenderedTrack.seek(percentage*duration);
+		}
+	});
 }

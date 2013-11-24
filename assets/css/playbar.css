@@ -1,15 +1,15 @@
 .control.buttons {
-	width: 27%;
+	width: 15%;
 	text-align: center;
 }
 
 .control.button {
-	width: 33%;
+	width: 50%;
 }
 
 #seekbar {
 	padding: 0;
-	width: 70%;
+	width: 83%;
 	float: right;
 }
 

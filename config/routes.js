@@ -69,7 +69,7 @@ module.exports.routes = {
 
   'get /e/:name': {
     controller: 'EventController',
-    action: 'find'
+    action: 'get'
   },
   'post /search': {
     controller: 'SearchController',
@@ -114,6 +114,10 @@ module.exports.routes = {
   'get /current/:playlistid': {
     controller: 'PlaylistController',
     action: 'current'
+  },
+  'post /verify_host': {
+    controller: 'EventController',
+    action: 'verifyHost'
   },
   
 

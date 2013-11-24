@@ -25,7 +25,8 @@ module.exports.policies = {
   },
 
   EventController: {
-  	create: 'isAuthenticated'
+  	create: 'isAuthenticated',
+    verifyHost: 'isAuthenticated'
   }
 
 };
