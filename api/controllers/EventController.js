@@ -49,7 +49,7 @@ module.exports = {
             console.log("Working");
           }
         });
-        return res.view({event: event, playlist: playlist}, 'event/view');
+        return res.view({event: event, playlist: playlist, user: req.user}, 'event/view');
   		});
   	});
   },
@@ -66,7 +66,7 @@ module.exports = {
             err = 'No Event found with playlist: ' + event.playlist;
             return res.json(err, 500);
           }
-          return res.view({event: event, playlist: playlist}, 'event/view');
+          return res.view({event: event, playlist: playlist, user: req.user}, 'event/view');
         }));
       }));
     },
@@ -87,6 +87,7 @@ module.exports = {
   },
 
   verifyHost: function(req, res) {
+    console.log(req.param('eventid'));
     Event.findOne(req.param('eventid'), function(err, event) {
       if (err || !event) return false;
       if (req.user.username == event.host) {

@@ -69,6 +69,24 @@ module.exports = {
 		});
   	});
   },
+  updateSong: function(req, res) {
+  	Playlist.findOne(req.param('playlistid'), function(err, playlist) {
+  		if (!playlist) {
+			err = "Playlist could not be found";
+		}
+		if (err) {
+		  console.log(err);
+		  return res.send(err, 500);
+		}
+		playlist.curTrack = req.param('curTrack');
+		Playlist.publishUpdate(playlist.id, {curTrack: curTrack});
+		playlist.save(function(err) {
+			if (err) {
+				return console.log("playlist save fucked up");
+			}
+		});
+	});
+  },
 
 
   /**

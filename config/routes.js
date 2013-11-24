@@ -115,9 +115,25 @@ module.exports.routes = {
     controller: 'PlaylistController',
     action: 'current'
   },
-  'post /verify_host': {
+  'post /verify_host/:eventid': {
     controller: 'EventController',
     action: 'verifyHost'
+  },
+  'post /audio/sync': {
+    controller: 'AudioController',
+    action: 'syncTime'
+  },
+  'post /audio/unsync': {
+    controller: 'AudioController',
+    action: 'unsyncTime'
+  },
+  'post /audio/update': {
+    controller: 'AudioController',
+    action: 'updateTime'
+  },
+  'post /playlist/update/:playlistid': {
+    controller: 'PlaylistController',
+    action: 'updateSong'
   },
   
 

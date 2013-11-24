@@ -31,6 +31,9 @@ module.exports = {
   syncTime: function(req, res) {
   	Audio.subscribe(req.socket, audio);
   },
+  unsyncTime: function(req, res) {
+  	Audio.unsubscribe(req.socket);
+  },
 
   /**
    * Overrides for the settings in `config/controllers.js`
