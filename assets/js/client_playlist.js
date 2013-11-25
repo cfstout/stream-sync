@@ -171,22 +171,21 @@ function seekTrack(percentage) {
 
 function updateSong() {
 	$('#logs').html('<strong>TIME UPDATE</strong>');
-	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: (Date.now()+offset)});
+	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: (Date.now() - offset)});
 }
 
 function setSync(track_time, host_time) {
-	alert("tt: "+track_time+" ht: "+host_time);
 	start_user_time = host_time;
 	start_track_time = track_time;
 }
 
 function checkSync() {
-	var elapsed = (Date.now()+offset) - start_user_time;
+	var elapsed = (Date.now() - offset) - start_user_time;
 	var theor_cur_time = start_track_time + elapsed/1000;
 	var act_cur_time = curTime + (counter/20);
 	var diff = Math.abs(theor_cur_time - act_cur_time);
 	if (diff > .2) {
 		curRenderedTrack.seek(theor_cur_time);
 	}
-	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time);
+	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time + " | elap: " + elapsed);
 }
