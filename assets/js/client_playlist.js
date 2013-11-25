@@ -19,11 +19,11 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	playlist_id = playlistid;
 	isHost = hosting;
 
-	socket.post('/audio/ntp', function(res) {
-		ntp.init(socket);
-		offset = ntp.offset();
-		$('#logs').html(offset);
-	});
+	socket.post('/audio/ntp');
+	ntp.init();
+	socket.on('ntp:server_sync', function() {
+      offset = ntp.offset();
+    });
 
 	socket.get('/current/'+playlistid, function(res) {
 		tracks = res.audio;
@@ -175,6 +175,7 @@ function updateSong() {
 }
 
 function setSync(track_time, host_time) {
+	alert("tt: "+track_time+" ht: "+host_time);
 	start_user_time = host_time;
 	start_track_time = track_time;
 }

@@ -1,23 +1,25 @@
 (function (root) {
 
   var ntp  = {}
-    , offsets = [];
+    , offsets = []
 
-  ntp.init = function (sock, options) {
+  ntp.init = function (options) {
     options = options || {};
 
-    socket.on('ntp:server_sync', onSync);
+    socket.on('ntp:server_sync', function(data) {
+      onSync(data);
+    });
     setInterval(sync, options.interval || 1000);
   };
 
   var onSync = function (data) {
-
     var diff = Date.now() - data.t1 + ((Date.now() - data.t0)/2);
 
     offsets.unshift(diff);
 
-    if (offsets.length > 10)
+    if (offsets.length > 10) {
       offsets.pop();
+    }
   };
 
 
@@ -27,7 +29,6 @@
       sum += offsets[i];
 
     sum /= offsets.length;
-
     return sum;
   };
 
