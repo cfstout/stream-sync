@@ -126,7 +126,10 @@ module.exports.routes = {
     controller: 'PlaylistController',
     action: 'updateSong'
   },
-  
+  'post /audio/ntp': {
+    controller: 'AudioController',
+    action: 'ntp'
+  },
 
 
   /*

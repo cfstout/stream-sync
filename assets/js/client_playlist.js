@@ -11,12 +11,19 @@ var playlist_id;
 var isHost;
 var start_user_time = 0;
 var start_track_time = 0;
+var offset;
 
 function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 	output_container = output_playlist;
 	track_output = ouput_track;
 	playlist_id = playlistid;
 	isHost = hosting;
+
+	socket.post('/audio/ntp', function(res) {
+		ntp.init(socket);
+		offset = ntp.offset();
+		$('#logs').html(offset);
+	});
 
 	socket.get('/current/'+playlistid, function(res) {
 		tracks = res.audio;
@@ -164,25 +171,21 @@ function seekTrack(percentage) {
 
 function updateSong() {
 	$('#logs').html('<strong>TIME UPDATE</strong>');
-	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: Date.now()});
+	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: (Date.now()+offset)});
 }
 
-var roundtrip;
-
 function setSync(track_time, host_time) {
-	roundtrip = Date.now() - host_time;
-	start_user_time = host_time + roundtrip;
+	start_user_time = host_time;
 	start_track_time = track_time;
-	$('#logs').append("r: " + roundtrip);
 }
 
 function checkSync() {
-	var offset = Date.now() - start_user_time;
-	var theor_cur_time = start_track_time + offset/1000;
+	var elapsed = (Date.now()+offset) - start_user_time;
+	var theor_cur_time = start_track_time + elapsed/1000;
 	var act_cur_time = curTime + (counter/20);
 	var diff = Math.abs(theor_cur_time - act_cur_time);
 	if (diff > .2) {
 		curRenderedTrack.seek(theor_cur_time);
 	}
-	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time + "| r: " + roundtrip);
+	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time);
 }

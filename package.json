@@ -19,7 +19,8 @@
         "passport-facebook": "*",
         "bcrypt": "*",
         "request": "*",
-        "formidable": "*"
+        "formidable": "*",
+        "socket-ntp": "*"
     },
     "scripts": {
         "start": "node app.js",

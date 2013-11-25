@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var ntp = require('socket-ntp');
+
 module.exports = {
     
   updateTime: function(req, res) {
@@ -33,6 +35,7 @@ module.exports = {
 	});
   },
   syncTime: function(req, res) {
+    ntp
   	Audio.findOne(req.param('audio_id'), function(err, audio) {
   		if (! err && audio) Audio.subscribe(req.socket, audio);
   		else console.log("errors with syncTime");
@@ -40,6 +43,10 @@ module.exports = {
   },
   unsyncTime: function(req, res) {
   	Audio.unsubscribe(req.socket, req.param('audio_id'));
+  },
+  ntp: function(req, res) {
+    ntp.sync(req.socket);
+    return console.log("Socket Set");
   },
 
   /**
