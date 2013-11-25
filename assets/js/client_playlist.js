@@ -6,6 +6,7 @@ var track_output;
 var duration;
 var oCurTime;
 var curTime;
+var curTimeMilli;
 var counter = 0;
 var playlist_id;
 var isHost;
@@ -112,13 +113,9 @@ function getCurTrack(autoplay) {
 		        		curTime = 0;
 		        		updateSong();
 		        	}
-		        	oCurTime = curTime;
-		            curTime = parseInt(timeupdate.currentTime);
-		            duration = parseInt(timeupdate.duration);
-		            set_seekbar(curTime/duration);
-		            if (oCurTime != curTime) {
-		            	$('#logs').html('<strong>'+ curTime +'</strong>');
-		        	}
+		        	doTimeUpdate(timeupdate);
+		        	var curTimeOut = curTime + (curTimeMilli/1000);
+		        	$('#logs').html('<strong>'+ curTimeOut +'</strong>');
 		        }
 		    }
 		});
@@ -127,16 +124,8 @@ function getCurTrack(autoplay) {
 			autoplay: autoplay,
 		    handlers: {	
 		        ontimeupdate: function(timeupdate) {
-		        	counter++;
-		        	oCurTime = curTime;
-		            curTime = parseInt(timeupdate.currentTime);
-		            if (oCurTime != curTime) {
-		            	counter = 0;
-		            }
-		            duration = parseInt(timeupdate.duration);
-		            set_seekbar(curTime/duration);
+		        	doTimeUpdate(timeupdate);
 		            checkSync();
-		            //$('#logs').html('<strong>'+ curTime +'</strong>'+counter);
 		        }
 		    }
 		});
@@ -144,14 +133,23 @@ function getCurTrack(autoplay) {
 	track_output.html(curRenderedTrack.render());
 }
 
+function doTimeUpdate(timeupdate) {
+	curTimeMilli = Date.now() - counter;
+	oCurTime = curTime;
+    curTime = parseInt(timeupdate.currentTime);
+    if (oCurTime != curTime) {
+    	counter = Date.now();
+    	curTimeMilli = 0;
+    }
+    duration = parseInt(timeupdate.duration);
+    set_seekbar((curTime+curTimeMilli/1000)/duration);
+}
+
 function playTrack() {
 	if (isHost) {
-		curRenderedTrack.seek(curTime);
-		curRenderedTrack.play();
 		updateSong();
-	} else {
-		curRenderedTrack.play();
 	}
+	curRenderedTrack.play();
 }
 
 function nextTrack() {
@@ -171,18 +169,19 @@ function seekTrack(percentage) {
 
 function updateSong() {
 	$('#logs').html('<strong>TIME UPDATE</strong>');
-	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: curTime, hostTime: (Date.now() - offset)});
+	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: ((curTime*1000)+curTimeMilli), hostTime: (Date.now() - offset)});
 }
 
 function setSync(track_time, host_time) {
-	start_user_time = host_time;
-	start_track_time = track_time;
+	var roundtrip = ((Date.now() - offset) - host_time);
+	start_user_time = Date.now();
+	start_track_time = (track_time + roundtrip)/1000;
 }
 
 function checkSync() {
-	var elapsed = (Date.now() - offset) - start_user_time;
+	var elapsed = Date.now() - start_user_time;
 	var theor_cur_time = start_track_time + elapsed/1000;
-	var act_cur_time = curTime + (counter/20);
+	var act_cur_time = curTime + (curTimeMilli/1000);
 	var diff = Math.abs(theor_cur_time - act_cur_time);
 	if (diff > .2) {
 		curRenderedTrack.seek(theor_cur_time);
