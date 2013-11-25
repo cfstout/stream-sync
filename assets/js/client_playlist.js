@@ -169,11 +169,11 @@ function seekTrack(percentage) {
 
 function updateSong() {
 	$('#logs').html('<strong>TIME UPDATE</strong>');
-	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: ((curTime*1000)+curTimeMilli), hostTime: (Date.now() - offset)});
+	socket.post('/audio/update', {audio_id: tracks[curTrack].id, curTime: ((curTime*1000)+curTimeMilli), hostTime: (Date.now() + offset)});
 }
 
 function setSync(track_time, host_time) {
-	var roundtrip = ((Date.now() - offset) - host_time);
+	var roundtrip = ((Date.now() + offset) - host_time);
 	start_user_time = Date.now();
 	start_track_time = (track_time + roundtrip)/1000;
 }
