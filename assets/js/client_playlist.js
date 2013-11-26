@@ -162,6 +162,7 @@ function nextTrack() {
 			socket.post('/playlist/update/'+playlist_id, {curTrack: (curTrack+1)});
 		} else {
 			socket.post('/audio/unsync', {audio_id: (tracks[curTrack]).id});
+			socket.post('/audio/sync', {audio_id: (tracks[curTrack+1]).id});
 		}
 		curTrack++;
 		getCurTrack(1);
@@ -196,8 +197,9 @@ function checkSync() {
 	var theor_cur_time = start_track_time + (elapsed/1000);
 	var act_cur_time = curTime + (curTimeMilli/1000);
 	var diff = Math.abs(theor_cur_time - act_cur_time);
-	if (diff > .15) {
-		curRenderedTrack.seek(theor_cur_time);
+	if (diff > .1) {
+		curRenderedTrack.seek(theor_cur_time + .05);
 	}
-	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time + " | elap: " + elapsed + " | r: " + roundtrip );
+	diff = theor_cur_time - act_cur_time;
+	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | diff " + diff + " | elap: " + elapsed + " | r: " + roundtrip );
 }
