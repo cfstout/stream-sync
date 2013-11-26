@@ -35,18 +35,16 @@ module.exports = {
 	});
   },
   syncTime: function(req, res) {
-    ntp
   	Audio.findOne(req.param('audio_id'), function(err, audio) {
-  		if (! err && audio) Audio.subscribe(req.socket, audio);
-  		else console.log("errors with syncTime");
+  		if (! err && audio) return Audio.subscribe(req.socket, audio);
+  		else return console.log("errors with syncTime");
   	});
   },
   unsyncTime: function(req, res) {
-  	Audio.unsubscribe(req.socket, req.param('audio_id'));
+  	return Audio.unsubscribe(req.socket, req.param('audio_id'));
   },
   ntp: function(req, res) {
-    ntp.sync(req.socket);
-    return console.log("Socket Set");
+    return ntp.sync(req.socket);
   },
 
   /**

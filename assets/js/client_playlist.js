@@ -48,8 +48,10 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 				if (res.data.audio) {
 					tracks.push(res.data.audio);
 					display_playlist();
+					if ((tracks.length-1) == curTrack) {
+						nextTrack(1);
+					}
 				} else {
-					socket.post('/audio/unsync', {audio_id: (tracks[curTrack]).id});
 					curTrack = res.data.curTrack;
 					getCurTrack(1);
 				}
@@ -102,18 +104,17 @@ function getCurTrack(autoplay) {
 			autoplay: autoplay,
 		    handlers: {
 		        onended: function() {
-		        	socket.post('/playlist/update/'+playlist_id, {curTrack: (curTrack+1)});
 		            nextTrack();
 		        },
 		        onplayable: function() {
-		        	curTime = -1;
+		        	curTime = 0;
+		        	curTimeMilli = 0;
 		        },
 		        ontimeupdate: function(timeupdate) {
-		        	if (curTime == -1) {
-		        		curTime = 0;
+		        	doTimeUpdate(timeupdate);
+		        	if ((curTime%3 == 0) && (curTimeMilli == 0)) {
 		        		updateSong();
 		        	}
-		        	doTimeUpdate(timeupdate);
 		        	var curTimeOut = curTime + (curTimeMilli/1000);
 		        	$('#logs').html('<strong>'+ curTimeOut +'</strong>');
 		        }
@@ -123,6 +124,9 @@ function getCurTrack(autoplay) {
 		curRenderedTrack = window.tomahkAPI.Track(tracks[curTrack].track, tracks[curTrack].artist, {
 			autoplay: autoplay,
 		    handlers: {	
+		    	onended: function() {
+		            nextTrack();
+		        },
 		        ontimeupdate: function(timeupdate) {
 		        	doTimeUpdate(timeupdate);
 		            checkSync();
@@ -153,8 +157,12 @@ function playTrack() {
 }
 
 function nextTrack() {
-	// if (isHost) socket.post('/playlist/update/'+playlist_id, {curTrack: (curTrack+1)});
-	if (tracks.length > curTrack) {
+	if (curTrack < tracks.length-1) {
+		if (isHost) {
+			socket.post('/playlist/update/'+playlist_id, {curTrack: (curTrack+1)});
+		} else {
+			socket.post('/audio/unsync', {audio_id: (tracks[curTrack]).id});
+		}
 		curTrack++;
 		getCurTrack(1);
 	}
@@ -162,7 +170,9 @@ function nextTrack() {
 
 function seekTrack(percentage) {
 	if (isHost) {
-		curRenderedTrack.seek(percentage*duration);
+		curTime = percentage*duration;
+		curTimeMilli= 0;
+		curRenderedTrack.seek(curTime);
 		updateSong();
 	}
 }
@@ -185,7 +195,7 @@ function checkSync() {
 	var theor_cur_time = start_track_time + (elapsed/1000);
 	var act_cur_time = curTime + (curTimeMilli/1000);
 	var diff = Math.abs(theor_cur_time - act_cur_time);
-	if (diff > .2) {
+	if (diff > .15) {
 		curRenderedTrack.seek(theor_cur_time);
 	}
 	$('#logs').html("tct: " + theor_cur_time + " | stt " + start_track_time + " | o " + offset + " | sut " + start_user_time + " | elap: " + elapsed + " | r: " + roundtrip );

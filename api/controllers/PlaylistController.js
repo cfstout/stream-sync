@@ -80,7 +80,7 @@ module.exports = {
 		  return res.send(err, 500);
 		}
 		playlist.curTrack = req.param('curTrack');
-		Playlist.publishUpdate(playlist.id, {curTrack: curTrack});
+		Playlist.publishUpdate(playlist.id, {curTrack: playlist.curTrack});
 		playlist.save(function(err) {
 			if (err) {
 				return console.log("playlist save fucked up");
