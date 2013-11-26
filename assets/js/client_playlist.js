@@ -4,9 +4,9 @@ var output_container;
 var curRenderedTrack;
 var track_output;
 var duration;
-var oCurTime;
+var oCurTime = 0;
 var curTime;
-var curTimeMilli;
+var curTimeMilli = 0;
 var counter = 0;
 var playlist_id;
 var isHost;
@@ -31,10 +31,10 @@ function listen_to(playlistid, output_playlist, ouput_track, hosting) {
 		curTrack = res.curTrack;
 		audio = tracks[curTrack];
 		curTime = audio.curTime;
-		oCurTime = curTime;
-		start_track_time = curTime;
-		start_user_time = audio.atTime;
-		if (!isHost) socket.post('/audio/sync', {audio_id: audio.id});
+		if (!isHost) {
+			socket.post('/audio/sync', {audio_id: audio.id});
+			setSync(audio.curTime, audio.atTime);
+		}
 		display_playlist();
 		getCurTrack(1);
 	});
@@ -171,6 +171,7 @@ function nextTrack() {
 function seekTrack(percentage) {
 	if (isHost) {
 		curTime = percentage*duration;
+		counter = Date.now();
 		curTimeMilli= 0;
 		curRenderedTrack.seek(curTime);
 		updateSong();
