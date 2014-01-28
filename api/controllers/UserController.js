@@ -18,117 +18,44 @@
 var passport = require('passport');
 
 module.exports = {
-    
+
+	/**
+	* Authentication functions
+	*/
+
 	signup: function (req, res) {
-		var arr = [];
 		User.create({
 			username: req.param('username'),
-			password: req.param('password'),
-			location: req.param('location'),
-			friends: arr,
-			currentEvent: "None",
-			pastEvents: arr
+			password: req.param('password')
 		}).done(function(err, user) {
 			if (err) {
 				console.log(err);
-				return res.send(err, 500);
+				return res.send({status: 402});
 			}
 			console.log("User created: " + user.username);
 			req.login(user, function(err) {
-			  if (err) { return res.send(err, 500); }
-			  return res.redirect('/u/' + req.user.username);
+				if (err) { 
+					return res.send({status: 401});
+				}
+				return res.send({status: 200});
 			});
 		});
 	},
-	find: function (req, res) {
-		var username = req.param('username');
-		User.findOne({username: username}, (function (err, user){
-			if (!user) {
-				err = 'No User found with username: ' + username;
-				return res.send(err, 500);
-			};
-			return res.view({user: user}, 'user/profile');
-		}));
-	},
-	test: function (req, res) {
-		res.send(req.user);
-	},
-
-	addFriend: function(req, res){
-		console.log("Inside AddFriend");
-		console.log(req.param('username'));
-		console.log(req.param('friends'));
-		var un = req.param('username');
-		
-
-		req.user.friends.push(un);
-		req.user.save(function(err){
-			if(err)
-			{
-				console.log(err);
-			}
-			else
-			{
-				console.log("Working");
-			}
-		});
-
-		User.findOne({username: un}, (function (err, user){
-			if (!user) {
-				err = 'No User found with username: ' + username;
-				return res.send(err, 500);
-			};
-			user.friends.push(req.user.username);
-			user.save(function(err){
-				if(err){
-					console.log(err);
-				} else {
-					console.log("Working");
-				}
+	auth_local: function (req, res) {
+		passport.authenticate('local', function(err, user, info) {
+			if (err || !user) return res.send({status: 401});
+			req.login(user, function(err) {
+				if (err) { return next(err); }
+				return res.send({status: 200});
 			});
-			console.log(user.friends);
-		}));
-		console.log(req.user.friends);
-		return res.redirect('/u/'+un);
+		})(req, res);
 	},
-
-	inviteToEvent: function(req, res){
-		var username = req.param('username');
-
-		User.update({username: username},{currentEvent: req.user.currentEvent}, function(err, users){
-			if(err){
-				return console.log(err);
-			} else {
-				console.log("Users update", users);
-			}
-		});
-
-		return res.redirect('/u/'+username);
-	},
-
-	searchUsers: function(req, res){
-		console.log("Searching for users");
-		var username = req.param('username');
-		User.find({
-			  username: {
-			    contains: username
-			  }
-			}, function(err, users){
-				if(!users){
-					return console.log("No users found");
-				}
-				else
-				{
-					console.log(users);
-					return res.view({users: users}, 'user/list');
-				}
-			});
-	},
-  /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to UserController)
-   */
-  _config: {}
+    
+	/**
+	* Overrides for the settings in `config/controllers.js`
+	* (specific to UserController)
+	*/
+	_config: {}
 
   
 };

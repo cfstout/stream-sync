@@ -33,102 +33,15 @@ module.exports.routes = {
   //  
   // (This would also work if you had a file at: `/views/home.ejs`)
   '/': {
-    view: 'site/index'
-  },
-
-  'get /signup': {
-    view: 'user/signup'
+    view: 'user/login'
   },
   'post /signup': {
     controller: 'UserController',
     action: 'signup'
   },
-  'get /login': {
-    view: 'auth/login'
-  },
-  'post /login': {
-    controller: 'AuthController',
-    action: 'login'
-  },
-  'get /u/:username': {
+  'post /login/local': {
     controller: 'UserController',
-    action: 'find'
-  },  
-  'get /e/new': {
-    view: 'event/create'
-  },
-  'post /event/create': {
-    controller: 'EventController',
-    action: 'create'
-  },
-
-  'post /home/search': {
-    controller: 'EventController',
-    action: 'find'
-  },
-
-  'get /e/:name': {
-    controller: 'EventController',
-    action: 'get'
-  },
-  'post /search': {
-    controller: 'SearchController',
-    action: 'search'
-  },
-  'get /home': {
-    view: 'event/list'
-  },
-
-  'get /user/home':{
-    view: 'user/list'
-  },
-
-  'post /user/home/search':{
-    controller:'UserController',
-    action: 'searchUsers'
-  },
-
-    'post /u/:username/inviteToEvent': {
-    controller: 'UserController',
-    action: 'inviteToEvent'
-  },
-
-  'post /u/:username': {
-    controller: 'UserController',
-    action: 'addFriend'
-  },
-
-  'post /addsong/:playlistid': {
-    controller: 'PlaylistController',
-    action: 'addSong'
-  },
-  'get /current/:playlistid': {
-    controller: 'PlaylistController',
-    action: 'current'
-  },
-  'post /verify_host/:eventid': {
-    controller: 'EventController',
-    action: 'verifyHost'
-  },
-  'post /audio/sync': {
-    controller: 'AudioController',
-    action: 'syncTime'
-  },
-  'post /audio/unsync': {
-    controller: 'AudioController',
-    action: 'unsyncTime'
-  },
-  'post /audio/update': {
-    controller: 'AudioController',
-    action: 'updateTime'
-  },
-  'post /playlist/update/:playlistid': {
-    controller: 'PlaylistController',
-    action: 'updateSong'
-  },
-  'post /audio/ntp': {
-    controller: 'AudioController',
-    action: 'ntp'
+    action: 'auth_local'
   },
 
 

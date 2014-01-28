@@ -29,9 +29,8 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
-    'linker/css/reset.css',
-    'linker/css/semantic.min.css',
-    'linker/**/*.css'
+    'linker/stylesheets/app.css',
+    'linker/stylesheets/**/*.css'
   ];
 
 
@@ -47,6 +46,7 @@ module.exports = function (grunt) {
 
     // Below, as a demonstration, you'll see the built-in dependencies 
     // linked in the proper order order
+    'linker/bower_components/modernizr/modernizr.js',
 
     // Bring in the socket.io client
     'linker/js/socket.io.js',
@@ -58,11 +58,12 @@ module.exports = function (grunt) {
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
 
-    'linker/js/jquery.min.js',
-    'linker/js/semantic.min.js',
+    'linker/bower_components/jquery/jquery.js',
+    'linker/bower_components/foundation/js/foundation.min.js',
+    'linker/js/general.js',
 
     // All of the rest of your app scripts imported here
-    'linker/**/*.js'
+    'linker/js/**/*.js'
   ];
 
 
@@ -77,14 +78,14 @@ module.exports = function (grunt) {
    */
 
   var templateFilesToInject = [
-    'linker/**/*.html'
+    'linker/templates/**/*.html'
   ];
 
   var fontFilesToInject = [
-    'linker/**/*.eot',
-    'linker/**/*.svg',
-    'linker/**/*.ttf',
-    'linker/**/*.woff'
+    'linker/fonts/**/*.eot',
+    'linker/fonts/**/*.svg',
+    'linker/fonts/**/*.ttf',
+    'linker/fonts/**/*.woff'
   ];
 
 

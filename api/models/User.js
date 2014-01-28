@@ -20,21 +20,6 @@ module.exports = {
 			minLength: '6',
 			required: true
 		},
-		location: {
-			type: 'string',
-			required: true
-		},
-		friends: {
-			type: 'array'
-		},
-		currentEvent: {
-			type: 'string'
-		},
-		pastEvents: {
-			type: 'array'
-		},
-
-
 
 		validPassword: function(password) {
 			return true;

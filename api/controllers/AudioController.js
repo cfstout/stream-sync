@@ -15,37 +15,10 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var ntp = require('socket-ntp');
-
 module.exports = {
     
-  updateTime: function(req, res) {
-  	Audio.findOne(req.param('audio_id'), function(err, audio) {
-  		if (err || !audio) return console.log("coudn't find audio with: "+ req.param('audio_id'));
-	  	var curTime = req.param('curTime');
-      var hostTime = req.param('hostTime');
-	  	audio.curTime = curTime;
-      audio.atTime = hostTime;
-	  	Audio.publishUpdate(audio.id, {curTime: curTime, hostTime: hostTime});
-	  	audio.save(function(err) {
-			if (err) {
-				return console.log("audio save fucked up");
-			}
-		});
-	});
-  },
-  syncTime: function(req, res) {
-  	Audio.findOne(req.param('audio_id'), function(err, audio) {
-  		if (! err && audio) return Audio.subscribe(req.socket, audio);
-  		else return console.log("errors with syncTime");
-  	});
-  },
-  unsyncTime: function(req, res) {
-  	return Audio.unsubscribe(req.socket, req.param('audio_id'));
-  },
-  ntp: function(req, res) {
-    return ntp.sync(req.socket);
-  },
+  
+
 
   /**
    * Overrides for the settings in `config/controllers.js`
