@@ -22,9 +22,7 @@ module.exports = {
 		},
 
 		validPassword: function(password) {
-			return true;
 			bcrypt.compare(password, this.password, function(err, res) {
-				if (err) return next(err);
 				return res;
 			});
 		},

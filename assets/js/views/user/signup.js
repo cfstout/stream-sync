@@ -12,17 +12,17 @@ $(function () {
 	};
 
 	signup_comps.button.submit.click(function() {
-		do_login();
+		do_signup();
 	});
 });
 
-function do_login() {
+function do_signup() {
 	var params = {
 		username: signup_comps.input.username.val(),
 		password: signup_comps.input.password.val()
 	};
 	console.log(params);
-	socket.post('/signup', params, function(res) {
+	$.post('/signup', params, function(res) {
 		console.log(res);
 	});
 }

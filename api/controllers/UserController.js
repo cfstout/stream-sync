@@ -37,24 +37,23 @@ module.exports = {
 				return res.send({status: 500});
 			}
 			console.log("User created: " + user.username);
-			// req.login(user, function(err) {
-			// 	if (err) {
-			// 		return res.send({status: 402});
-			// 	}
-			// 	return res.send({status: 200});
-			// });
+			req.login(user, function(err) {
+				if (err) {
+					return res.send({status: 402});
+				}
+				return res.send({status: 200});
+			});
 		});
 	},
 	auth_local: function (req, res) {
 		passport.authenticate('local', function(err, user, info) {
 			if (err || !user) return res.send({status: 401});
-			req.login(user, function(err) {
-				if (err) { 
-					return res.send({status: 402});
-				}
-				return res.send({status: 200});
-			});
+			return res.send({status: 200, user: user});
 		})(req, res);
+	},
+	logout: function(req, res) {
+		req.logout();
+		return res.send({status: 200});
 	},
     
 	/**

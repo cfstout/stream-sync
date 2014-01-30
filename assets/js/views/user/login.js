@@ -22,7 +22,7 @@ function do_login() {
 		password: login_comps.input.password.val()
 	};
 	console.log(params);
-	socket.post('/login/local', params, function(res) {
+	$.post('/login/local', params, function(res) {
 		console.log(res);
 	});
 }
