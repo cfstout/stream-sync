@@ -24,28 +24,34 @@ module.exports = {
 	*/
 
 	signup: function (req, res) {
+		console.log('SIGNUP');
 		User.create({
 			username: req.param('username'),
 			password: req.param('password')
 		}).done(function(err, user) {
 			if (err) {
 				console.log(err);
-				return res.send({status: 402});
+				return res.send({status: 401});
+			}
+			if (!user) {
+				return res.send({status: 500});
 			}
 			console.log("User created: " + user.username);
-			req.login(user, function(err) {
-				if (err) { 
-					return res.send({status: 401});
-				}
-				return res.send({status: 200});
-			});
+			// req.login(user, function(err) {
+			// 	if (err) {
+			// 		return res.send({status: 402});
+			// 	}
+			// 	return res.send({status: 200});
+			// });
 		});
 	},
 	auth_local: function (req, res) {
 		passport.authenticate('local', function(err, user, info) {
 			if (err || !user) return res.send({status: 401});
 			req.login(user, function(err) {
-				if (err) { return next(err); }
+				if (err) { 
+					return res.send({status: 402});
+				}
 				return res.send({status: 200});
 			});
 		})(req, res);
