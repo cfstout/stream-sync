@@ -45,8 +45,9 @@
 \\\\\\\\\\\\\\\\\\\\////////////////////
 
 0.0: General Styling
---- 0.1: Relative Positioning
-	
+--- 0.1.0: Relative Positioning
+--- 0.2.0: Custom Inputs
+--- --- 0.2.1: Custom Buttons
 */
 
 
@@ -57,7 +58,7 @@ body {
 	min-width: 100vw;
 }
 
-/* 0.1 RELATIVE POSITIONING */
+/* 0.1.0 RELATIVE POSITIONING */
 
 .vertical-center {
 	margin: auto;
@@ -71,8 +72,51 @@ body {
 	.left { float: left; }
 }
 
-$tab-size: 2em;
+$tab-size: rem-calc(30);
 
 .tabbed-left { padding-left: $tab-size; }
 .tabbed-right { padding-right: $tab-size; }
 
+.padded-row {
+	@include grid-row();
+	padding-top: rem-calc(20);
+	padding-bottom: rem-calc(20);
+}
+
+/* 0.2.0 CUSTOM INPUTS */
+
+$input-large-radius: rem-calc(21);
+$input-large-font-size: rem-calc(18);
+
+input.large {
+	font-size: $input-large-font-size;
+	padding-top: $input-large-radius;
+	padding-bottom: $input-large-radius;
+}
+
+.postfix.large,
+.prefix.large {
+	font-size: $input-large-font-size;
+	height: $input-large-radius*2 + rem-calc(2);
+	line-height: $input-large-radius*2;
+}
+
+/* 0.2.1 CUSTOM BUTTONS */
+
+$icon-button-icon-padding: rem-calc(10);
+
+.icon-button {
+	@include button;
+
+	i {
+		padding-top: rem-calc(2);
+	}
+
+	i.left {
+		padding-right: $icon-button-icon-padding;
+	}
+
+	i.right {
+		padding-left: $icon-button-icon-padding;
+	}
+}

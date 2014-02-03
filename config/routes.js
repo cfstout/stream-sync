@@ -32,6 +32,9 @@ module.exports.routes = {
   // located at `views/home/index.ejs`
   //  
   // (This would also work if you had a file at: `/views/home.ejs`)
+
+  // AUTHENTICATION
+
   'get /login': {
     view: 'user/login'
   },
@@ -49,6 +52,12 @@ module.exports.routes = {
   'get /logout': {
     controller: 'UserController',
     action: 'logout'
+  },
+
+  // EVENTS
+
+  'get /e/list': {
+    view: 'event/list'
   }
 
 
