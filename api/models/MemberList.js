@@ -8,12 +8,18 @@
 
 module.exports = {
 
-  attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
-  }
+	attributes: {
+		
+		event: {
+			type: 'string'
+		},
+		members: {
+			type: 'json'
+		},
+		host: {
+			type: 'integer'
+		}
+
+	}
 
 };

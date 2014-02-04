@@ -8,12 +8,22 @@
 
 module.exports = {
 
-  attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
-  }
+	attributes: {
+		
+		event: {
+			type: 'string'
+		},
+		songs: {
+			type: 'array'
+		},
+		current: {
+			type: 'integer',
+			defaultsTo: '-1'
+		},
+		time: {
+			type: 'float'
+		}
+
+	}
 
 };

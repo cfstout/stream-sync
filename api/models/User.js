@@ -38,7 +38,7 @@ module.exports = {
 			if(err) return next(err);
 			user.password = hash;
 			next();
-    });
-  }
+    	});
+  	}
 
 };

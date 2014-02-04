@@ -8,12 +8,18 @@
 
 module.exports = {
 
-  attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
-  }
+	attributes: {
+		
+		source: {
+			type: 'string'
+		},
+		title: {
+			type: 'string'
+		},
+		artist: {
+			type: 'string'
+		}
+
+	}
 
 };
