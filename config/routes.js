@@ -57,7 +57,7 @@ module.exports.routes = {
   // EVENTS
 
   'post /event/create': {
-    controllerL 'EventController',
+    controller: 'EventController',
     action: 'create'
   },
   'get /e/list': {
