@@ -16,15 +16,59 @@
  */
 
 module.exports = {
-    
-  
+
+	create: function (req, res) {
+		Event.create({
+			name: req.param('name'),
+			creator: 'test'
+		}).done(function (err, event) {
+			if (err) {
+				console.log(err);
+				return res.send({status: 401});
+			}
+
+			PlayList.create({
+				event: event.id,
+				songs: []
+			}).done(function(err, playList) {
+				if (err) {
+					return next(err);
+				}
+				event.playList = playList.id;
+
+				MemberList.create({
+					event: event.id,
+					members: {},
+					host: event.creator
+				}).done(function(err, memberList) {
+					if (err) {
+						console.log(err);
+						return res.send({status: 402});
+					}
+					event.memberList = memberList.id;
+
+					event.save(function(err) {
+					    if (err) {
+					    	console.log(err);
+							return res.send({status: 403});
+					    }
+					    else {
+					    	console.log("Event created: " + event.name);
+							return res.send({status: 200});
+					    }
+					  });
+				});
+			});
+			
+		});
+	},
 
 
-  /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to EventController)
-   */
-  _config: {}
+	/**
+	* Overrides for the settings in `config/controllers.js`
+	* (specific to EventController)
+	*/
+	_config: {}
 
-  
+
 };

@@ -16,7 +16,7 @@ module.exports = {
 		memberList: {
 			type: 'string'
 		},
-		host: {
+		creator: {
 			type: 'string'
 		},
 		playList: {
@@ -24,35 +24,5 @@ module.exports = {
 		}
 
 	},
-
-	beforeCreate: function(event, next) {
-		PlayList.create({
-			event: event,
-			songs: []
-		}).done(function(err, playList) {
-			if (!playList) {
-				err = err+ " WTF";
-			}
-			if (err) {
-				return next(err);
-			}
-			event.playList = playList;
-		});
-
-		MemberList.create({
-			event: event,
-			members: {},
-			host: event.host
-		}).done(function(err, memberList) {
-			if (!memberList) {
-				err = err+ " WTF";
-			}
-			if (err) {
-				return next(err);
-			}
-			event.memberList = memberList;
-		});
-		return next();
-	}
 
 };

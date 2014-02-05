@@ -17,7 +17,7 @@ module.exports = {
 			type: 'json'
 		},
 		host: {
-			type: 'integer'
+			type: 'string'
 		}
 
 	}

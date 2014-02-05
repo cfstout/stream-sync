@@ -16,6 +16,7 @@ $(function() {
 });
 
 function create_event() {
+	console.log("HELLO");
 	var params = {
 		name: create_comps.input.event_name.val()
 	};

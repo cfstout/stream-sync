@@ -24,7 +24,6 @@ module.exports = {
 	*/
 
 	signup: function (req, res) {
-		console.log('SIGNUP');
 		User.create({
 			username: req.param('username'),
 			password: req.param('password')

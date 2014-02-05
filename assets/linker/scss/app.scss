@@ -44,14 +44,17 @@
 ||||||||||| TABLE OF CONTENTS ||||||||||
 \\\\\\\\\\\\\\\\\\\\////////////////////
 
-0.0: General Styling
---- 0.1.0: Relative Positioning
---- 0.2.0: Custom Inputs
---- --- 0.2.1: Custom Buttons
+0.0 STRUCTURE
+--- 0.1.0 Relative Positioning
+1.0 FORMS & INPUTS
+--- 1.1.0 Custom Inputs
+--- 1.2.0 Custom Buttons
+2.0 CALLOUTS & MODALS
+--- 2.1.0 Modal
 */
 
 
-/* 0.0 GENERAL STYLING */
+/* 0.0 STRUCTURE */
 
 body {
 	min-height: 100vh;
@@ -83,7 +86,9 @@ $tab-size: rem-calc(30);
 	padding-bottom: rem-calc(20);
 }
 
-/* 0.2.0 CUSTOM INPUTS */
+/* 1.0 FORMS & INPUTS */
+
+/* 1.1 CUSTOM INPUTS */
 
 $input-large-radius: rem-calc(21);
 $input-large-font-size: rem-calc(18);
@@ -101,7 +106,7 @@ input.large {
 	line-height: $input-large-radius*2;
 }
 
-/* 0.2.1 CUSTOM BUTTONS */
+/* 1.2 CUSTOM BUTTONS */
 
 $icon-button-icon-padding: rem-calc(10);
 
@@ -119,4 +124,15 @@ $icon-button-icon-padding: rem-calc(10);
 	i.right {
 		padding-left: $icon-button-icon-padding;
 	}
+}
+
+/* 2.0 CALLOUTS & MODALS */
+
+/* 2.1.0 MODALS */
+
+.close-reveal-modal.normal-link {
+	color: $primary-color;
+	position: static;
+	font-size: inherit;
+	font-weight: inherit;
 }

@@ -7401,15 +7401,15 @@ th.hide-for-touch {
   display: table-cell !important;
 }
 
-/* 0.0 GENERAL STYLING */
-/* line 56, ../scss/app.scss */
+/* 0.0 STRUCTURE */
+/* line 59, ../scss/app.scss */
 body {
   min-height: 100vh;
   min-width: 100vw;
 }
 
 /* 0.1.0 RELATIVE POSITIONING */
-/* line 63, ../scss/app.scss */
+/* line 66, ../scss/app.scss */
 .vertical-center {
   margin: auto;
   position: absolute;
@@ -7419,30 +7419,30 @@ body {
   right: 0;
 }
 
-/* line 69, ../scss/app.scss */
+/* line 72, ../scss/app.scss */
 .push {
   display: block;
 }
-/* line 71, ../scss/app.scss */
+/* line 74, ../scss/app.scss */
 .push .right {
   float: right;
 }
-/* line 72, ../scss/app.scss */
+/* line 75, ../scss/app.scss */
 .push .left {
   float: left;
 }
 
-/* line 77, ../scss/app.scss */
+/* line 80, ../scss/app.scss */
 .tabbed-left {
   padding-left: 1.875rem;
 }
 
-/* line 78, ../scss/app.scss */
+/* line 81, ../scss/app.scss */
 .tabbed-right {
   padding-right: 1.875rem;
 }
 
-/* line 80, ../scss/app.scss */
+/* line 83, ../scss/app.scss */
 .padded-row {
   width: 100%;
   margin-left: auto;
@@ -7464,15 +7464,16 @@ body {
   clear: both;
 }
 
-/* 0.2.0 CUSTOM INPUTS */
-/* line 91, ../scss/app.scss */
+/* 1.0 FORMS & INPUTS */
+/* 1.1 CUSTOM INPUTS */
+/* line 96, ../scss/app.scss */
 input.large {
   font-size: 1.125rem;
   padding-top: 1.3125rem;
   padding-bottom: 1.3125rem;
 }
 
-/* line 98, ../scss/app.scss */
+/* line 103, ../scss/app.scss */
 .postfix.large,
 .prefix.large {
   font-size: 1.125rem;
@@ -7480,8 +7481,8 @@ input.large {
   line-height: 2.625rem;
 }
 
-/* 0.2.1 CUSTOM BUTTONS */
-/* line 108, ../scss/app.scss */
+/* 1.2 CUSTOM BUTTONS */
+/* line 113, ../scss/app.scss */
 .icon-button {
   border-style: solid;
   border-width: 0px;
@@ -7512,15 +7513,25 @@ input.large {
 .icon-button:hover, .icon-button:focus {
   color: white;
 }
-/* line 111, ../scss/app.scss */
+/* line 116, ../scss/app.scss */
 .icon-button i {
   padding-top: 0.125rem;
 }
-/* line 115, ../scss/app.scss */
+/* line 120, ../scss/app.scss */
 .icon-button i.left {
   padding-right: 0.625rem;
 }
-/* line 119, ../scss/app.scss */
+/* line 124, ../scss/app.scss */
 .icon-button i.right {
   padding-left: 0.625rem;
+}
+
+/* 2.0 CALLOUTS & MODALS */
+/* 2.1.0 MODALS */
+/* line 133, ../scss/app.scss */
+.close-reveal-modal.normal-link {
+  color: #008cba;
+  position: static;
+  font-size: inherit;
+  font-weight: inherit;
 }
