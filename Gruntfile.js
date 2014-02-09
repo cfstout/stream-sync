@@ -29,8 +29,8 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
-    'linker/stylesheets/app.css',
-    'linker/stylesheets/**/*.css'
+    'linker/css/app.css',
+    'linker/css/**/*.css'
   ];
 
 
@@ -46,8 +46,6 @@ module.exports = function (grunt) {
 
     // Below, as a demonstration, you'll see the built-in dependencies 
     // linked in the proper order order
-    'linker/bower_components/modernizr/modernizr.js',
-
     // Bring in the socket.io client
     'linker/js/socket.io.js',
 
@@ -57,9 +55,7 @@ module.exports = function (grunt) {
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
-
-    'linker/bower_components/jquery/jquery.js',
-    'linker/bower_components/foundation/js/foundation.min.js',
+    'linker/js/jquery.min.js',
     'linker/js/general.js',
 
     // All of the rest of your app scripts imported here
