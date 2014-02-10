@@ -1,5 +1,7 @@
+<!-- Retrieves Main Navigation -->
 <ng-include src="'angular/templates/nav/main.html'"></ng-include>
 
+<!-- Login Form -->
 <div class="v-centered">
   <div class="pure-g-r">
     <ng-form class="pure-u-1-3 pure-form pure-form-aligned segment" ng-submit="submit()">
@@ -15,7 +17,7 @@
         </div>
         <div class="push-right default-v-padding">
           <button type="submit" class="pure-button" id="submit-button">Login</button>
-          <span class="tabbed-left">or <a href="/signup">Signup</a></span>
+          <span class="tabbed-left">or <a href="#/signup">Signup</a></span>
         </div>
       </fieldset>
     </ng-form>

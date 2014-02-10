@@ -20,19 +20,20 @@ module.exports = {
 			minLength: '6',
 			required: true
 		},
-
+		/* checks to see if a password matches the stored hash */
 		validPassword: function(password) {
 			bcrypt.compare(password, this.password, function(err, res) {
 				return res;
 			});
 		},
+		/* removes password from object before returning it to user */
 		toJSON: function() {
 			var obj = this.toObject();
 			delete obj.password;
 			return obj;
 		}
 	},
-
+	/* hashes password before being saved in database */
 	beforeCreate: function(user, next) {
 	    bcrypt.hash(user.password, 10, function(err, hash) {
 			if(err) return next(err);

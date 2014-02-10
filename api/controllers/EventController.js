@@ -17,6 +17,15 @@
 
 module.exports = {
 
+	/**
+	*	Creates a new Event object
+	*	@params:
+	*		string name: the desired username
+	* 		User creator: the creator of the event
+	* 	@return:
+	* 		string message: descriptive message regarding status
+	* 		integer status: http response status
+	*/
 	create: function (req, res) {
 		Event.create({
 			name: req.param('name'),
@@ -27,6 +36,11 @@ module.exports = {
 				return res.send({status: 401});
 			}
 
+			/* 
+			*  Below are requirements for an Event:
+			*  Specifically the playlist and memberlist
+			*  attributes
+			*/
 			PlayList.create({
 				event: event.id,
 				songs: []
@@ -47,6 +61,10 @@ module.exports = {
 					}
 					event.memberList = memberList.id;
 
+					/* 
+					* Adds attributes and returns successful
+					* object to the user 
+					*/
 					event.save(function(err) {
 					    if (err) {
 					    	console.log(err);
