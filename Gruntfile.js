@@ -29,7 +29,8 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
-    'linker/**/*.css'
+    'linker/css/app.css',
+    'linker/css/**/*.css'
   ];
 
 
@@ -45,7 +46,6 @@ module.exports = function (grunt) {
 
     // Below, as a demonstration, you'll see the built-in dependencies 
     // linked in the proper order order
-
     // Bring in the socket.io client
     'linker/js/socket.io.js',
 
@@ -55,11 +55,11 @@ module.exports = function (grunt) {
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
-
-    // *->    put other dependencies here   <-*
+    'linker/js/jquery.min.js',
+    'linker/js/general.js',
 
     // All of the rest of your app scripts imported here
-    'linker/**/*.js'
+    'linker/js/**/*.js'
   ];
 
 
@@ -74,7 +74,14 @@ module.exports = function (grunt) {
    */
 
   var templateFilesToInject = [
-    'linker/**/*.html'
+    'linker/templates/**/*.html'
+  ];
+
+  var fontFilesToInject = [
+    'linker/fonts/**/*.eot',
+    'linker/fonts/**/*.svg',
+    'linker/fonts/**/*.ttf',
+    'linker/fonts/**/*.woff'
   ];
 
 
@@ -105,6 +112,11 @@ module.exports = function (grunt) {
   /////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////
 
+  // Modify font file injection paths to use 
+  fontFilesToInject = fontFilesToInject.map(function (path) {
+    return '.tmp/public/' + path;
+  });
+
   // Modify css file injection paths to use 
   cssFilesToInject = cssFilesToInject.map(function (path) {
     return '.tmp/public/' + path;
@@ -114,7 +126,6 @@ module.exports = function (grunt) {
   jsFilesToInject = jsFilesToInject.map(function (path) {
     return '.tmp/public/' + path;
   });
-  
   
   templateFilesToInject = templateFilesToInject.map(function (path) {
     return 'assets/' + path;

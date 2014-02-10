@@ -1,0 +1,10 @@
+// EM CALCULATOR
+
+@function em($target, $context: 16) {
+    @return ($target / $context) * 1em;
+}
+
+// DEFAULTS
+
+$default-padding: 10;
+$default-border-radius: 10;

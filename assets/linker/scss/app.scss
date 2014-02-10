@@ -1,0 +1,116 @@
+@import "vars";
+@import "pure";
+@import "font-awesome";
+
+/*
+
+///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+||||||||||||| TABLE OF CONTENTS ||||||||||||||||||||
+\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////
+
+0.0.0 GENERAL STYLING
+--- 0.1.0 POSITIONG
+--- --- 0.1.1 CENTERING
+--- --- 0.1.2 PADDING
+--- --- 0.1.3 ALIGNMENT
+--- 0.2.0 STYLING
+1.0.0 ELEMENTS
+--- 1.1.0 SEGMENTS
+
+*/
+
+/* 0.0.0 GENERAL STYLING */
+
+/* 0.1.0 POSITIONG */
+
+/* 0.1.1 CENTERING */
+
+.h-centered {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.v-centered {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left:0;
+    > div {
+	    display: table-cell;
+	    vertical-align: middle;
+	}
+}
+
+/* 0.1.2 PADDING */
+
+// vertical padding
+@mixin v-padding($size: $default-padding) {
+	padding-top: em($size);
+	padding-bottom: em($size);
+}
+
+.default-v-padding {
+	@include v-padding();
+}
+
+//horizontal padding
+@mixin h-padding($size: $default-padding) {
+	padding-left: em($size);
+	padding-right: em($size);
+}
+
+.default-h-padding {
+	@include h-padding();
+}
+
+//uniform padding
+@mixin u-padding($size: $default-padding) {
+	padding: em($size);
+}
+
+.default-u-padding {
+	@include u-padding();
+}
+
+/* 0.1.3 ALIGNMENT */
+
+.push-right {
+	display: block;
+	float: right;
+}
+
+.push-left {
+	display: block;
+	float: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-left {
+	text-align: left;
+}
+
+/* 0.2.0 STYLING */
+
+@mixin border-radius($rad: $default-border-radius) {
+	-webkit-border-radius: em($rad);
+	-moz-border-radius: em($rad);
+	border-radius: em($rad);
+}
+
+/* 1.0.0 ELEMENTS */
+
+/* 1.1.0 SEGMENTS */
+
+.segment {
+	@extend .h-centered;
+	@include u-padding(20);
+	@include border-radius();
+	border: 1px solid #CCC;
+	max-width: 90%;
+}
