@@ -15,12 +15,12 @@ module.exports.session = {
   secret: 'f566ea932d586eafff62ef3a357037ae',
 
   // Mongo adapter as session store
-  adapter: 'mongo',
+  // adapter: 'mongo',
   
-  host: 'localhost',
-  port: 27017,
-  db: 'ssdb',
-  collection: 'sessions'
+  // host: 'localhost',
+  // port: 27017,
+  // db: 'ssdb',
+  // collection: 'sessions'
   //
   // Optional Values:
   //
