@@ -33,9 +33,8 @@ module.exports = {
 		}).done(function (err, event) {
 			if (err) {
 				console.log(err);
-				return res.send({status: 401});
+				return res.send({status: 401}, 401);
 			}
-
 			/* 
 			*  Below are requirements for an Event:
 			*  Specifically the playlist and memberlist
@@ -57,7 +56,7 @@ module.exports = {
 				}).done(function(err, memberList) {
 					if (err) {
 						console.log(err);
-						return res.send({status: 402});
+						return res.send({status: 402}, 402);
 					}
 					event.memberList = memberList.id;
 
@@ -68,11 +67,11 @@ module.exports = {
 					event.save(function(err) {
 					    if (err) {
 					    	console.log(err);
-							return res.send({status: 403});
+							return res.send({status: 403}, 403);
 					    }
 					    else {
 					    	console.log("Event created: " + event.name);
-							return res.send({status: 200});
+							return res.send({event: event, status: 200}, 200);
 					    }
 					  });
 				});

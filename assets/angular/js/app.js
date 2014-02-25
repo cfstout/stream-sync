@@ -24,6 +24,10 @@ streamSyncApp.config(['$routeProvider',
         templateUrl: 'views/user/signup',
         controller: 'SignupCtrl'
       })
+      .when('/event/create', {
+        templateUrl: 'views/event/create',
+        controller: 'EventCreateCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
