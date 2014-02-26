@@ -75,17 +75,5 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http',
 
 streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 
     function($scope, $http) {
-        $scope.name = "";
-        $scope.submit = function() {
-            var params = {
-                name: this.name
-            };
-            $http.post('event/create', params)
-                .success(function (data, status) {
-                    console.log("SUCCESS");
-                })
-                .error(function (data, status) {
-                    console.log("ERROR");
-                });
-        };
+
     }]); 
