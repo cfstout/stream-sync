@@ -80,7 +80,17 @@ module.exports = {
 		});
 	},
 
-
+	list: function(req, res){
+		Event.find().done(function(err,events){
+			if(err){
+				return console.log(err);
+			}	
+			else{
+				console.log("Events found:", events);
+				return res.send({event: events, status: 200},200);
+			}
+		});
+	},
 	/**
 	* Overrides for the settings in `config/controllers.js`
 	* (specific to EventController)
