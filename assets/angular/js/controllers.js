@@ -47,7 +47,7 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', '$http', '$location',
     	};
     	$http.post('/signup', params)
     		.success(function (data, status) {
-    			$location.path('/');
+    			$location.path('/profile');
     		})
     		.error(function (data, status) {
     			console.log("ERROR");
@@ -79,10 +79,12 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http',
         $scope.logged_in = function(){
             $http.get('user/logged_in')
                 .success(function(data, status){
-                    console.log("SUCCESS");
+                    console.log(data);
+                    $scope.current_user = data.user;
                 })
                 .error(function(data, status){
                     console.log("ERROR");
                 });
             };
+        $scope.logged_in();
     }]); 
