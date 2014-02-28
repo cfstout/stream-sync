@@ -85,5 +85,4 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http',
                     console.log("ERROR");
                 });
             };
-        }
     }]); 
