@@ -89,17 +89,17 @@ module.exports = {
 		req.logout();
 		return res.send({status: 200}, 200);
 	},
-	
+
 /**
 	*	Returns the user that is currently logged into the system
 	*	@params:
 	*		object request: holds session data
 	* 	@return:
-	* 		object username: current logged in username
+	* 		object username: current logged in user
 	*/
 
 	logged_in: function(req, res) {
-		return req.username;
+		return res.send({user: req.user}, 200);
 	},
 
 

@@ -75,5 +75,15 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http',
 
 streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 
     function($scope, $http) {
-
+        $scope.current_user = {};
+        $scope.logged_in = function(){
+            $http.get('user/logged_in')
+                .success(function(data, status){
+                    console.log("SUCCESS");
+                })
+                .error(function(data, status){
+                    console.log("ERROR");
+                });
+            };
+        }
     }]); 

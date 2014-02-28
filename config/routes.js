@@ -32,6 +32,10 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'logout'
   },
+  'get /user/logged_in': {
+    controller: 'UserController',
+    action: 'logged_in'
+  },
 
   // EVENTS
 
