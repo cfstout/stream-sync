@@ -85,6 +85,10 @@ module.exports = {
 			if(err){
 				return console.log(err);
 			}	
+			/*
+			* If successsful logs the events found 
+			* and sends them to the front end
+			*/
 			else{
 				console.log("Events found:", events);
 				return res.send({event: events, status: 200},200);

@@ -22,6 +22,9 @@ module.exports = {
 		playList: {
 			type: 'string'
 		}
+		time: {
+			type: 'float'
+		}
 
 	},
 
