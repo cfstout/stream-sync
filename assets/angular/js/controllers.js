@@ -21,7 +21,7 @@ streamSyncControllers.controller('LoginCtrl', ['$scope', '$http', '$location',
     	};
     	$http.post('/login/local', params)
     		.success(function (data, status) {
-    			$location.path('/');
+    			$location.path('/profile');
     		})
     		.error(function (data, status) {
     			console.log("ERROR");
