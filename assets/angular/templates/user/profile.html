@@ -1,3 +1,9 @@
-<h1>This is the new page?</h1>
-
-<h1> Hello, {{current_user.username}} </h1>
+<h3> Hello, {{current_user.username}} </h3>
+<p>
+	Here are your hosted events: <input ng-model="query"><p>
+	<ul class="events">
+		<li ng-repeat = "event in events | filter: query">
+			{{event.name}}
+			{{event.creator}}
+		</li>
+	</ul>

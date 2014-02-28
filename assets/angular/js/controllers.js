@@ -87,4 +87,11 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http',
                 });
             };
         $scope.logged_in();
+
+        $scope.current_user_created_events = {};
+        Event.get_events_by_creator = function(){
+            $http.get('event/get_events_by_creator')
+                .success(function(data, status){
+                    console.log(data);
+                    $scope.current_user_created_events = data.
     }]); 

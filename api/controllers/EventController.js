@@ -80,7 +80,30 @@ module.exports = {
 		});
 	},
 
+	/**
+	*	Returns events created by passed in user
+	*	@params:
+	* 		User creator: the creator of the event
+	* 	@return:
+	* 		string message: descriptive message regarding status
+	* 		integer status: http response status
+	
+	get_events_by_creator: function (req, res) {
+		Event.get_events_by_creator({
+			creator: req.user
+		}).done(function (err, event) {
+			if (err) {
+				console.log(err);
+				return res.send({status: 401}, 401);
+			}
+			else {
+				return res.send({}, 200)
+			}
 
+			
+		});
+	},
+*/
 	/**
 	* Overrides for the settings in `config/controllers.js`
 	* (specific to EventController)
