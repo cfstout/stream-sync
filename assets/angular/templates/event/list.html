@@ -24,7 +24,7 @@
         <!--Body content-->
 
         <ul class="Events">
-          <li ng-repeat="event in Events | filter:query | orderBy:orderProp">
+          <li ng-repeat="event in events | filter:query | orderBy:orderProp">
             {{event.name}}
             <p>Hosted by {{event.host}}</p>
             <p>At {{event.time}}</p>

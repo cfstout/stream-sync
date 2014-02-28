@@ -75,12 +75,19 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http',
 
 streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 
     function($scope, $http) {
-        $http.get('event/create', params)
-            .success(function (data, status) {
-                console.log("SUCCESS");
-            })
-            .error(function (data, status) {
-                console.log("ERROR");
-            });
+        $scope.events = [];
+        $scope.getList = function() {
+            var params = {};
+            console.log("controller on the front end");
+            $http.get('event/list', params)
+                .success(function (data, status) {
+                    console.log("SUCCESS");
+                    $scope.events = data.event;
+                })
+                .error(function (data, status) {
+                    console.log("ERROR");
+                });
         };
+        $scope.getList();
+
     }]); 
