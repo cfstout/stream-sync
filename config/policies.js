@@ -16,7 +16,7 @@ module.exports.policies = {
   '*': true,
   UserController: {
   	logged_in: 'isAuthenticated'
-  }
+  },
   EventController: {
   	get_events_by_creator: 'isAuthenticated'
   }
