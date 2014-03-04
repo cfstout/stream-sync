@@ -87,9 +87,10 @@ module.exports = {
 	* 	@return:
 	* 		string message: descriptive message regarding status
 	* 		integer status: http response status
+	*/
 	
 	get_events_by_creator: function (req, res) {
-		Event.get_events_by_creator({
+		Event.find({
 			creator: req.user
 		}).done(function (err, event) {
 			if (err) {
@@ -97,13 +98,13 @@ module.exports = {
 				return res.send({status: 401}, 401);
 			}
 			else {
-				return res.send({}, 200)
+				return res.send({events: event}, 200);
 			}
 
 			
 		});
 	},
-*/
+
 	/**
 	* Overrides for the settings in `config/controllers.js`
 	* (specific to EventController)

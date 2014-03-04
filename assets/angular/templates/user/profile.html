@@ -2,7 +2,7 @@
 <p>
 	Here are your hosted events: <input ng-model="query"><p>
 	<ul class="events">
-		<li ng-repeat = "event in events | filter: query">
+		<li ng-repeat = "event in current_user_created_events | filter: query">
 			{{event.name}}
 			{{event.creator}}
 		</li>
