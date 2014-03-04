@@ -101,3 +101,26 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http',
         $scope.get_events_by_creator();
 
     }]); 
+
+streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 
+    function($scope, $http) {
+        //List of events to display
+        $scope.events = [];
+        //Function to fetch lists from database
+        $scope.getList = function() {
+            var params = {};
+            $http.get('event/list', params)
+                .success(function (data, status) {
+                    console.log("SUCCESS");
+                    //set events list to data returned
+                    $scope.events = data.event;
+                })
+                .error(function (data, status) {
+                    console.log("ERROR");
+                });
+        };
+        //Calls the function to populate the event list
+        $scope.getList();
+
+    }]); 
+
