@@ -85,13 +85,13 @@ module.exports = {
 	*	@params:
 	* 		User creator: the creator of the event
 	* 	@return:
-	* 		string message: descriptive message regarding status
+	* 		Array of events: all events the user has created
 	* 		integer status: http response status
 	*/
 	
 	get_events_by_creator: function (req, res) {
 		Event.find({
-			creator: req.user
+			creator: req.user.username
 		}).done(function (err, event) {
 			if (err) {
 				console.log(err);

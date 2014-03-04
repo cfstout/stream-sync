@@ -76,7 +76,8 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http',
 streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 
     function($scope, $http) {
         $scope.current_user = {};
-        $scope.logged_in = function(){
+        // returns the User object of the currently logged in User
+        $scope.logged_in = function(){ 
             $http.get('user/logged_in')
                 .success(function(data, status){
                     console.log(data);
@@ -89,6 +90,7 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http',
         $scope.logged_in();
 
         $scope.current_user_created_events = [];
+        // returns the events created by the current user
         $scope.get_events_by_creator = function(){
             $http.get('event/get_events_by_creator')
                 .success(function(data, status){
