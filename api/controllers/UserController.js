@@ -64,17 +64,22 @@ module.exports = {
 	*/
 
 	auth_local: function (req, res) {
-		console.log("User Authenticated");
 		passport.authenticate('local', function(err, user, info) {
 			if (err || !user) return res.send({
 				message: err + " User could not be authenticated",
 				status: 401
 			}, 401);
-			return res.send({
-				user: user,
-				message: "User authenticated successfully!",
-				status: 200,
-			}, 200);
+			req.logIn(user, function(err) {
+				if (err) return res.send({
+					message: err + " User could not be authenticated",
+					status: 401
+				}, 401);
+				return res.send({
+					user: user,
+					message: "User authenticated successfully!",
+					status: 200,
+				}, 200);
+			});
 		})(req, res);
 	},
 

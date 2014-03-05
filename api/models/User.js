@@ -26,9 +26,7 @@ module.exports = {
 		},
 		/* checks to see if a password matches the stored hash */
 		validPassword: function(password) {
-			bcrypt.compare(password, this.password, function(err, res) {
-				return res;
-			});
+			return bcrypt.compareSync(password, this.password);
 		},
 		/* removes password from object before returning it to user */
 		toJSON: function() {

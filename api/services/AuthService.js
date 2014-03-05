@@ -9,15 +9,13 @@ var passport = require('passport'),
 */
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    console.log('Strategy used');
     User.findOne({ username: username }, function (err, user) {
       if (err) return done(err); 
       if (!user) {
-        console.log('Strat Not User');
         return done(null, false, { message: 'Incorrect username.' });
       }
+      console.log(user.validPassword(password));
       if (!user.validPassword(password)) {
-        console.log('Strat Not Password');
         return done(null, false, { message: 'Incorrect password.' });
       }
       console.log('Worked');
