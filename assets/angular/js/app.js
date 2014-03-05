@@ -4,6 +4,7 @@
 
 var streamSyncApp = angular.module('streamSyncApp', [
   'ngRoute',
+  'streamSyncServices',
   'streamSyncControllers'
 ]);
 

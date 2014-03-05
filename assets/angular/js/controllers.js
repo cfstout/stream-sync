@@ -7,25 +7,15 @@ var streamSyncControllers = angular.module('streamSyncControllers', []);
 /**
 *   Login form [templates/user/login]
 */
-streamSyncControllers.controller('LoginCtrl', ['$scope', '$http', '$location',
-  function($scope, $http, $location) {
+streamSyncControllers.controller('LoginCtrl', ['$scope', 'user',
+  function($scope, user) {
     // Parameters to Request
-    $scope.username;
-    $scope.password;
+    $scope.username = "";
+    $scope.password = "";
 
     //Request to server to perform action
     $scope.submit = function() {
-    	var params = {
-    		username: this.username,
-    		password: this.password
-    	};
-    	$http.post('/login/local', params)
-    		.success(function (data, status) {
-    			$location.path('/profile');
-    		})
-    		.error(function (data, status) {
-    			console.log("ERROR");
-    		});
+        user.login(this.username, this.password);
     };
 
   }]);
@@ -33,27 +23,16 @@ streamSyncControllers.controller('LoginCtrl', ['$scope', '$http', '$location',
 /**
 *   Signup form [templates/user/signup]
 */
-streamSyncControllers.controller('SignupCtrl', ['$scope', '$http', '$location',
-  function($scope, $http, $location) {
+streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
+  function($scope, user) {
     // Parameters to Request
-    $scope.username;
-    $scope.password;
-    $scope.loc
+    $scope.username = "";
+    $scope.password = "";
+    $scope.loc = "";
 
     //Request to server to perform action
     $scope.submit = function() {
-    	var params = {
-    		username: this.username,
-    		password: this.password,
-            loc: this.loc
-    	};
-    	$http.post('/signup', params)
-    		.success(function (data, status) {
-    			$location.path('/profile');
-    		})
-    		.error(function (data, status) {
-    			console.log("ERROR");
-    		});
+    	user.signup(this.username, this.password, this.loc);
     };
 
   }]);
@@ -75,21 +54,13 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http',
         };
     }]); 
 
-streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 
-    function($scope, $http) {
+streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 'user',
+    function($scope, $http, user) {
         $scope.current_user = {};
-        // returns the User object of the currently logged in User
-        $scope.logged_in = function(){ 
-            $http.get('user/logged_in')
-                .success(function(data, status){
-                    console.log(data);
-                    $scope.current_user = data.user;
-                })
-                .error(function(data, status){
-                    console.log("ERROR");
-                });
-            };
-        $scope.logged_in();
+        user.logged_in()
+            .success(function(data, status) {
+                $scope.current_user = data.user;
+            });
 
         $scope.current_user_created_events = [];
         // returns the events created by the current user

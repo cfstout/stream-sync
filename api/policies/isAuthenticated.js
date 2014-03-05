@@ -18,6 +18,6 @@ module.exports = function(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	} else {
-		return res.send({status: 401});
+		return res.send({status: 401}, 401);
 	}
 };
