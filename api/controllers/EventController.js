@@ -29,7 +29,8 @@ module.exports = {
 	create: function (req, res) {
 		Event.create({
 			name: req.param('name'),
-			creator: req.user.username
+			creator: req.user.username,
+			loc: req.user.loc 
 		}).done(function (err, event) {
 			if (err) {
 				console.log(err);
@@ -70,7 +71,7 @@ module.exports = {
 							return res.send({status: 403}, 403);
 					    }
 					    else {
-					    	console.log("Event created: " + event.name);
+					    	console.log("Event created: " + event.creator + " loc: "+event.loc);
 							return res.send({event: event, status: 200}, 200);
 					    }
 					  });

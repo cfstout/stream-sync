@@ -15,6 +15,15 @@
           <label>Password</label>
           <input type="password" placeholder="password" id="password-input" ng-model="password">
         </div>
+        <div class="pure-control-group">
+          <label>City</label>
+          <select ng-model="loc">
+            <option value="Atlanta">Atlanta</option>
+            <option value="San Francisco">San Francisco</option>
+            <option value="New York City">New York City</option>
+            <option value="Chicago">Chicago</option>
+          </select>
+        </div>
         <div class="push-right default-v-padding">
           <button type="submit" class="pure-button" id="submit-button" ng-click="submit()">Signup</button>
           <span class="tabbed-left">or <a href="#/login">Login</a></span>

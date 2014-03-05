@@ -38,12 +38,14 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', '$http', '$location',
     // Parameters to Request
     $scope.username;
     $scope.password;
+    $scope.loc
 
     //Request to server to perform action
     $scope.submit = function() {
     	var params = {
     		username: this.username,
-    		password: this.password
+    		password: this.password,
+            loc: this.loc
     	};
     	$http.post('/signup', params)
     		.success(function (data, status) {

@@ -27,6 +27,9 @@ module.exports = {
 		},
 		date: {
 			type: 'date'
+		},
+		loc: {
+			type: 'string'
 		}
 
 	},

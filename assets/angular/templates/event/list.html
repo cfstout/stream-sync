@@ -17,6 +17,7 @@
           <option value="name">Event Title</option>
           <option value="age">Newest</option>
           <option value="creator">Event Host</option>
+          <option value="location">Event Location</option>
         </select>
 
       </div>
@@ -27,6 +28,7 @@
           <li ng-repeat="event in events | filter:query | orderBy:orderProp">
             {{event.name}}
             <p>Hosted by {{event.creator}}</p>
+            <p>Located at {{event.loc}}</p>
             <!--<p>At {{event.time}}</p>-->
           </li>
         </ul>

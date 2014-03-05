@@ -28,7 +28,8 @@ module.exports = {
 	signup: function (req, res) {
 		User.create({
 			username: req.param('username'),
-			password: req.param('password')
+			password: req.param('password'),
+			loc: req.param('loc')
 		}).done(function(err, user) {
 			if (err || (typeof user === 'undefined')) {
 				return res.send({

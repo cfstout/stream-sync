@@ -20,6 +20,10 @@ module.exports = {
 			minLength: '6',
 			required: true
 		},
+		loc: {
+			type: 'string',
+			required: true
+		},
 		/* checks to see if a password matches the stored hash */
 		validPassword: function(password) {
 			bcrypt.compare(password, this.password, function(err, res) {
