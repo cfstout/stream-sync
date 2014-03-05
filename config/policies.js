@@ -15,8 +15,12 @@ module.exports.policies = {
   // (`true` allows public access) 
   '*': true,
 
-  EventController:{
-  	create:'isAuthenticated'
+  UserController: {
+  	logged_in: 'isAuthenticated'
+  },
+  EventController: {
+  	get_events_by_creator: 'isAuthenticated',
+    create:'isAuthenticated'
   }
   
 };

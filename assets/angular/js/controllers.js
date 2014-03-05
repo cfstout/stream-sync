@@ -21,7 +21,7 @@ streamSyncControllers.controller('LoginCtrl', ['$scope', '$http', '$location',
     	};
     	$http.post('/login/local', params)
     		.success(function (data, status) {
-    			$location.path('/');
+    			$location.path('/profile');
     		})
     		.error(function (data, status) {
     			console.log("ERROR");
@@ -47,7 +47,7 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', '$http', '$location',
     	};
     	$http.post('/signup', params)
     		.success(function (data, status) {
-    			$location.path('/');
+    			$location.path('/profile');
     		})
     		.error(function (data, status) {
     			console.log("ERROR");
@@ -73,6 +73,35 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http',
         };
     }]); 
 
+streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 
+    function($scope, $http) {
+        $scope.current_user = {};
+        // returns the User object of the currently logged in User
+        $scope.logged_in = function(){ 
+            $http.get('user/logged_in')
+                .success(function(data, status){
+                    console.log(data);
+                    $scope.current_user = data.user;
+                })
+                .error(function(data, status){
+                    console.log("ERROR");
+                });
+            };
+        $scope.logged_in();
+
+        $scope.current_user_created_events = [];
+        // returns the events created by the current user
+        $scope.get_events_by_creator = function(){
+            $http.get('event/get_events_by_creator')
+                .success(function(data, status){
+                    console.log(data);
+                    $scope.current_user_created_events = data.events;
+                });
+            };
+        $scope.get_events_by_creator();
+
+    }]); 
+
 streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 
     function($scope, $http) {
         //List of events to display
@@ -94,3 +123,4 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', '$http',
         $scope.getList();
 
     }]); 
+

@@ -80,6 +80,31 @@ module.exports = {
 		});
 	},
 
+	/**
+	*	Returns events created by passed in user
+	*	@params:
+	* 		User creator: the creator of the event
+	* 	@return:
+	* 		Array of events: all events the user has created
+	* 		integer status: http response status
+	*/
+	
+	get_events_by_creator: function (req, res) {
+		Event.find({
+			creator: req.user.username
+		}).done(function (err, event) {
+			if (err) {
+				console.log(err);
+				return res.send({status: 401}, 401);
+			}
+			else {
+				return res.send({events: event}, 200);
+			}
+
+			
+		});
+	},
+
 	list: function(req, res){
 		Event.find().done(function(err,events){
 			if(err){
@@ -95,6 +120,7 @@ module.exports = {
 			}
 		});
 	},
+
 	/**
 	* Overrides for the settings in `config/controllers.js`
 	* (specific to EventController)
