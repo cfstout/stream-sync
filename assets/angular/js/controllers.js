@@ -139,3 +139,20 @@ streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
       $scope.format = $scope.formats[0];
     }]);
 
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song',
+  function($scope, song) {
+    // Parameters to Request
+    $scope.query = "";
+
+    //Request to server to perform action
+    $scope.search = function() {
+        song.search_youtube(this.query)
+            .success(function (data, status) {
+                console.log(data.list);
+            })
+            .error(function (data, status) {
+                console.log("error");
+            })
+    };
+
+  }]);

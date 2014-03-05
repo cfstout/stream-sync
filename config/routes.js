@@ -46,6 +46,13 @@ module.exports.routes = {
   'get /event/list': {
     controller: 'EventController',
     action: 'list'
+  },
+
+  // SONGS
+
+  'get /song/search/youtube/:query': {
+    controller: 'SongController',
+    action: 'search_youtube'    
   }
 
 

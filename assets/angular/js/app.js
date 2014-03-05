@@ -30,12 +30,16 @@ streamSyncApp.config(['$routeProvider',
         controller: 'EventCreateCtrl'
       })
       .when('/profile', {
-	      templateUrl: 'views/user/profile',
-	      controller: 'ProfileCtrl'
+        templateUrl: 'views/user/profile',
+        controller: 'ProfileCtrl'
       })
       .when('/event/list', {
         templateUrl: 'views/event/list',
         controller: 'EventListCtrl'
+      })
+      .when('/event/playback', {
+        templateUrl: 'views/event/playback',
+        controller: 'PlayBackCtrl'
       })
       .otherwise({
         redirectTo: '/'
