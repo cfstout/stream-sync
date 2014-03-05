@@ -1,4 +1,24 @@
-<input ng-model="name" type="text">Event Name</input>
-<!--><input ng-model="date" type ="text">Event date </input>
-<input ng-model="time" type ="select"><-->
-<button ng-click="submit()">Submit</button>
+<html>
+<!--<head>
+	<title>Create a new Event</title>
+	<script LANGUAGE="JavaScript" SRC="/assets/angular/js/CalendarPopup.js"></script>
+	<script LANGUAGE="JavaScript">
+	var cal = new CalendarPopup();
+	</script>
+</head>-->
+<body ng-controller="EventCreateCtrl">
+	<input ng-model="name" type="text">Event Name</input>
+	<button ng-click="submit()">Submit</button>
+
+	<!--<div>
+
+		<FORM NAME="Date">
+		<INPUT TYPE="text" NAME="date1" VALUE="" SIZE=25>
+		<A HREF="#"
+		   onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;"
+		   NAME="anchor1" ID="anchor1">select</A>
+		</FORM>
+	</div>-->
+</body>
+</html>
+
