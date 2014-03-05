@@ -29,7 +29,7 @@ module.exports = {
 	create: function (req, res) {
 		Event.create({
 			name: req.param('name'),
-			creator: 'test'
+			creator: req.user.username
 		}).done(function (err, event) {
 			if (err) {
 				console.log(err);

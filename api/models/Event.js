@@ -21,9 +21,12 @@ module.exports = {
 		},
 		playList: {
 			type: 'string'
-		}
+		},
 		time: {
-			type: 'float'
+			type: 'time'
+		},
+		date: {
+			type: 'date'
 		}
 
 	},
