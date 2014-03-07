@@ -42,3 +42,12 @@ streamSyncServices.factory('user', ['$http', '$location',
                 }
             };
 	}]);
+
+streamSyncServices.factory('song', ['$http',
+    function($http) {
+        return {
+            search_youtube: function(query) {
+                    return $http.get('song/search/youtube/'+query);
+                }
+            };
+    }]);
