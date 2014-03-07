@@ -1,2 +1,8 @@
 <input ng-model="query" type="text">
 <button ng-click="search()">Search</button>
+<ul>
+    <li ng-repeat="result in results">
+        {{result.artist}} - {{result.title}} [{{result.source_id}} ({{result.source}})]
+        <a ng-click="selectResult($index)">Click</a>
+    </li>
+</ul>

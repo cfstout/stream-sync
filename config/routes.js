@@ -50,9 +50,9 @@ module.exports.routes = {
 
   // SONGS
 
-  'get /song/search/youtube/:query': {
+  'get /song/search/:source/:query': {
     controller: 'SongController',
-    action: 'search_youtube'    
+    action: 'search'    
   }
 
 

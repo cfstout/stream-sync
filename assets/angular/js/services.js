@@ -64,9 +64,67 @@ streamSyncServices.factory('event', ['$http','$location',
 
 streamSyncServices.factory('song', ['$http',
     function($http) {
+
+        function processTitle(title) {
+            var segments = title.split(' - ');
+            var result = {};
+            if (segments.length < 2) {
+                result = {
+                    title: title,
+                    artist: ''
+                };
+            } else if (segments.length > 2) {
+                result = {
+                    title: segments.splice(1, segments.length).join(' - '),
+                    artist: segments[0]
+                };
+            } else {
+                result = {
+                    title: segments[1],
+                    artist: segments[0]
+                };
+            }
+            return result;
+        }
+
         return {
-            search_youtube: function(query) {
-                    return $http.get('song/search/youtube/'+query);
+            search: {
+                    youtube: function(query) {
+                        return $http.get('song/search/youtube/'+query);
+                    },
+                    soundcloud: function(query) {
+                        return $http.get('song/search/soundcloud/'+query);
+                    }
+                },
+            process: {
+                    youtube: function(items) {
+                        var results = [];
+                        var track = {};
+                        for (var i = 0; i < 5; i++) {
+                            track = processTitle(items[i].snippet.title);
+                            results[i] = {
+                                title: track.title,
+                                artist: track.artist,
+                                source: 'youtube',
+                                source_id: items[i].id.videoId
+                            };
+                        }
+                        return results;
+                    },
+                    soundcloud: function(items) {
+                        var results = [];
+                        var track = {};
+                        for (var i = 0; i < 5; i++) {
+                            track = processTitle(items[i].title);
+                            results[i] = {
+                                title: track.title,
+                                artist: track.artist,
+                                source: 'soundcloud',
+                                source_id: items[i].id
+                            };
+                        }
+                        return results;
+                    }
                 }
             };
     }]);

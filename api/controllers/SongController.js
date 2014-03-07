@@ -19,12 +19,24 @@ var https = require('https');
 
 module.exports = {
     
-    search_youtube: function(req, res) {
+    search: function(req, res) {
         var query = req.param('query');
+        var source = req.param('source');
 
-        var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet'+
-        '&key=AIzaSyD6w_9FIvUHw-7WAvgMBiANyVVdeuvAUfg&order=relevance&maxResults=10'+
-        '&type=video&videoEmbeddable=true&topic=/m/0kpv0g&q='+query;
+        var url = '';
+
+        if (source == 'youtube') {
+            url = 'https://www.googleapis.com/youtube/v3/search?part=snippet'+
+            '&key=AIzaSyD6w_9FIvUHw-7WAvgMBiANyVVdeuvAUfg&order=relevance&maxResults=5'+
+            '&fields=items(id,snippet)&type=video&videoEmbeddable=true&topic=/m/0kpv0g&q=';
+        } else if (source == 'soundcloud') {
+            url = 'https://api.soundcloud.com/tracks.json'+
+            '?client_id=9be920a0587219cd0d35a351b4366c5d&q=';
+        } else {
+            return res.send({error: 'invalid source', status: 500}, 500);
+        }
+
+        url = url + query;
 
         https.get(url, function(response) {
             var body = "";
