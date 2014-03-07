@@ -21,19 +21,19 @@ module.exports = {
     
     search: function(req, res) {
         var query = req.param('query');
-        var site = req.param('site');
+        var source = req.param('source');
 
         var url = '';
 
-        if (site == 'youtube') {
+        if (source == 'youtube') {
             url = 'https://www.googleapis.com/youtube/v3/search?part=snippet'+
-            '&key=AIzaSyD6w_9FIvUHw-7WAvgMBiANyVVdeuvAUfg&order=relevance&maxResults=10'+
+            '&key=AIzaSyD6w_9FIvUHw-7WAvgMBiANyVVdeuvAUfg&order=relevance&maxResults=5'+
             '&fields=items(id,snippet)&type=video&videoEmbeddable=true&topic=/m/0kpv0g&q=';
-        } else if (site == 'soundcloud') {
+        } else if (source == 'soundcloud') {
             url = 'https://api.soundcloud.com/tracks.json'+
             '?client_id=9be920a0587219cd0d35a351b4366c5d&q=';
         } else {
-            return res.send({error: 'invalid site', status: 500}, 500);
+            return res.send({error: 'invalid source', status: 500}, 500);
         }
 
         url = url + query;

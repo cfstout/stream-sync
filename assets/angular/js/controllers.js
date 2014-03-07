@@ -141,25 +141,30 @@ streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
 
 streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song',
   function($scope, song) {
-    // Parameters to Request
+    // Search objects
     $scope.query = "";
+    $scope.results = [];
+    $scope.selectedResult = null;
 
-    // Search Results
-    $scope.results = {
-        youtube: [],
-        soundcloud: []
-    };
+    // Toggle Search Modes
+    $scope.searchModeOn = function() { this.results = []; };
+    $scope.searchModeOff = function() { this.results = null; };
 
-    //Request to server to perform action
+    //Request to server to search for a song
     $scope.search = function() {
+        this.results = [];
         song.search.youtube(this.query)
             .success(function (data, status) {
-                $scope.results.youtube = data.list.items;
+                $scope.results = $scope.results.concat(song.process.youtube(data.list.items));
             });
         song.search.soundcloud(this.query)
             .success(function (data, status) {
-                $scope.results.soundcloud = data.list;
+                $scope.results = $scope.results.concat(song.process.soundcloud(data.list));
             });
     };
+
+    // Select a Result
+    $scope.selectResult = function(index) { this.selectedResult = this.results[index]; };
+    $scope.unselectResult = function() { this.selectedResult = null; };
 
   }]);

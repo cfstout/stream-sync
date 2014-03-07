@@ -1,14 +1,8 @@
 <input ng-model="query" type="text">
 <button ng-click="search()">Search</button>
-<h3>Youtube</h3>
 <ul>
-    <li ng-repeat="result in results.youtube">
-        {{result.id}}
-    </li>
-</ul>
-<h3>Soundcloud</h3>
-<ul>
-    <li ng-repeat="result in results.soundcloud">
-        {{result.id}}
+    <li ng-repeat="result in results">
+        {{result.artist}} - {{result.title}} [{{result.source_id}} ({{result.source}})]
+        <a ng-click="selectResult($index)">Click</a>
     </li>
 </ul>
