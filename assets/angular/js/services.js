@@ -43,6 +43,25 @@ streamSyncServices.factory('user', ['$http', '$location',
             };
 	}]);
 
+streamSyncServices.factory('event', ['$http','$location',
+    function($http, $location){
+        return {
+            create: function(eventName) {
+                var params = {
+                    eventName: eventName
+                };
+                return $http.post('event/create',params)
+                    .success(function (data, status){
+                        $location.path('event/list');
+                    })
+                    .error(function (data, status){
+                        console.log("ERROR");
+                    });
+            }
+
+        };
+    }]);
+
 streamSyncServices.factory('song', ['$http',
     function($http) {
         return {

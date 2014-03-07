@@ -14,6 +14,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
     'default': 'mongo',
      mongo: {
        module   : 'sails-mongo',
-       url      : mongoUri
+       url      : mongoUri,
+       host     : 'localhost'
     }
   };

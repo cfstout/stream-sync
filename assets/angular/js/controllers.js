@@ -37,20 +37,14 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
 
   }]);
 
-streamSyncControllers.controller('EventCreateCtrl', ['$scope', '$http', 
-    function($scope, $http) {
-        $scope.name = "";
+streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 
+    function($scope, event) {
+        //paramaters to request
+        $scope.eventName = "";
+
+        //request server to perform action
         $scope.submit = function() {
-            var params = {
-                name: this.name
-            };
-            $http.post('event/create', params)
-                .success(function (data, status) {
-                    console.log("SUCCESS");
-                })
-                .error(function (data, status) {
-                    console.log("ERROR");
-                });
+           event.create(this.eventName);
         };
     }]); 
 

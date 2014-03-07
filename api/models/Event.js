@@ -10,14 +10,16 @@ module.exports = {
 
 	attributes: {
 		
-		name: {
-			type: 'string'
+		eventName: {
+			type: 'string',
+			required: true 
 		},
 		memberList: {
 			type: 'string'
 		},
 		creator: {
-			type: 'string'
+			type: 'string',
+			required: true
 		},
 		playList: {
 			type: 'string'

@@ -28,7 +28,7 @@ module.exports = {
 	*/
 	create: function (req, res) {
 		Event.create({
-			name: req.param('name'),
+			eventName: req.param('eventName'),
 			creator: req.user.username,
 			loc: req.user.loc 
 		}).done(function (err, event) {
