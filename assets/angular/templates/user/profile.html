@@ -1,16 +1,18 @@
+<ng-include src="'angular/templates/nav/profileNav.html'"></ng-include>
+
 <h3> Hello, {{current_user.username}} </h3>
 <div>Current city: {{current_user.loc}}<div>
-	<select ng-model='loc' title="Update City">
-		<option selected disabled>Update City</option>
-		<option value="Atlanta">Atlanta</option>
-        <option value="San Francisco">San Francisco</option>
-        <option value="New York City">New York City</option>
-        <option value="Chicago">Chicago</option>
-    </select>
+	
 <p>
-	Here are your hosted events: <input ng-model="query"></p>
+	Here are your hosted events: 
+	<input ng-model="query" placeholder="Filter">
 	<ul class="events">
 		<li ng-repeat = "event in current_user_created_events | filter: query">
 			{{event.name}}
 		</li>
 	</ul>
+</p>
+
+  <a href="#/event/create">New Event</a>
+
+
