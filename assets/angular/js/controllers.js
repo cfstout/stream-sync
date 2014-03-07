@@ -144,15 +144,22 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song',
     // Parameters to Request
     $scope.query = "";
 
+    // Search Results
+    $scope.results = {
+        youtube: [],
+        soundcloud: []
+    };
+
     //Request to server to perform action
     $scope.search = function() {
-        song.search_youtube(this.query)
+        song.search.youtube(this.query)
             .success(function (data, status) {
-                console.log(data.list);
-            })
-            .error(function (data, status) {
-                console.log("error");
-            })
+                $scope.results.youtube = data.list.items;
+            });
+        song.search.soundcloud(this.query)
+            .success(function (data, status) {
+                $scope.results.soundcloud = data.list;
+            });
     };
 
   }]);
