@@ -4201,9 +4201,15 @@ striping:
 }
 
 /* 0.2.0 STYLING */
+/* line 100, ../scss/app.scss */
+.hidden {
+  visibility: hidden;
+  display: none;
+}
+
 /* 1.0.0 ELEMENTS */
 /* 1.1.0 SEGMENTS */
-/* line 110, ../scss/app.scss */
+/* line 115, ../scss/app.scss */
 .segment {
   padding: 1.25em;
   -webkit-border-radius: 0.625em;

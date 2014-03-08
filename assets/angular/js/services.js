@@ -125,6 +125,16 @@ streamSyncServices.factory('song', ['$http',
                         }
                         return results;
                     }
+                },
+            createRemoteSong: function(song) {
+                    return $http.post('song/create/remote', song);
                 }
             };
+    }]);
+
+streamSyncServices.factory('playlist', ['$http','$location',
+    function($http, $location){
+        return {
+
+        };
     }]);

@@ -1,8 +1,20 @@
-<input ng-model="query" type="text">
-<button ng-click="search()">Search</button>
-<ul>
-    <li ng-repeat="result in results">
-        {{result.artist}} - {{result.title}} [{{result.source_id}} ({{result.source}})]
-        <a ng-click="selectResult($index)">Click</a>
-    </li>
-</ul>
+<button ng-click="searchModeOn()" ng-class="results === null ? '' : 'hidden'">Search</button>
+<div ng-class="results === null || selectedResult !== null ? 'hidden' : ''">
+    <button ng-click="searchModeOff()">Back</button>
+    <input ng-model="query" type="text">
+    <button ng-click="search()">Search</button>
+    <ul>
+        <li ng-repeat="result in results">
+            {{result.artist}} - {{result.title}} [{{result.source_id}} ({{result.source}})]
+            <a ng-click="selectResult($index)">Click</a>
+        </li>
+    </ul>
+</div>
+<div ng-class="results !== null && selectedResult !== null ? '' : 'hidden'">
+    <button ng-click="unselectResult()">Back</button>
+    <form>
+        <input ng-model='selectedResult.title'>
+        <input ng-model='selectedResult.artist'>
+        <button ng-click="addSelectedSong()">Submit</button>
+    </form>
+</div>

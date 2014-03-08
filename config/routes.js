@@ -53,6 +53,10 @@ module.exports.routes = {
   'get /song/search/:source/:query': {
     controller: 'SongController',
     action: 'search'    
+  },
+  'post /song/create/remote': {
+    controller: 'SongController',
+    action: 'create_remote'
   }
 
 

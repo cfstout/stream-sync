@@ -149,20 +149,20 @@ streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
       $scope.format = $scope.formats[0];
     }]);
 
-streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song',
-  function($scope, song) {
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song', 'playlist',
+  function($scope, song, playlist) {
     // Search objects
     $scope.query = "";
-    $scope.results = [];
+    $scope.results = null;
     $scope.selectedResult = null;
 
     // Toggle Search Modes
-    $scope.searchModeOn = function() { this.results = []; };
-    $scope.searchModeOff = function() { this.results = null; };
+    $scope.searchModeOn = function() { $scope.results = []; };
+    $scope.searchModeOff = function() { $scope.results = null; };
 
     //Request to server to search for a song
     $scope.search = function() {
-        this.results = [];
+        $scope.results = [];
         song.search.youtube(this.query)
             .success(function (data, status) {
                 $scope.results = $scope.results.concat(song.process.youtube(data.list.items));
@@ -174,7 +174,17 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song',
     };
 
     // Select a Result
-    $scope.selectResult = function(index) { this.selectedResult = this.results[index]; };
-    $scope.unselectResult = function() { this.selectedResult = null; };
+    $scope.selectResult = function(index) { $scope.selectedResult = $scope.results[index]; };
+    $scope.unselectResult = function() { $scope.selectedResult = null; };
+
+    // Adding Song
+    $scope.addSelectedSong = function() {
+        var db_song;
+        song.createRemoteSong(this.selectedResult)
+          .success(function (data, status) {
+              db_song = data.song;
+              console.log(db_song);
+          });
+    };
 
   }]);

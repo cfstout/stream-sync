@@ -1,5 +1,5 @@
 /**
- * Song
+ * Audio
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
@@ -8,12 +8,24 @@
 
 module.exports = {
 
-  attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
-  }
+	attributes: {
+		
+		source: {
+			type: 'string'
+		},
+		source_id: {
+			type: 'string'
+		},
+		title: {
+			type: 'string'
+		},
+		artist: {
+			type: 'string'
+		},
+		duration: {
+			type: 'integer'
+		}
+
+	}
 
 };

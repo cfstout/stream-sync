@@ -17,6 +17,7 @@
         "passport": "*",
         "passport-local": "*",
         "passport-facebook": "*",
+        "validator": "*",
         "bcrypt": "*",
         "socket-ntp": "*"
     },

@@ -97,6 +97,11 @@
 
 /* 0.2.0 STYLING */
 
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+
 @mixin border-radius($rad: $default-border-radius) {
 	-webkit-border-radius: em($rad);
 	-moz-border-radius: em($rad);
