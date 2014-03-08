@@ -41,6 +41,10 @@ streamSyncApp.config(['$routeProvider',
         templateUrl: 'views/event/playback',
         controller: 'PlayBackCtrl'
       })
+      .when('/logout', {
+        templateUrl: 'views/user/logout',
+        controller: 'LogoutCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

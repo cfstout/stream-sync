@@ -20,7 +20,8 @@ module.exports.policies = {
   },
   EventController: {
   	get_events_by_creator: 'isAuthenticated',
-    create:'isAuthenticated'
+    create:'isAuthenticated',
+    list: 'isAuthenticated'
   }
   
 };

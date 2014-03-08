@@ -37,10 +37,25 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
 
   }]);
 
-streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 
-    function($scope, event) {
+streamSyncControllers.controller('LogoutCtrl', ['$scope', '$http', '$location',
+  function($scope,$http,$location){
+    $scope.logout = function() {
+      $http.post('/logout')
+        .success(function (data, status){
+          console.log("SUCCESS");
+          $location.path('/login');
+        })
+        .error(function (data, status){
+          console.log("ERROR");
+        });
+    };
+  }]);
+
+streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
+    function($scope, event, user) {
         //paramaters to request
         $scope.eventName = "";
+        user.logged_in();
 
         //request server to perform action
         $scope.submit = function() {
@@ -69,10 +84,11 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 'user',
 
     }]); 
 
-streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 
-    function($scope, $http) {
+streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user',
+    function($scope, $http, user) {
         //List of events to display
         $scope.events = [];
+        user.logged_in();
         //Function to fetch lists from database
         $scope.getList = function() {
             var params = {};
