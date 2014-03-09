@@ -21,14 +21,15 @@ module.exports = {
 	*	Creates a new Event object
 	*	@params:
 	*		string name: the desired username
-	* 		User creator: the creator of the event
-	* 	@return:
-	* 		string message: descriptive message regarding status
-	* 		integer status: http response status
+	*		User creator: the creator of the event
+	*	@return:
+	*		string message: descriptive message regarding status
+	*		integer status: http response status
 	*/
 	create: function (req, res) {
 		Event.create({
-			eventName: req.param('eventName'),
+			name: req.param('eventName'),
+			slug: Sanitization.createSlug(req.param('eventName')),
 			creator: req.user.username,
 			loc: req.user.loc 
 		}).done(function (err, event) {
@@ -66,15 +67,14 @@ module.exports = {
 					* object to the user 
 					*/
 					event.save(function(err) {
-					    if (err) {
-					    	console.log(err);
+						if (err) {
+							console.log(err);
 							return res.send({status: 403}, 403);
-					    }
-					    else {
-					    	console.log("Event created: " + event.creator + " loc: "+event.loc);
+						} else {
+							console.log("Event created: " + event.creator + " loc: "+event.loc);
 							return res.send({event: event, status: 200}, 200);
-					    }
-					  });
+						}
+					});
 				});
 			});
 			
@@ -84,10 +84,10 @@ module.exports = {
 	/**
 	*	Returns events created by passed in user
 	*	@params:
-	* 		User creator: the creator of the event
-	* 	@return:
-	* 		Array of events: all events the user has created
-	* 		integer status: http response status
+	*		User creator: the creator of the event
+	*	@return:
+	*		Array of events: all events the user has created
+	*		integer status: http response status
 	*/
 	
 	get_events_by_creator: function (req, res) {

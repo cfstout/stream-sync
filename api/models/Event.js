@@ -10,9 +10,13 @@ module.exports = {
 
 	attributes: {
 		
-		eventName: {
+		name: {
 			type: 'string',
 			required: true 
+		},
+		slug: {
+			type: 'string',
+			required: true
 		},
 		memberList: {
 			type: 'string'
