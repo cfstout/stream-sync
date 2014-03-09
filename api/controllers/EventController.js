@@ -122,6 +122,18 @@ module.exports = {
 		});
 	},
 
+	join: function(req, res){
+		Event.findOne(req.eventID).done(function(err,events){
+			if(err){
+				return console.log(err);
+			}
+			else{
+				console.log("Joining event:", event);
+				return res.sent({event: event, status: 200},200);
+			}
+		});
+	},
+
 	/**
 	* Overrides for the settings in `config/controllers.js`
 	* (specific to EventController)

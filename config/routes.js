@@ -47,6 +47,10 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'list'
   },
+  'post /event/join': {
+    controller: 'EventController',
+    action: 'join'
+  },
 
   // SONGS
 

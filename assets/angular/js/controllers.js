@@ -88,6 +88,7 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user',
     function($scope, $http, user) {
         //List of events to display
         $scope.events = [];
+        $scope.selectedEvent = null;
         user.logged_in();
         //Function to fetch lists from database
         $scope.getList = function() {
@@ -105,6 +106,19 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user',
         //Calls the function to populate the event list
         $scope.getList();
 
+        $scope.joinEvent = function(index){
+          var params = {
+            eventID: this.events[index]._id
+          };
+          console.log(params('eventID'));
+          $http.post('event/join',params)
+            .success(function (data,status){
+              console.log("SUCCESS");
+            })
+            .error(function (data, status){
+              console.log("ERROR");
+            });
+        };
     }]); 
 
 streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
