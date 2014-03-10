@@ -98,11 +98,30 @@ module.exports = {
 				console.log(err);
 				return res.send({status: 401}, 401);
 			}
-			else {
-				return res.send({events: event}, 200);
-			}
+			return res.send({events: event}, 200);
+		});
+	},
 
+	join: function (req, res) {
+		// unsubscribe user from all previous events
+		Playlist.unsubscribe(req.socket);
+		MemberList.unsubscribe(req.socket);
+
+		// find current event
+		Event.findOne({
+			slug: req.param('slug')
+		}).done(function (err, event) {
+			if (err) {
+				console.log(err);
+				return res.send({error: error, status: 500}, 500);
+			}
 			
+			// subscribe the user to the playlist and memberlist
+			Playlist.subscribe(req.socket, event.playlist);
+			MemberList.subscribe(req.socket, event.memberList);
+
+			// return event if successful
+			return res.send({event: event}, 200);
 		});
 	},
 

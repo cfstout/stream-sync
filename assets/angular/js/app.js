@@ -37,7 +37,7 @@ streamSyncApp.config(['$routeProvider',
         templateUrl: 'views/event/list',
         controller: 'EventListCtrl'
       })
-      .when('/event/playback', {
+      .when('/event/:eventSlug', {
         templateUrl: 'views/event/playback',
         controller: 'PlayBackCtrl'
       })

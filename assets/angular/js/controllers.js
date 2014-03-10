@@ -149,8 +149,14 @@ streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
       $scope.format = $scope.formats[0];
     }]);
 
-streamSyncControllers.controller('PlayBackCtrl', ['$scope', 'song', 'playlist',
-  function($scope, song, playlist) {
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'song', 'playlist',
+  function($scope, $routeParams, event, song, playlist) {
+    $scope.event = {};
+    event.join($routeParams.eventSlug)
+      .success(function (data, status) {
+          $scope.event = data.event;
+      });
+
     // Search objects
     $scope.query = "";
     $scope.results = null;

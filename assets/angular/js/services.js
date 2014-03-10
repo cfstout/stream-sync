@@ -57,8 +57,10 @@ streamSyncServices.factory('event', ['$http','$location',
                     .error(function (data, status){
                         console.log("ERROR");
                     });
+            },
+            join: function(slug) {
+                return $http.put('event/' + slug + '/join');
             }
-
         };
     }]);
 
@@ -136,5 +138,12 @@ streamSyncServices.factory('playlist', ['$http','$location',
     function($http, $location){
         return {
 
+        };
+    }]);
+
+streamSyncServices.factory('memberlist', ['$http','$location',
+    function($http, $location){
+        return {
+            
         };
     }]);
