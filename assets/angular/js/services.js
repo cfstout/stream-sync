@@ -83,8 +83,10 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
         };
     }]);
 
-streamSyncServices.factory('song', ['$http',
-    function($http) {
+streamSyncServices.factory('song', ['$http', 'track',
+    function($http, track) {
+
+        var cur_track;
 
         function processTitle(title) {
             var segments = title.split(' - ');
@@ -109,6 +111,28 @@ streamSyncServices.factory('song', ['$http',
         }
 
         return {
+            initializePlayers: function(callback) {
+                var youtube_tag = document.createElement('script');
+                youtube_tag.src = "https://www.youtube.com/iframe_api";
+                var soundcloud_tag = document.createElement('script');
+                soundcloud_tag.src = "https://connect.soundcloud.com/sdk.js";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(youtube_tag, firstScriptTag);
+                firstScriptTag.parentNode.insertBefore(soundcloud_tag, firstScriptTag);
+
+                var players_check = setInterval(function() {
+                    if (youtube_player_ready && typeof SC != 'undefined') {
+                        clearInterval(players_check);
+                        SC.initialize({
+                            client_id: '9be920a0587219cd0d35a351b4366c5d'
+                        });
+                        callback();
+                    }
+                }, 100);
+                setTimeout(function() {
+                    clearInterval(players_check);
+                }, 10000);
+            },
             search: {
                     youtube: function(query) {
                         return $http.get('song/search/youtube/'+query);
@@ -149,6 +173,20 @@ streamSyncServices.factory('song', ['$http',
                 },
             createRemoteSong: function(song) {
                     return $http.post('song/create/remote', song);
+                },
+
+            initializeTrack: function(song) {
+                    switch (song.source) {
+                        case 'youtube':
+                            cur_track = new track.youtube(song);
+                            break;
+                        case 'soundcloud':
+                            cur_track = new track.soundcloud(song);
+                            break;
+                        default:
+                            console.log(song.source + ' is and invalid source');
+                            break;
+                    }
                 }
             };
     }]);
@@ -167,4 +205,43 @@ streamSyncServices.factory('memberlist', ['$http','$location',
         return {
             
         };
+    }]);
+
+streamSyncServices.factory('track', [
+    function () {
+
+        function YTtrack(song) {
+            this.song = song;
+            this.isReady = false;
+            this.player = new YT.player('ytplayer', {
+                height: 0,
+                width: 0,
+                videoId: song.source_id
+            });
+        }
+
+        YTtrack.prototype.play = function() {
+            this.player.play();
+        };
+
+        function SCtrack(song) {
+            this.song = song;
+            this.isReady = false;
+            var track = this;
+            SC.stream('/tracks/'+song.source_id, function(player) {
+                track.player = player;
+                track.isReady = true;
+                track.play();
+            });
+        }
+
+        SCtrack.prototype.play = function() {
+            this.player.play();
+        };
+
+        return {
+            youtube: YTtrack,
+            soundcloud: SCtrack
+        };
+
     }]);

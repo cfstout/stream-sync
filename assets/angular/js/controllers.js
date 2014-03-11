@@ -158,6 +158,18 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
                 $scope.user = data.user;
             });
 
+    $scope.initializePlayers = function() {
+      song.initializePlayers($scope.initializeTrack);
+    };
+
+    // initialize track
+    $scope.initializeTrack = function() {
+      var current = $scope.playlist.current;
+      if (current > -1) {
+        song.initializeTrack($scope.playlist.songs[current]);
+      }
+    };
+
     // initialize event
     $scope.event = {};
     $scope.memberlist = {};
@@ -167,6 +179,7 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
           $scope.event = data.event;
           $scope.memberlist = data.event.memberlist;
           $scope.playlist = data.event.playlist;
+          $scope.initializePlayers();
       });
 
     // Search objects
