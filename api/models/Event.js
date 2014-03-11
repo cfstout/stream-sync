@@ -18,14 +18,14 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
-		memberList: {
+		memberlist: {
 			type: 'string'
 		},
 		creator: {
 			type: 'string',
 			required: true
 		},
-		playList: {
+		playlist: {
 			type: 'string'
 		},
 		time: {

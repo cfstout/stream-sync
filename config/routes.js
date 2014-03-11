@@ -51,6 +51,16 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'join'
   },
+  'get /event/:slug/subscribe': {
+    controller: 'EventController',
+    action: 'subscribe'
+  },
+
+  // PLAYLIST
+  'put /playlist/:id/addSong': {
+    controller: 'PlayListController',
+    action: 'addSong'
+  },
 
   // SONGS
 

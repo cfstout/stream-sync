@@ -1,4 +1,4 @@
-{{slug}}
+<h1>{{event.name}}</h1>
 <button ng-click="searchModeOn()" ng-class="results === null ? '' : 'hidden'">Search</button>
 <div ng-class="results === null || selectedResult !== null ? 'hidden' : ''">
     <button ng-click="searchModeOff()">Back</button>
@@ -6,7 +6,7 @@
     <button ng-click="search()">Search</button>
     <ul>
         <li ng-repeat="result in results">
-            {{result.artist}} - {{result.title}} [{{result.source_id}} ({{result.source}})]
+            {{result.artist}} - {{result.title}} [({{result.source}})]
             <a ng-click="selectResult($index)">Click</a>
         </li>
     </ul>
@@ -19,3 +19,18 @@
         <button ng-click="addSelectedSong()">Submit</button>
     </form>
 </div>
+<h2>Playlist</h2>
+current: {{playlist.current}}
+<ul>
+    <li ng-repeat="song in playlist.songs">
+        {{song.artist}} - {{song.title}}
+    </li>
+</ul>
+<h2>Members</h2>
+<ul>
+    <li ng-repeat="member in memberlist.members">
+        {{member.username}}
+    </li>
+</ul>
+
+<h3>socket: {{connected}}</h3>

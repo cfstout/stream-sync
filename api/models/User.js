@@ -24,6 +24,10 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
+		event: {
+			type: 'string',
+			defaultsTo: ''
+		},
 		/* checks to see if a password matches the stored hash */
 		validPassword: function(password) {
 			return bcrypt.compareSync(password, this.password);
@@ -37,11 +41,11 @@ module.exports = {
 	},
 	/* hashes password before being saved in database */
 	beforeCreate: function(user, next) {
-	    bcrypt.hash(user.password, 10, function(err, hash) {
+		bcrypt.hash(user.password, 10, function(err, hash) {
 			if(err) return next(err);
 			user.password = hash;
 			next();
-    	});
-  	}
+		});
+	}
 
 };

@@ -17,6 +17,36 @@
 
 module.exports = {
 
+    addSong: function(req, res) {
+        var song = req.param('song');
+        PlayList.findOne(req.param('id')).done(function(err, playlist) {
+            if (err || typeof playlist == 'undefined') {
+                return res.send({error: err, status: 500}, 500);
+            }
+            playlist.songs.push(song);
+            var uninitialized = playlist.current < 0;
+            if (uninitialized) {
+                playlist.current = 0;
+            }
+            playlist.save(function(err) {
+                if (err) {
+                    return res.send({error: err, status: 500}, 500);
+                }
+                PlayList.publishUpdate(playlist.id, {
+                    meta: 'song_added',
+                    song: song,
+                    songs: playlist.songs
+                });
+                if (uninitialized) {
+                    PlayList.publishUpdate(playlist.id, {
+                        meta: 'initialized',
+                        song: song
+                    });
+                }
+                return res.send({status: 200}, 200);
+            });
+        });
+    },
 
     /**
     * Overrides for the settings in `config/controllers.js`

@@ -45,22 +45,22 @@ module.exports = {
 			PlayList.create({
 				event: event.id,
 				songs: []
-			}).done(function(err, playList) {
+			}).done(function(err, playlist) {
 				if (err) {
 					return next(err);
 				}
-				event.playList = playList.id;
+				event.playlist = playlist.id;
 
 				MemberList.create({
 					event: event.id,
 					members: {},
 					host: event.creator
-				}).done(function(err, memberList) {
+				}).done(function(err, memberlist) {
 					if (err) {
 						console.log(err);
 						return res.send({status: 402}, 402);
 					}
-					event.memberList = memberList.id;
+					event.memberlist = memberlist.id;
 
 					/* 
 					* Adds attributes and returns successful
@@ -103,39 +103,90 @@ module.exports = {
 	},
 
 	join: function (req, res) {
-		// unsubscribe user from all previous events
-		Playlist.unsubscribe(req.socket);
-		MemberList.unsubscribe(req.socket);
 
 		// find current event
 		Event.findOne({
 			slug: req.param('slug')
 		}).done(function (err, event) {
-			if (err) {
+			if (err || typeof event == 'undefined') {
 				console.log(err);
 				return res.send({error: error, status: 500}, 500);
 			}
-			
-			// subscribe the user to the playlist and memberlist
-			Playlist.subscribe(req.socket, event.playlist);
-			MemberList.subscribe(req.socket, event.memberList);
 
-			// return event if successful
-			return res.send({event: event}, 200);
+			// save event as current event
+			req.user.event = event.id;
+			req.user.save(function(err) {
+				if (err) {
+					console.log(err);
+					return res.send({error: err, status: 500}, 500);
+				}
+			});
+
+			// find and populate memberlists and playlists
+			MemberList.findOne(event.memberlist).done(function(err, memberlist) {
+				if (err || typeof memberlist == 'undefined') {
+					console.log(err);
+					return res.send({error: err, status: 500}, 500);
+				} 
+				// add user to memberlist
+				memberlist.members[req.user.username] = req.user;
+				memberlist.save(function(err) {
+					if (err) {
+						console.log(err);
+						return res.send({error: err, status: 500}, 500);
+					} 
+					// publish added member to listeners
+					MemberList.publishUpdate(memberlist.id, {
+						meta: 'user_added',
+						member: req.user,
+						members: memberlist.members
+					});
+					event.memberlist = memberlist;
+
+					// get playlist
+					PlayList.findOne(event.playlist).done(function(err, playlist) {
+						if (err  || typeof playlist == 'undefined') {
+							console.log(err);
+							return res.send({error: err, status: 500}, 500);
+						}
+						event.playlist = playlist;
+
+						// return event if successful
+						return res.send({event: event}, 200);
+					});
+				});
+			});
+		});
+	},
+
+	subscribe: function(req, res) {
+		// unsubscribe user from all previous events
+		PlayList.unsubscribe(req.socket);
+		MemberList.unsubscribe(req.socket);
+
+		Event.findOne({slug: req.param('slug')}).done(function(err,event) {
+			if (err || typeof event == 'undefined') {
+				return res.send({error: err, status: 500}, 500);
+			}
+			// subscribe the user to the memberlist
+			MemberList.subscribe(req.socket, {id: event.memberlist});
+			// subscribe the user to the playlist
+			PlayList.subscribe(req.socket, {id: event.playlist});
+
+			return res.send({status: 200}, 200);
 		});
 	},
 
 	list: function(req, res){
 		Event.find().done(function(err,events){
-			if(err){
+			if (err) {
 				return console.log(err);
 			}	
 			/*
 			* If successsful logs the events found 
 			* and sends them to the front end
 			*/
-			else{
-				console.log("Events found:", events);
+			else {
 				return res.send({event: events, status: 200},200);
 			}
 		});

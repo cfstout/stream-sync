@@ -4,6 +4,24 @@
 
 var streamSyncServices = angular.module('streamSyncServices', []);
 
+streamSyncServices.factory('socket', ['$rootScope', 
+    function($rootScope) {
+        var socket = io.connect();
+        return {
+            on: function (eventName, callback) {
+                socket.on(eventName, function() {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        callback.apply(socket, args);
+                    });
+                });
+            },
+            execute: function(url) {
+                socket.get(url, function(res){});
+            }
+        };
+    }]);
+
 streamSyncServices.factory('user', ['$http', '$location',
 	function($http, $location) {
 		return {
@@ -43,8 +61,8 @@ streamSyncServices.factory('user', ['$http', '$location',
             };
 	}]);
 
-streamSyncServices.factory('event', ['$http','$location',
-    function($http, $location){
+streamSyncServices.factory('event', ['$http','$location', 'socket',
+    function($http, $location, socket){
         return {
             create: function(eventName) {
                 var params = {
@@ -59,6 +77,7 @@ streamSyncServices.factory('event', ['$http','$location',
                     });
             },
             join: function(slug) {
+                socket.execute('/event/' + slug + '/subscribe');
                 return $http.put('event/' + slug + '/join');
             }
         };
@@ -137,7 +156,9 @@ streamSyncServices.factory('song', ['$http',
 streamSyncServices.factory('playlist', ['$http','$location',
     function($http, $location){
         return {
-
+            addSong: function(playlist_id, song) {
+                return $http.put('/playlist/'+playlist_id+'/addSong', {song: song});
+            }
         };
     }]);
 

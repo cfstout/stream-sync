@@ -149,12 +149,24 @@ streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
       $scope.format = $scope.formats[0];
     }]);
 
-streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'song', 'playlist',
-  function($scope, $routeParams, event, song, playlist) {
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'song', 'playlist', 'memberlist', 'user', 'socket',
+  function($scope, $routeParams, event, song, playlist, memberlist, user, socket) {
+    // get logged in user
+    $scope.user = {};
+        user.logged_in()
+            .success(function(data, status) {
+                $scope.user = data.user;
+            });
+
+    // initialize event
     $scope.event = {};
+    $scope.memberlist = {};
+    $scope.playlist = {};
     event.join($routeParams.eventSlug)
       .success(function (data, status) {
           $scope.event = data.event;
+          $scope.memberlist = data.event.memberlist;
+          $scope.playlist = data.event.playlist;
       });
 
     // Search objects
@@ -188,9 +200,26 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
         var db_song;
         song.createRemoteSong(this.selectedResult)
           .success(function (data, status) {
-              db_song = data.song;
-              console.log(db_song);
+              playlist.addSong($scope.playlist.id, data.song);
           });
     };
+
+    $scope.socketFuncs = {
+      'playlist': {
+        song_added: function(data) {
+          $scope.playlist.songs = data.songs;
+        }
+      },
+      'memberlist': {
+        user_added: function(data) {
+          $scope.memberlist.members = data.members;
+        }
+      }
+    };
+
+    // socket stuff
+    socket.on('message', function(message) {
+      $scope.socketFuncs[message.model][message.data.meta](message.data);
+    });
 
   }]);
