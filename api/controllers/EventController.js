@@ -29,6 +29,8 @@ module.exports = {
 	create: function (req, res) {
 		Event.create({
 			name: req.param('eventName'),
+			date: req.param('date'),
+			time: req.param('time'),
 			slug: Sanitization.createSlug(req.param('eventName')),
 			creator: req.user.username,
 			loc: req.user.loc 

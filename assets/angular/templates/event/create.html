@@ -6,19 +6,23 @@
 	var cal = new CalendarPopup();
 	</script>
 </head>-->
-<body ng-controller="EventCreateCtrl">
-	<input ng-model="eventName" type="text">Event Name</input>
-	<button ng-click="submit()">Submit</button>
+<form name="EventCreate" ng-controller="EventCreateCtrl">
+	<h2>Create a new event!</h2>
+	<input ng-model="eventName" type="text"> Event Name</input>
 
-	<!--<div>
+	<div>
+		<h3>Select Date</h3>
+		<input type="date" name="dateInput" ng-model="date" placeholder="2014-01-01" min="2014-01-01" required>
+	</div>
 
-		<FORM NAME="Date">
-		<INPUT TYPE="text" NAME="date1" VALUE="" SIZE=25>
-		<A HREF="#"
-		   onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;"
-		   NAME="anchor1" ID="anchor1">select</A>
-		</FORM>
-	</div>-->
-</body>
+	<div>
+		<h3>Select Time</h3>
+		<input type ="time" name="timeInput" ng-model="time" placeholder="8:00" required>
+	</div>
+	
+	<div>
+		<button ng-click="submit()">Submit</button>
+	</div>
+</form>
 </html>
 

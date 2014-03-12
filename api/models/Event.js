@@ -29,7 +29,7 @@ module.exports = {
 			type: 'string'
 		},
 		time: {
-			type: 'time'
+			type: 'date'
 		},
 		date: {
 			type: 'date'

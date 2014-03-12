@@ -16,7 +16,7 @@
         Sort by:
         <select ng-model="orderProp">
           <option value="name">Event Title</option>
-          <option value="age">Newest</option>
+          <option value="date">Soonest</option>
           <option value="creator">Event Host</option>
           <option value="location">Event Location</option>
         </select>
@@ -27,10 +27,12 @@
 
         <ul class="Events">
           <li ng-repeat="event in events | filter:query | orderBy:orderProp">
-            <h4>{{event.eventName}}</h4>
+            <h4>{{event.name}}</h4>
             <dl>
               <dt>Hosted by {{event.creator}}</dt>
               <dt>Located at {{event.loc}}</dt>
+              <dt>Event on {{event.date | date: "MM/dd/yyyy"}}</dt>
+              <dt> at {{event.time | date: "HH:mm"}}</dt>
             </dl>
             <!--<p>At {{event.time}}</p>-->
           </li>

@@ -64,9 +64,12 @@ streamSyncServices.factory('user', ['$http', '$location',
 streamSyncServices.factory('event', ['$http','$location', 'socket',
     function($http, $location, socket){
         return {
-            create: function(eventName) {
+            create: function(eventName, date, time) {
+                //console.log(time);
                 var params = {
-                    eventName: eventName
+                    eventName: eventName,
+                    date: date,
+                    time: time
                 };
                 return $http.post('event/create',params)
                     .success(function (data, status){

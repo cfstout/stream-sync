@@ -8,7 +8,7 @@
 	<input ng-model="query" placeholder="Filter">
 	<ul class="events">
 		<li ng-repeat = "event in current_user_created_events | filter: query">
-			{{event.eventName}}
+			{{event.name}}
 		</li>
 	</ul>
 </p>
