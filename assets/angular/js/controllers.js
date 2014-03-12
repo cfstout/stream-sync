@@ -48,14 +48,14 @@ streamSyncControllers.controller('NavCtrl', ['$scope', '$location', 'user',
 streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
     function($scope, event, user) {
         //paramaters to request
-        $scope.eventName = "";
+        $scope.name = "";
         $scope.date = new Date();
         $scope.time = new Date();
         user.logged_in();
 
         //request server to perform action
         $scope.submit = function() {
-           event.create(this.eventName, this.date, this.time);
+           event.create(this.name, this.date, this.time);
         };
     }]); 
 
@@ -98,7 +98,6 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user', 'e
         $scope.search = function() {
           event.search(this.query)
             .success(function(data, status) {
-              console.log(data);
               $scope.events = data.events;
             });
         };

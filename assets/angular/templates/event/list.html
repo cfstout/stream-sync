@@ -18,21 +18,15 @@
     </fieldset>
   </div>
 
-  <ul>
-    <li ng-repeat="event in events | filter:query | orderBy:orderProp">
-      <h4>{{event.name}}</h4>
-      <dl>
-        <dt>Hosted by {{event.creator}}</dt>
-        <dt>Located at {{event.loc}}</dt>
-        <dt>Event on {{event.date | date: "MM/dd/yyyy"}}</dt>
-        <dt> at {{event.time | date: "HH:mm"}}</dt>
-      </dl>
-      <!--<p>At {{event.time}}</p>-->
-    </li>
-  </ul>
+  <div class="pure-g-r full">
+    <div class="pure-u-1-3" ng-repeat="event in events">
+      <div class="segment grid-item">
+        <a ng-href="#/event/{{event.slug}}" class="pure-button push-right push-down-light">Join</a>
+        <h3>{{event.name}}</h3>
+        <h4>{{event.creator}} | {{event.loc}}</h4>
+      </div>
+    </div>
+  </div>
 
-</div>
-
-<a href="#/event/create">New Event</a>
 </div>
 

@@ -165,6 +165,12 @@ a:hover {
 	@extend .h-centered;
 }
 
+.grid-item {
+	margin: em(10);
+	@include v-padding(5);
+	@include h-padding(20);
+}
+
 /* 1.2.0 FORM */
 
 .pure-form {

@@ -88,7 +88,7 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
                 };
                 return $http.post('event/create',params)
                     .success(function (data, status){
-                        $location.path('event/list');
+                        $location.path('event/' + data.event.slug);
                     })
                     .error(function (data, status){
                         console.log("ERROR");

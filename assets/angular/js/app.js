@@ -46,6 +46,6 @@ streamSyncApp.config(['$routeProvider',
         controller: 'LogoutCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
   }]);

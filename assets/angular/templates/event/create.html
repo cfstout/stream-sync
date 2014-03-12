@@ -1,25 +1,33 @@
 <ng-include src="'angular/templates/nav/main.html'"></ng-include>
 
-
-<input ng-model="eventName" type="text">Event Name</input>
-<button ng-click="submit()">Submit</button>
-
-<form name="EventCreate" ng-controller="EventCreateCtrl">
-	<h2>Create a new event!</h2>
-	<input ng-model="eventName" type="text"> Event Name</input>
-
-	<div>
-		<h3>Select Date</h3>
-		<input type="date" name="dateInput" ng-model="date" placeholder="2014-01-01" min="2014-01-01" required>
-	</div>
-
-	<div>
-		<h3>Select Time</h3>
-		<input type ="time" name="timeInput" ng-model="time" placeholder="8:00" required>
-	</div>
-	
-	<div>
-		<button ng-click="submit()">Submit</button>
-	</div>
-</form>
+<div class="v-centered full-padded">
+  <div class="pure-g-r">
+    <ng-form class="pure-u-1-3 pure-form pure-form-stacked segment h-centered" ng-submit="submit()">
+      <fieldset>
+        <legend>Create Your Event</legend>
+        <div class="fieldset">
+          <label>Event Name</label>
+          <div class="input">
+            <input type="text" placeholder="Awesome Event"ng-model="name">
+          </div>
+        </div>
+        <div class="fieldset">
+          <label>Date</label>
+          <div class="input">
+            <input type="date" ng-model="date">
+          </div>
+        </div>
+        <div class="fieldset">
+          <label>Time</label>
+          <div class="input">
+            <input type="time" ng-model="time">
+          </div>
+        </div>
+        <div class="footer push-down">
+          <button type="submit" class="pure-button button-lg full" id="submit-button" ng-click="submit()">Create!</button>
+        </div>
+      </fieldset>
+    </ng-form>
+  </div>
+</div>
 
