@@ -1,34 +1,40 @@
-<!-- Retrieves Main Navigation -->
-<nav ng-include="'angular/templates/nav/main.html'"></nav>
-
 <!-- Signup Form -->
-<div class="v-centered">
+<div class="v-centered full-padded">
   <div class="pure-g-r">
-    <ng-form class="pure-u-1-3 pure-form pure-form-aligned segment">
+    <ng-form class="pure-u-1-3 pure-form pure-form-stacked segment h-centered" ng-submit="submit()">
       <fieldset>
-        <legend>Signup Credentials</legend>
-        <div class="pure-control-group">
+        <legend>Signup Today!</legend>
+        <div class="fieldset">
           <label>Username</label>
-          <input type="text" placeholder="username" id="username-input" ng-model="username">
+          <div class="input icon-left">
+            <input type="text" placeholder="username" id="username-input" ng-model="username">
+            <i class="fa fa-user"></i>
+          </div>
         </div>
-        <div class="pure-control-group">
+        <div class="fieldset">
           <label>Password</label>
-          <input type="password" placeholder="password" id="password-input" ng-model="password">
+          <div class="input icon-left">
+            <input type="password" placeholder="password" id="password-input" ng-model="password">
+            <i class="fa fa-key"></i>
+          </div>
         </div>
-        <div class="pure-control-group">
+        <div class="fieldset">
           <label>City</label>
-          <select ng-model="loc">
-            <option value="Atlanta">Atlanta</option>
-            <option value="San Francisco">San Francisco</option>
-            <option value="New York City">New York City</option>
-            <option value="Chicago">Chicago</option>
-          </select>
+          <div class="input">
+            <select ng-model="loc">
+              <option value="Atlanta">Atlanta</option>
+              <option value="San Francisco">San Francisco</option>
+              <option value="New York City">New York City</option>
+              <option value="Chicago">Chicago</option>
+            </select>
+          </div>
         </div>
-        <div class="push-right default-v-padding">
-          <button type="submit" class="pure-button" id="submit-button" ng-click="submit()">Signup</button>
-          <span class="tabbed-left">or <a href="#/login">Login</a></span>
+        <div class="footer push-down">
+          <button type="submit" class="pure-button button-lg push-right" id="submit-button" ng-click="submit()">Signup</button>
+          <a href="#/login" class="pure-button button-lg button-secondary">Login</a></span> 
         </div>
       </fieldset>
     </ng-form>
   </div>
 </div>
+

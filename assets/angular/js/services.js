@@ -57,6 +57,15 @@ streamSyncServices.factory('user', ['$http', '$location',
                     .error(function (data, status) {
                         console.log("ERROR");
                     });
+                },
+            logout: function() {
+                    return $http.post('/logout')
+                        .success(function (data, status){
+                            $location.path('/login');
+                        })
+                        .error(function (data, status){
+                            console.log("error: " + data);
+                        });
                 }
             };
 	}]);
@@ -64,6 +73,12 @@ streamSyncServices.factory('user', ['$http', '$location',
 streamSyncServices.factory('event', ['$http','$location', 'socket',
     function($http, $location, socket){
         return {
+            search: function(query) {
+                return $http.get('event/list/'+query)
+                    .error(function (data, status) {
+                        console.log("ERROR");
+                    });
+            },
             create: function(eventName) {
                 var params = {
                     eventName: eventName
@@ -187,6 +202,15 @@ streamSyncServices.factory('song', ['$http', 'track',
                             console.log(song.source + ' is and invalid source');
                             break;
                     }
+                },
+            play: function(isHost) {
+                    cur_track.play();
+                },
+            pause: function(isHost) {
+                    cur_track.pause();
+                },
+            stop: function() {
+                    cur_track.stop();
                 }
             };
     }]);
@@ -210,24 +234,47 @@ streamSyncServices.factory('memberlist', ['$http','$location',
 streamSyncServices.factory('track', [
     function () {
 
+        var track;
+
         function YTtrack(song) {
+            track = this;
             this.song = song;
             this.isReady = false;
-            this.player = new YT.player('ytplayer', {
+            this.player = new YT.Player('ytplayer', {
                 height: 0,
                 width: 0,
-                videoId: song.source_id
+                videoId: song.source_id,
+                events: {
+                    'onReady': track.onReady
+                }
             });
         }
 
-        YTtrack.prototype.play = function() {
-            this.player.play();
+        YTtrack.prototype = {
+            onReady: function() {
+                track.isReady = true;
+                track.play();
+            },
+            play: function() {
+                if (this.isReady) {
+                    this.player.playVideo();
+                }
+            },
+            pause: function() {
+                if (this.isReady) {
+                    this.player.pauseVideo();
+                }
+            },
+            stop: function() {
+                this.player.stopVideo();
+            }
         };
 
         function SCtrack(song) {
+            track = this;
             this.song = song;
             this.isReady = false;
-            var track = this;
+            this.isPlaying = false;
             SC.stream('/tracks/'+song.source_id, function(player) {
                 track.player = player;
                 track.isReady = true;
@@ -235,8 +282,22 @@ streamSyncServices.factory('track', [
             });
         }
 
-        SCtrack.prototype.play = function() {
-            this.player.play();
+        SCtrack.prototype = {
+            play: function() {
+                if (!this.isPlaying && this.isReady) {
+                    this.isPlaying = true;
+                    this.player.play();
+                }
+            },
+            pause: function() {
+                this.isPlaying = false;
+                if (this.isReady) {
+                    this.player.pause();
+                }
+            },
+            stop: function() {
+                this.player.stop();
+            }
         };
 
         return {

@@ -1045,12 +1045,10 @@ a.pure-button-selected {
 .pure-form input[type="color"],
 .pure-form select,
 .pure-form textarea {
-    padding: 0.5em 0.6em;
+    padding: 0.8em 1.5em;
     display: inline-block;
     border: 1px solid #ccc;
-    font-size: 0.8em;
-    box-shadow: inset 0 1px 3px #ddd;
-    border-radius: 4px;
+    font-size: 1em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1183,7 +1181,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 .pure-form fieldset {
     margin: 0;
-    padding: 0.35em 0 0.75em;
+    padding: 0 0 0.75em;
     border: 0;
 }
 .pure-form legend {
@@ -1191,9 +1189,10 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     width: 100%;
     padding: 0.3em 0;
     margin-bottom: 0.3em;
-    font-size: 125%;
-    color: #333;
-    border-bottom: 1px solid #e5e5e5;
+    color: $secondary_light;
+    font-size: 120%;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .pure-form-stacked input[type="text"],
@@ -1322,9 +1321,6 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 @media only screen and (max-width : 480px) {
-    .pure-form button[type="submit"] {
-        margin: 0.7em 0 0;
-    }
 
     .pure-form input:not([type]),
     .pure-form input[type="text"],

@@ -37,18 +37,12 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
 
   }]);
 
-streamSyncControllers.controller('LogoutCtrl', ['$scope', '$http', '$location',
-  function($scope,$http,$location){
+streamSyncControllers.controller('NavCtrl', ['$scope', '$location', 'user', 
+  function($scope, $location, user) {
     $scope.logout = function() {
-      $http.post('/logout')
-        .success(function (data, status){
-          console.log("SUCCESS");
-          $location.path('/login');
-        })
-        .error(function (data, status){
-          console.log("ERROR");
-        });
+      user.logout();
     };
+    $scope.base_path = $location.path().split('/')[1];
   }]);
 
 streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
@@ -84,70 +78,33 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 'user',
 
     }]); 
 
-streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user',
-    function($scope, $http, user) {
+streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user', 'event',
+    function($scope, $http, user, event) {
+
         //List of events to display
         $scope.events = [];
-        user.logged_in();
+        $scope.query = '';
+
+        $scope.user = {};
+
+        user.logged_in()
+          .success(function(data, status) {
+              $scope.user = data.user;
+          });
+
         //Function to fetch lists from database
-        $scope.getList = function() {
-            var params = {};
-            $http.get('event/list', params)
-                .success(function (data, status) {
-                    console.log("SUCCESS");
-                    //set events list to data returned
-                    $scope.events = data.event;
-                })
-                .error(function (data, status) {
-                    console.log("ERROR");
-                });
+        $scope.search = function() {
+          event.search(this.query)
+            .success(function(data, status) {
+              console.log(data);
+              $scope.events = data.events;
+            });
         };
+
         //Calls the function to populate the event list
-        $scope.getList();
+        $scope.search('');
 
     }]); 
-
-streamSyncControllers.controller('DatePickerDemoCtrl', ['$scope',
-    function($scope) {
-      $scope.today = function() {
-        $scope.dt = new Date();
-      };
-      $scope.today();
-
-      $scope.showWeeks = true;
-      $scope.toggleWeeks = function () {
-        $scope.showWeeks = ! $scope.showWeeks;
-      };
-
-      $scope.clear = function () {
-        $scope.dt = null;
-      };
-
-      // Disable weekend selection
-      $scope.disabled = function(date, mode) {
-        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-      };
-
-      $scope.toggleMin = function() {
-        $scope.minDate = ( $scope.minDate ) ? null : new Date();
-      };
-      $scope.toggleMin();
-
-      $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.opened = true;
-      };
-
-      $scope.dateOptions = {
-        'year-format': "'yy'",
-        'starting-day': 1
-      };
-
-      $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
-      $scope.format = $scope.formats[0];
-    }]);
 
 streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'song', 'playlist', 'memberlist', 'user', 'socket',
   function($scope, $routeParams, event, song, playlist, memberlist, user, socket) {
@@ -174,11 +131,13 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
     $scope.event = {};
     $scope.memberlist = {};
     $scope.playlist = {};
+    $scope.isHost = false;
     event.join($routeParams.eventSlug)
       .success(function (data, status) {
           $scope.event = data.event;
           $scope.memberlist = data.event.memberlist;
           $scope.playlist = data.event.playlist;
+          $scope.isHost = data.event.isHost;
           $scope.initializePlayers();
       });
 
@@ -221,6 +180,10 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
       'playlist': {
         song_added: function(data) {
           $scope.playlist.songs = data.songs;
+        },
+        initialized: function(data) {
+          $scope.playlist.current = 0;
+          $scope.initializeTrack();
         }
       },
       'memberlist': {
@@ -233,6 +196,15 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
     // socket stuff
     socket.on('message', function(message) {
       $scope.socketFuncs[message.model][message.data.meta](message.data);
+    });
+
+    $scope.controls = {
+      play: function() { song.play($scope.isHost); },
+      pause: function() { song.pause($scope.isHost); }
+    };
+
+    $scope.$on('$destroy', function() {
+      song.stop();
     });
 
   }]);

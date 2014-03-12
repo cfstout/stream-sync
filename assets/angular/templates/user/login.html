@@ -1,23 +1,26 @@
-<!-- Retrieves Main Navigation -->
-<ng-include src="'angular/templates/nav/main.html'"></ng-include>
-
 <!-- Login Form -->
-<div class="v-centered">
+<div class="v-centered full-padded">
   <div class="pure-g-r">
-    <ng-form class="pure-u-1-3 pure-form pure-form-aligned segment" ng-submit="submit()">
+    <ng-form class="pure-u-1-3 pure-form pure-form-stacked segment h-centered" ng-submit="submit()">
       <fieldset>
-        <legend>Login Credentials</legend>
-        <div class="pure-control-group">
+        <legend>Login In to Stream Sync</legend>
+        <div class="fieldset">
           <label>Username</label>
-          <input type="text" placeholder="username" id="username-input" ng-model="username">
+          <div class="input icon-left">
+            <input type="text" placeholder="username" id="username-input" ng-model="username">
+            <i class="fa fa-user"></i>
+          </div>
         </div>
-        <div class="pure-control-group">
+        <div class="fieldset">
           <label>Password</label>
-          <input type="password" placeholder="password" id="password-input" ng-model="password">
+          <div class="input icon-left">
+            <input type="password" placeholder="password" id="password-input" ng-model="password">
+            <i class="fa fa-key"></i>
+          </div>
         </div>
-        <div class="push-right default-v-padding">
-          <button type="submit" class="pure-button" id="submit-button" ng-click="submit()">Login</button>
-          <span class="tabbed-left">or <a href="#/signup">Signup</a></span>
+        <div class="footer push-down">
+          <button type="submit" class="pure-button button-lg push-right" id="submit-button" ng-click="submit()">Login</button>
+          <a href="#/signup" class="pure-button button-lg button-secondary">Signup</a></span> 
         </div>
       </fieldset>
     </ng-form>

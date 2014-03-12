@@ -143,6 +143,10 @@ module.exports = {
 					});
 					event.memberlist = memberlist;
 
+					if (event.memberlist.host == req.user.username) {
+						event.isHost = true;
+					}
+
 					// get playlist
 					PlayList.findOne(event.playlist).done(function(err, playlist) {
 						if (err  || typeof playlist == 'undefined') {
@@ -178,7 +182,18 @@ module.exports = {
 	},
 
 	list: function(req, res){
-		Event.find().done(function(err,events){
+		var search_func;
+		var query = req.param('query');
+		var params = {
+			or: {
+				name: { contains: query },
+				creator: { contains: query },
+				loc: { contains: query },
+			},
+			limit: 10
+		};
+
+		Event.find(params).done(function(err,events){
 			if (err) {
 				return console.log(err);
 			}	
@@ -186,9 +201,7 @@ module.exports = {
 			* If successsful logs the events found 
 			* and sends them to the front end
 			*/
-			else {
-				return res.send({event: events, status: 200},200);
-			}
+			return res.send({events: events, status: 200}, 200);
 		});
 	},
 

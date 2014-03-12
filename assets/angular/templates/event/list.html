@@ -1,47 +1,35 @@
-<!doctype html>
-<html lang="en">
-<ng-include src="'angular/templates/nav/eventNav.html'"></ng-include>
-<head>
-  <meta charset="utf-8">
-  <title>Stream Synce Events</title>
-</head>
-<body ng-controller="EventListCtrl">
+<ng-include src="'angular/templates/nav/main.html'"></ng-include>
 
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span2">
-        <!--Sidebar content-->
+<div class="content default-u-padding pure-g-r">
 
-        Search: <input ng-model="query" type="text">
-        Sort by:
-        <select ng-model="orderProp">
-          <option value="name">Event Title</option>
-          <option value="age">Newest</option>
-          <option value="creator">Event Host</option>
-          <option value="location">Event Location</option>
-        </select>
-
+  <div class="pure-u-7-24">
+    <a href="#/event/create" class="full pure-button button-lg push-up-light">Create Event</a>
+  </div>
+  
+  <div class="pure-u-2-3 pure-g pure-form push-right push-up-light">
+    <fieldset>
+      <div class="fieldset pure-u-2-3">
+        <div class="input">
+          <input ng-model="query" type="text" placeholder="query">
+        </div>
       </div>
-      <div class="span10">
-        <!--Body content-->
-
-        <ul class="Events">
-          <li ng-repeat="event in events | filter:query | orderBy:orderProp">
-            <h4>{{event.eventName}}</h4>
-            <dl>
-              <dt>Hosted by {{event.creator}}</dt>
-              <dt>Located at {{event.loc}}</dt>
-            </dl>
-            <!--<p>At {{event.time}}</p>-->
-          </li>
-        </ul>
-
-      </div>
-    </div>
+      <button class="pure-u-7-24 pure-button button-lg push-right">Search</button>
+    </fieldset>
   </div>
 
-  <a href="#/event/create">New Event</a>
+  <ul>
+    <li ng-repeat="event in events">
+      <h4>{{event.eventName}}</h4>
+      <dl>
+        <dt>Hosted by {{event.creator}}</dt>
+        <dt>Located at {{event.loc}}</dt>
+      </dl>
+      <!--<p>At {{event.time}}</p>-->
+    </li>
+  </ul>
 
+</div>
 
-</body>
-</html>
+<a href="#/event/create">New Event</a>
+</div>
+

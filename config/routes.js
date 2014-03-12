@@ -43,7 +43,7 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'create'
   },
-  'get /event/list': {
+  'get /event/list/:query': {
     controller: 'EventController',
     action: 'list'
   },
