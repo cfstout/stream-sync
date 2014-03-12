@@ -1,5 +1,25 @@
 <ng-include src="'angular/templates/nav/main.html'"></ng-include>
 
-<body ng-controller="EventCreateCtrl">
-	<input ng-model="eventName" type="text">Event Name</input>
-	<button ng-click="submit()">Submit</button>
+
+<input ng-model="eventName" type="text">Event Name</input>
+<button ng-click="submit()">Submit</button>
+
+<form name="EventCreate" ng-controller="EventCreateCtrl">
+	<h2>Create a new event!</h2>
+	<input ng-model="eventName" type="text"> Event Name</input>
+
+	<div>
+		<h3>Select Date</h3>
+		<input type="date" name="dateInput" ng-model="date" placeholder="2014-01-01" min="2014-01-01" required>
+	</div>
+
+	<div>
+		<h3>Select Time</h3>
+		<input type ="time" name="timeInput" ng-model="time" placeholder="8:00" required>
+	</div>
+	
+	<div>
+		<button ng-click="submit()">Submit</button>
+	</div>
+</form>
+
