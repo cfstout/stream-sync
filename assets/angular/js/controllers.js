@@ -116,6 +116,11 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
                 $scope.user = data.user;
             });
 
+    $scope.event = {};
+    $scope.memberlist = {};
+    $scope.playlist = {};
+    $scope.isHost = false;
+
     $scope.initializePlayers = function() {
       song.initializePlayers($scope.initializeTrack);
     };
@@ -129,15 +134,12 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
     };
 
     // initialize event
-    $scope.event = {};
-    $scope.memberlist = {};
-    $scope.playlist = {};
-    $scope.isHost = false;
     event.join($routeParams.eventSlug)
       .success(function (data, status) {
           $scope.event = data.event;
           $scope.memberlist = data.event.memberlist;
           $scope.playlist = data.event.playlist;
+          $scope.playlist.isPlaying = $scope.playlist.current > -1;
           $scope.isHost = data.event.isHost;
           $scope.initializePlayers();
       });
@@ -174,6 +176,8 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
         song.createRemoteSong(this.selectedResult)
           .success(function (data, status) {
               playlist.addSong($scope.playlist.id, data.song);
+              $scope.unselectResult();
+              $scope.searchModeOff();
           });
     };
 
@@ -200,8 +204,14 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
     });
 
     $scope.controls = {
-      play: function() { song.play($scope.isHost); },
-      pause: function() { song.pause($scope.isHost); }
+      play: function() { 
+        $scope.playlist.isPlaying = true;
+        song.play($scope.isHost); 
+      },
+      pause: function() { 
+        $scope.playlist.isPlaying = false;
+        song.pause($scope.isHost); 
+      }
     };
 
     $scope.$on('$destroy', function() {

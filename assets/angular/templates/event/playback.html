@@ -1,39 +1,85 @@
-<h1>{{event.name}}</h1>
-<button ng-click="searchModeOn()" ng-class="results === null ? '' : 'hidden'">Search</button>
-<div ng-class="results === null || selectedResult !== null ? 'hidden' : ''">
-    <button ng-click="searchModeOff()">Back</button>
-    <input ng-model="query" type="text">
-    <button ng-click="search()">Search</button>
-    <ul>
-        <li ng-repeat="result in results">
-            {{result.artist}} - {{result.title}} [({{result.source}})]
-            <a ng-click="selectResult($index)">Click</a>
-        </li>
-    </ul>
-</div>
-<div ng-class="results !== null && selectedResult !== null ? '' : 'hidden'">
-    <button ng-click="unselectResult()">Back</button>
-    <form>
-        <input ng-model='selectedResult.title'>
-        <input ng-model='selectedResult.artist'>
-        <button ng-click="addSelectedSong()">Submit</button>
-    </form>
-</div>
-<h2>Playlist</h2>
-current: {{playlist.current}}
-<ul>
-    <li ng-repeat="song in playlist.songs">
-        {{song.artist}} - {{song.title}}
-    </li>
-</ul>
-<h2>Members</h2>
-<ul>
-    <li ng-repeat="member in memberlist.members">
-        {{member.username}}
-    </li>
-</ul>
+<ng-include src="'angular/templates/nav/main.html'"></ng-include>
 
-<button ng-click='controls.play()'>Play</button>
-<button ng-click='controls.pause()'>Pause</button>
+<div class="content default-u-padding pure-g">
+    <h1>
+        <a class="tabbed-left no-style" href="#/event/list">
+            <i class="fa fa-arrow-circle-o-left"></i>
+        </a>
+        {{event.name}}
+    </h1>
+    <div class="pure-u-1-1 segment">
+        <div class="song-details">
+            <h2 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].title : 'No Song Selected'}}</h2>
+            <h3 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].artist : 'Add Songs to Playlist'}}</h3>
+            <h1 class="play-controller">
+                <a ng-click="playlist.isPlaying ? controls.pause() : controls.play()">
+                    <span class="fa-stack fa-large">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-inverse fa-stack-1x" ng-class="playlist.isPlaying ? 'fa-pause' : 'fa-play'"></i>
+                    </span>
+                </a>
+            </h1>
+        </div>
+    </div>
+    <h2>
+        <a class="tabbed-left no-style" ng-class="results === null ? 'hidden' : ''" ng-click="searchModeOff()">
+            <i class="fa fa-arrow-circle-o-left"></i>
+        </a>
+        {{results === null ? 'Playlist' : 'Editing Playlist'}}
+        <button class="pure-button button-sm push-right" ng-click="searchModeOn()" ng-class="results === null ? '' : 'hidden'">Edit</button>
+    </h2>
+    <div class="pure-u-1-1 segment">
+        <div ng-class="results === null || selectedResult !== null ? 'hidden' : ''">
+            <div class="pure-form pure-g default-u-padding">
+                <fieldset class="full">
+                    <div class="fieldset pure-u-2-3">
+                        <div class="input">
+                            <input ng-model="query" type="text">
+                        </div>
+                    </div>
+                    <button class="pure-u-7-24 pure-button button-lg push-right" ng-click="search()">Search</button>
+                </fieldset>
+            </div> 
+            <div ng-repeat="result in results" class="selectable playlist-item" ng-click="selectResult($index)">
+                <div class="push-right">
+                    <div><a class="pure-button button-secondary button-md push-right">Add</a></div>
+                    <span class="source">{{result.source}}</span>
+                </div>
+                <span class="title">{{result.title}}</span>
+                <span class="artist">{{result.artist}}</span>
+            </div>
+        </div>
+        <div ng-class="results !== null && selectedResult !== null ? '' : 'hidden'">
+                <div class="pure-form pure-form-stacked default-u-padding">
+                    <fieldset>
+                        <div class="fieldset">
+                            <label>Title</label>
+                            <div class="input">
+                                <input ng-model='selectedResult.title' type="text">
+                            </div>
+                        </div>
+                        <div class="fieldset">
+                            <label>Artist</label>
+                            <div class="input">
+                                <input ng-model='selectedResult.artist' type="text">
+                            </div>
+                        </div>
+                </fieldset>
+                <div class="footer pull-up-light">
+                    <button class="pure-button button-lg button-secondary" ng-click="unselectResult()">Cancel</button>
+                    <button class="pure-button button-lg push-right" ng-click="addSelectedSong()">Add To Playlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div id="ytplayer"></div>
+    <div class="pure-u-1-1 segment" ng-class="results !== null || selectedResult !== null ? 'push-down-light' : ''">
+        <div ng-repeat="song in playlist.songs.slice(playlist.current + 1)" class="playlist-item">
+            <span ng-class="{hidden:!$first}" class="pure-button green button-secondary button-md push-right">Next</span>
+            <span class="title">{{song.title}}</span>
+            <span class="artist">{{song.artist}}</span>
+        </div>
+    </div>
+</div>
+
+<div class="hidden"><div id="ytplayer"></div></div>

@@ -13,11 +13,15 @@
 --- --- 0.1.1 CENTERING
 --- --- 0.1.2 PADDING
 --- --- 0.1.3 ALIGNMENT
+--- --- 0.1.4 TABS
 --- 0.2.0 STYLING
+--- --- 0.2.1 LINKS
 1.0.0 ELEMENTS
 --- 1.1.0 SEGMENTS
 --- 1.2.0 FORM
 --- 1.3.0 BUTTON
+2.0.0 SPECIFIC
+--- 2.1.0 PLAYBACK
 
 */
 
@@ -25,10 +29,6 @@
 
 body, html {
 	background: #f0f2f5;
-}
-
-a:hover {
-	cursor: pointer;
 }
 
 /* 0.1.0 POSITIONG */
@@ -114,6 +114,10 @@ a:hover {
 	margin-bottom: em(20) !important;
 }
 
+.pull-up-light {
+	margin-bottom: em(-20) !important;
+}
+
 .align-right {
 	text-align: right;
 }
@@ -124,6 +128,12 @@ a:hover {
 
 .full {
 	width: 100%;
+}
+
+/* 0.1.4 TABS */
+
+.tabbed-left {
+	margin-right: em(20);
 }
 
 /* 0.2.0 STYLING */
@@ -145,17 +155,29 @@ a:hover {
 	box-shadow: em($h-shadow) em($v-shadow) em($spread) $color;
 }
 
+/* 0.2.1 LINKS */
+
+a {
+	&:hover {
+		cursor: pointer;
+	}
+	&.no-style {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
 /* 1.0.0 ELEMENTS */
 
 /* 1.1.0 CONTAINERS */
 
 .segment {
-	max-width: 90%;
 	background: #fff;
 	@include box-shadow(0, 5, 0, $secondary_dark);
 
 	&.pure-form {
 		@include u-padding(20);
+		max-width: 90%;
 	}
 }
 
@@ -231,15 +253,42 @@ input[type="password"] {
 	&.button-lg {
 		padding: em(10) em(20);
 		font-weight: bold;
-		font-size: 110%;
+		font-size: em(18);
 		text-transform: uppercase;
 
 		&.button-secondary {
-			background: transparent;
-			color: $primary;
-			border: 1px solid $primary;
-			padding: em(9) em(20);
+			padding: em(9) em(19);
 			font-weight: normal;
+		}
+	}
+
+	&.button-md {
+		padding: em(7) em(15);
+		font-weight: bold;
+		font-size: em(12);
+		text-transform: uppercase;
+
+		&.button-secondary {
+			padding: em(6) em(14);
+			font-weight: normal;
+		}
+	}
+
+	&.button-sm {
+		padding: em(7) em(15);
+		font-weight: bold;
+		font-size: em(10);
+		text-transform: uppercase;
+	}
+
+	&.button-secondary {
+		background: transparent;
+		color: $primary;
+		border: 1px solid $primary;
+
+		&.green {
+			color: $green;
+			border-color: $green;
 		}
 	}
 }
@@ -252,4 +301,58 @@ a.pure-button.full {
 
 .nav-container {
 	background: #FFF;
+}
+
+/* 2.0.0 SPECIFIC */
+
+/* 2.1.0 PLAYBACK ELEMENTS */
+
+.song-details {
+	height: em(200);
+	@include h-padding(20);
+}
+
+.play-controller {
+	text-align: center;
+}
+
+.playlist-item {
+	@include v-padding(10);
+	@include h-padding(20);
+	border-bottom: 1px solid #CCC;
+
+	&.no-border {
+		border-bottom: none;
+	}
+
+	span {
+		display: block;
+
+		&.title {
+			display:block;
+			font-weight: bold;
+			font-size: 110%;
+			margin-bottom: em(5);
+		}
+
+		&.artist {
+			display: block;
+			font-style: italic;
+		}
+
+		&.source {
+			float: right;
+			color: $secondary;
+			margin-top: em(10);
+		}
+	}
+
+	&.selectable {
+		min-height: em(50);
+
+		&:hover {
+			cursor: pointer;
+			background: $gray_bg;
+		}
+	}
 }
