@@ -24,6 +24,7 @@
         <a ng-href="#/event/{{event.slug}}" class="pure-button push-right push-down-light">Join</a>
         <h3>{{event.name}}</h3>
         <h4>{{event.creator}} | {{event.loc}}</h4>
+        <h4>{{event.datetime | date: "MM/dd/yyyy @ hh:mm a"}}
       </div>
     </div>
   </div>

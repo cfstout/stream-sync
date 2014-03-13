@@ -28,11 +28,8 @@ module.exports = {
 		playlist: {
 			type: 'string'
 		},
-		time: {
-			type: 'date'
-		},
-		date: {
-			type: 'date'
+		datetime: {
+			type: 'datetime'
 		},
 		loc: {
 			type: 'string'

@@ -79,12 +79,11 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
                         console.log("ERROR");
                     });
             },
-            create: function(eventName, date, time) {
+            create: function(eventName, datetime) {
                 //console.log(time);
                 var params = {
                     eventName: eventName,
-                    date: date,
-                    time: time
+                    datetime: datetime
                 };
                 return $http.post('event/create',params)
                     .success(function (data, status){
