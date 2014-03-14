@@ -82,12 +82,12 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
             get_events_by_creator: function() {
                 return $http.get(root + 'event/get_events_by_creator');
             },
-            create: function(eventName, date, time) {
+            create: function(eventName, datetime) {
+
                 //console.log(time);
                 var params = {
                     eventName: eventName,
-                    date: date,
-                    time: time
+                    datetime: datetime
                 };
                 return $http.post(root + 'event/create',params)
                     .success(function (data, status){
