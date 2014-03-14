@@ -38,7 +38,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     };
                     return $http.post('/login/local', params)
                         .success(function (data, status) {
-                            $location.path('/profile');
+                            $location.path('/event/list');
                         })
                         .error(function (data, status) {
                             console.log(data);
@@ -52,7 +52,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                 };
                 $http.post(root + 'signup', params)
                     .success(function (data, status) {
-                        $location.path('/profile');
+                        $location.path('/event/list');
                     })
                     .error(function (data, status) {
                         console.log("ERROR");
