@@ -4133,22 +4133,405 @@ striping:
   content: "\f195";
 }
 
+/*-------------------------------------*\
+	HINT.css - A CSS tooltip library
+\*-------------------------------------*/
+/**
+ * HINT.css is a tooltip library made in pure CSS.
+ *
+ * Source: https://github.com/chinchang/hint.css
+ * Demo: http://kushagragour.in/lab/hint/
+ *
+ * Release under The MIT License
+ *
+ */
+/**
+ * source: hint-core.scss
+ *
+ * Defines the basic styling for the tooltip.
+ * Each tooltip is made of 2 parts:
+ * 	1) body (:after)
+ * 	2) arrow (:before)
+ * 
+ * Classes added:
+ * 	1) hint
+ */
+/* line 13, ../scss/hint/_hint-core.scss */
+.hint, [data-hint] {
+  position: relative;
+  display: inline-block;
+  /**
+   * tooltip arrow
+   */
+  /**
+   * tooltip body
+   */
+}
+/* line 17, ../scss/hint/_hint-core.scss */
+.hint:before, .hint:after, [data-hint]:before, [data-hint]:after {
+  position: absolute;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1000000;
+  pointer-events: none;
+  -webkit-transition: 0.3s ease;
+  -moz-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+/* line 41, ../scss/hint/_hint-core.scss */
+.hint:hover:before, .hint:hover:after, .hint:focus:before, .hint:focus:after, [data-hint]:hover:before, [data-hint]:hover:after, [data-hint]:focus:before, [data-hint]:focus:after {
+  visibility: visible;
+  opacity: 1;
+}
+/* line 49, ../scss/hint/_hint-core.scss */
+.hint:before, [data-hint]:before {
+  content: '';
+  position: absolute;
+  background: transparent;
+  border: 6px solid transparent;
+  z-index: 1000001;
+}
+/* line 61, ../scss/hint/_hint-core.scss */
+.hint:after, [data-hint]:after {
+  content: attr(data-hint);
+  background: #383838;
+  color: white;
+  text-shadow: 0 -1px 0px black;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 12px;
+  white-space: nowrap;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/**
+ * source: hint-position.scss
+ *
+ * Defines the positoning logic for the tooltips.
+ *
+ * Classes added:
+ * 	1) hint--top
+ * 	2) hint--bottom
+ * 	3) hint--left
+ * 	4) hint--right
+ */
+/**
+ * set default color for tooltip arrows
+ */
+/* line 16, ../scss/hint/_hint-mixins.scss */
+.hint--top:before {
+  border-top-color: #383838;
+}
+
+/* line 16, ../scss/hint/_hint-mixins.scss */
+.hint--bottom:before {
+  border-bottom-color: #383838;
+}
+
+/* line 16, ../scss/hint/_hint-mixins.scss */
+.hint--left:before {
+  border-left-color: #383838;
+}
+
+/* line 16, ../scss/hint/_hint-mixins.scss */
+.hint--right:before {
+  border-right-color: #383838;
+}
+
+/**
+ * top tooltip
+ */
+/* line 14, ../scss/hint/_hint-position.scss */
+.hint--top:before {
+  margin-bottom: -12px;
+}
+/* line 19, ../scss/hint/_hint-position.scss */
+.hint--top:after {
+  margin-left: -18px;
+}
+/* line 24, ../scss/hint/_hint-position.scss */
+.hint--top:before, .hint--top:after {
+  bottom: 100%;
+  left: 50%;
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--top:hover:after, .hint--top:hover:before, .hint--top:focus:after, .hint--top:focus:before {
+  -webkit-transform: translateY(-8px);
+  -moz-transform: translateY(-8px);
+  transform: translateY(-8px);
+}
+
+/**
+ * bottom tooltip
+ */
+/* line 14, ../scss/hint/_hint-position.scss */
+.hint--bottom:before {
+  margin-top: -12px;
+}
+/* line 19, ../scss/hint/_hint-position.scss */
+.hint--bottom:after {
+  margin-left: -18px;
+}
+/* line 24, ../scss/hint/_hint-position.scss */
+.hint--bottom:before, .hint--bottom:after {
+  top: 100%;
+  left: 50%;
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--bottom:hover:after, .hint--bottom:hover:before, .hint--bottom:focus:after, .hint--bottom:focus:before {
+  -webkit-transform: translateY(8px);
+  -moz-transform: translateY(8px);
+  transform: translateY(8px);
+}
+
+/**
+ * right tooltip
+ */
+/* line 35, ../scss/hint/_hint-position.scss */
+.hint--right:before {
+  margin-left: -12px;
+  margin-bottom: -6px;
+}
+/* line 42, ../scss/hint/_hint-position.scss */
+.hint--right:after {
+  margin-bottom: -14px;
+}
+/* line 47, ../scss/hint/_hint-position.scss */
+.hint--right:before, .hint--right:after {
+  left: 100%;
+  bottom: 50%;
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--right:hover:after, .hint--right:hover:before, .hint--right:focus:after, .hint--right:focus:before {
+  -webkit-transform: translateX(8px);
+  -moz-transform: translateX(8px);
+  transform: translateX(8px);
+}
+
+/**
+ * left tooltip
+ */
+/* line 35, ../scss/hint/_hint-position.scss */
+.hint--left:before {
+  margin-right: -12px;
+  margin-bottom: -6px;
+}
+/* line 42, ../scss/hint/_hint-position.scss */
+.hint--left:after {
+  margin-bottom: -14px;
+}
+/* line 47, ../scss/hint/_hint-position.scss */
+.hint--left:before, .hint--left:after {
+  right: 100%;
+  bottom: 50%;
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--left:hover:after, .hint--left:hover:before, .hint--left:focus:after, .hint--left:focus:before {
+  -webkit-transform: translateX(-8px);
+  -moz-transform: translateX(-8px);
+  transform: translateX(-8px);
+}
+
+/**
+ * source: hint-color-types.scss
+ *
+ * Contains tooltips of various types based on color differences.
+ *
+ * Classes added:
+ * 	1) hint--error
+ * 	2) hint--warning
+ * 	3) hint--info
+ * 	4) hint--success
+ *
+ */
+/**
+ * Error
+ */
+/* line 17, ../scss/hint/_hint-color-types.scss */
+.hint--error:after {
+  background-color: #b34e4d;
+  text-shadow: 0 -1px 0px #592726;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--error.hint--top:before {
+  border-top-color: #b34e4d;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--error.hint--bottom:before {
+  border-bottom-color: #b34e4d;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--error.hint--left:before {
+  border-left-color: #b34e4d;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--error.hint--right:before {
+  border-right-color: #b34e4d;
+}
+
+/**
+ * Warning
+ */
+/* line 17, ../scss/hint/_hint-color-types.scss */
+.hint--warning:after {
+  background-color: #c09854;
+  text-shadow: 0 -1px 0px #6c5328;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--warning.hint--top:before {
+  border-top-color: #c09854;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--warning.hint--bottom:before {
+  border-bottom-color: #c09854;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--warning.hint--left:before {
+  border-left-color: #c09854;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--warning.hint--right:before {
+  border-right-color: #c09854;
+}
+
+/**
+ * Info
+ */
+/* line 17, ../scss/hint/_hint-color-types.scss */
+.hint--info:after {
+  background-color: #3986ac;
+  text-shadow: 0 -1px 0px #193b4d;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--info.hint--top:before {
+  border-top-color: #3986ac;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--info.hint--bottom:before {
+  border-bottom-color: #3986ac;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--info.hint--left:before {
+  border-left-color: #3986ac;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--info.hint--right:before {
+  border-right-color: #3986ac;
+}
+
+/**
+ * Success
+ */
+/* line 17, ../scss/hint/_hint-color-types.scss */
+.hint--success:after {
+  background-color: #458746;
+  text-shadow: 0 -1px 0px #1a321a;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--success.hint--top:before {
+  border-top-color: #458746;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--success.hint--bottom:before {
+  border-bottom-color: #458746;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--success.hint--left:before {
+  border-left-color: #458746;
+}
+/* line 11, ../scss/hint/_hint-mixins.scss */
+.hint--success.hint--right:before {
+  border-right-color: #458746;
+}
+
+/**
+ * source: hint-always.scss
+ *
+ * Defines a persisted tooltip which shows always.
+ *
+ * Classes added:
+ * 	1) hint--always
+ *
+ */
+/* line 12, ../scss/hint/_hint-always.scss */
+.hint--always:after, .hint--always:before {
+  opacity: 1;
+  visibility: visible;
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--always.hint--top:after, .hint--always.hint--top:before {
+  -webkit-transform: translateY(-8px);
+  -moz-transform: translateY(-8px);
+  transform: translateY(-8px);
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--always.hint--bottom:after, .hint--always.hint--bottom:before {
+  -webkit-transform: translateY(8px);
+  -moz-transform: translateY(8px);
+  transform: translateY(8px);
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--always.hint--left:after, .hint--always.hint--left:before {
+  -webkit-transform: translateX(-8px);
+  -moz-transform: translateX(-8px);
+  transform: translateX(-8px);
+}
+/* line 27, ../scss/hint/_hint-mixins.scss */
+.hint--always.hint--right:after, .hint--always.hint--right:before {
+  -webkit-transform: translateX(8px);
+  -moz-transform: translateX(8px);
+  transform: translateX(8px);
+}
+
+/**
+ * source: hint-rounded.scss
+ *
+ * Defines rounded corner tooltips.
+ *
+ * Classes added:
+ * 	1) hint--rounded
+ *
+ */
+/* line 12, ../scss/hint/_hint-rounded.scss */
+.hint--rounded:after {
+  border-radius: 4px;
+}
+
+/**
+ * source: hint-effects.scss
+ *
+ * Defines various transition effects for the tooltips.
+ *
+ * Classes added:
+ * 	1) hint--bounce
+ *
+ */
+/* line 12, ../scss/hint/_hint-effects.scss */
+.hint--bounce:before, .hint--bounce:after {
+  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  -moz-transition: opacity 0.3s ease, visibility 0.3s ease, -moz-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+}
+
 /* 0.0.0 GENERAL STYLING */
-/* line 30, ../scss/app.scss */
+/* line 31, ../scss/app.scss */
 body, html {
   background: #f0f2f5;
 }
 
 /* 0.1.0 POSITIONG */
 /* 0.1.1 CENTERING */
-/* line 38, ../scss/app.scss */
+/* line 39, ../scss/app.scss */
 .h-centered, .content {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 44, ../scss/app.scss */
+/* line 45, ../scss/app.scss */
 .v-centered {
   display: table;
   position: absolute;
@@ -4157,103 +4540,103 @@ body, html {
   top: 0;
   left: 0;
 }
-/* line 51, ../scss/app.scss */
+/* line 52, ../scss/app.scss */
 .v-centered > div {
   display: table-cell;
   vertical-align: middle;
 }
 
 /* 0.1.2 PADDING */
-/* line 65, ../scss/app.scss */
+/* line 66, ../scss/app.scss */
 .default-v-padding {
   padding-top: 1.25em;
   padding-bottom: 1.25em;
 }
 
-/* line 75, ../scss/app.scss */
+/* line 76, ../scss/app.scss */
 .default-h-padding {
   padding-left: 1.25em;
   padding-right: 1.25em;
 }
 
-/* line 84, ../scss/app.scss */
+/* line 85, ../scss/app.scss */
 .default-u-padding {
   padding: 1.25em;
 }
 
-/* line 88, ../scss/app.scss */
+/* line 89, ../scss/app.scss */
 .full-padded {
   width: 80%;
   margin: 0 10%;
 }
 
 /* 0.1.3 ALIGNMENT */
-/* line 95, ../scss/app.scss */
+/* line 96, ../scss/app.scss */
 .push-right {
   display: block;
   float: right;
 }
 
-/* line 100, ../scss/app.scss */
+/* line 101, ../scss/app.scss */
 .push-left {
   display: block;
   float: left;
 }
 
-/* line 105, ../scss/app.scss */
+/* line 106, ../scss/app.scss */
 .push-down-light {
   margin-top: 1.25em !important;
 }
 
-/* line 109, ../scss/app.scss */
+/* line 110, ../scss/app.scss */
 .push-down {
   margin-top: 2.5em !important;
 }
 
-/* line 113, ../scss/app.scss */
+/* line 114, ../scss/app.scss */
 .push-up-light {
   margin-bottom: 1.25em !important;
 }
 
-/* line 117, ../scss/app.scss */
+/* line 118, ../scss/app.scss */
 .pull-up-light {
   margin-bottom: -1.25em !important;
 }
 
-/* line 121, ../scss/app.scss */
+/* line 122, ../scss/app.scss */
 .align-right {
   text-align: right;
 }
 
-/* line 125, ../scss/app.scss */
+/* line 126, ../scss/app.scss */
 .align-left {
   text-align: left;
 }
 
-/* line 129, ../scss/app.scss */
+/* line 130, ../scss/app.scss */
 .full {
   width: 100%;
 }
 
 /* 0.1.4 TABS */
-/* line 135, ../scss/app.scss */
+/* line 136, ../scss/app.scss */
 .tabbed-left {
   margin-right: 1.25em;
 }
 
 /* 0.2.0 STYLING */
-/* line 141, ../scss/app.scss */
+/* line 142, ../scss/app.scss */
 .hidden {
   visibility: hidden;
   display: none;
 }
 
 /* 0.2.1 LINKS */
-/* line 161, ../scss/app.scss */
+/* line 162, ../scss/app.scss */
 a:hover {
   cursor: pointer;
 }
-/* line 164, ../scss/app.scss */
+/* line 165, ../scss/app.scss */
 a.no-style {
   color: inherit;
   text-decoration: none;
@@ -4261,26 +4644,26 @@ a.no-style {
 
 /* 1.0.0 ELEMENTS */
 /* 1.1.0 CONTAINERS */
-/* line 174, ../scss/app.scss */
+/* line 175, ../scss/app.scss */
 .segment {
   background: #fff;
   -webkit-box-shadow: 0em 0.3125em 0em #e3e4e8;
   -moz-box-shadow: 0em 0.3125em 0em #e3e4e8;
   box-shadow: 0em 0.3125em 0em #e3e4e8;
 }
-/* line 178, ../scss/app.scss */
+/* line 179, ../scss/app.scss */
 .segment.pure-form {
   padding: 1.25em;
   max-width: 90%;
 }
 
-/* line 184, ../scss/app.scss */
+/* line 185, ../scss/app.scss */
 .content {
   max-width: 700px;
   min-width: 270px;
 }
 
-/* line 190, ../scss/app.scss */
+/* line 191, ../scss/app.scss */
 .grid-item {
   margin: 0.625em;
   padding-top: 0.3125em;
@@ -4290,7 +4673,7 @@ a.no-style {
 }
 
 /* 1.2.0 FORM */
-/* line 200, ../scss/app.scss */
+/* line 201, ../scss/app.scss */
 .pure-form .footer {
   width: 100%;
   background: #f5f7f9;
@@ -4298,29 +4681,29 @@ a.no-style {
   padding: 1.25em;
 }
 
-/* line 209, ../scss/app.scss */
+/* line 210, ../scss/app.scss */
 .fieldset.padded {
   padding: 0.625em 0 1.25em 0;
 }
 
-/* line 214, ../scss/app.scss */
+/* line 215, ../scss/app.scss */
 label {
   padding-top: 0.3125em;
   padding-bottom: 0.3125em;
   color: #a3a7b0;
 }
 
-/* line 221, ../scss/app.scss */
+/* line 222, ../scss/app.scss */
 .input input, .input select {
   width: 100%;
   border-color: #CCC;
 }
-/* line 225, ../scss/app.scss */
+/* line 226, ../scss/app.scss */
 .input.icon-left {
   padding-left: 3.125em;
   margin-bottom: -2.5em;
 }
-/* line 229, ../scss/app.scss */
+/* line 230, ../scss/app.scss */
 .input.icon-left i {
   position: relative;
   top: -3.125em;
@@ -4331,14 +4714,14 @@ label {
   border: 1px solid #CCC;
 }
 
-/* line 242, ../scss/app.scss */
+/* line 243, ../scss/app.scss */
 input[type="text"],
 input[type="password"] {
   font-style: italic;
 }
 
 /* 1.3.0 BUTTONS */
-/* line 248, ../scss/app.scss */
+/* line 249, ../scss/app.scss */
 .pure-button {
   background: #4fc1e9;
   color: #FFF;
@@ -4346,76 +4729,76 @@ input[type="password"] {
   -moz-border-radius: 0.1875em;
   border-radius: 0.1875em;
 }
-/* line 253, ../scss/app.scss */
+/* line 254, ../scss/app.scss */
 .pure-button.button-lg {
   padding: 0.625em 1.25em;
   font-weight: bold;
   font-size: 1.125em;
   text-transform: uppercase;
 }
-/* line 259, ../scss/app.scss */
+/* line 260, ../scss/app.scss */
 .pure-button.button-lg.button-secondary {
   padding: 0.5625em 1.1875em;
   font-weight: normal;
 }
-/* line 265, ../scss/app.scss */
+/* line 266, ../scss/app.scss */
 .pure-button.button-md {
   padding: 0.4375em 0.9375em;
   font-weight: bold;
   font-size: 0.75em;
   text-transform: uppercase;
 }
-/* line 271, ../scss/app.scss */
+/* line 272, ../scss/app.scss */
 .pure-button.button-md.button-secondary {
   padding: 0.375em 0.875em;
   font-weight: normal;
 }
-/* line 277, ../scss/app.scss */
+/* line 278, ../scss/app.scss */
 .pure-button.button-sm {
   padding: 0.4375em 0.9375em;
   font-weight: bold;
   font-size: 0.625em;
   text-transform: uppercase;
 }
-/* line 284, ../scss/app.scss */
+/* line 285, ../scss/app.scss */
 .pure-button.button-secondary {
   background: transparent;
   color: #4fc1e9;
   border: 1px solid #4fc1e9;
 }
-/* line 289, ../scss/app.scss */
+/* line 290, ../scss/app.scss */
 .pure-button.button-secondary.green {
   color: #40d052;
   border-color: #40d052;
 }
 
-/* line 296, ../scss/app.scss */
+/* line 297, ../scss/app.scss */
 a.pure-button.full {
   padding-left: 0em;
   padding-right: 0em;
 }
 
 /* 1.4.0 NAVIGATION */
-/* line 302, ../scss/app.scss */
+/* line 303, ../scss/app.scss */
 .nav-container {
   background: #FFF;
 }
 
 /* 2.0.0 SPECIFIC */
 /* 2.1.0 PLAYBACK ELEMENTS */
-/* line 310, ../scss/app.scss */
+/* line 311, ../scss/app.scss */
 .song-details {
   height: 12.5em;
   padding-left: 1.25em;
   padding-right: 1.25em;
 }
 
-/* line 315, ../scss/app.scss */
+/* line 316, ../scss/app.scss */
 .play-controller {
   text-align: center;
 }
 
-/* line 319, ../scss/app.scss */
+/* line 320, ../scss/app.scss */
 .playlist-item {
   padding-top: 0.625em;
   padding-bottom: 0.625em;
@@ -4423,37 +4806,37 @@ a.pure-button.full {
   padding-right: 1.25em;
   border-bottom: 1px solid #CCC;
 }
-/* line 324, ../scss/app.scss */
+/* line 325, ../scss/app.scss */
 .playlist-item.no-border {
   border-bottom: none;
 }
-/* line 328, ../scss/app.scss */
+/* line 329, ../scss/app.scss */
 .playlist-item span {
   display: block;
 }
-/* line 331, ../scss/app.scss */
+/* line 332, ../scss/app.scss */
 .playlist-item span.title {
   display: block;
   font-weight: bold;
   font-size: 110%;
   margin-bottom: 0.3125em;
 }
-/* line 338, ../scss/app.scss */
+/* line 339, ../scss/app.scss */
 .playlist-item span.artist {
   display: block;
   font-style: italic;
 }
-/* line 343, ../scss/app.scss */
+/* line 344, ../scss/app.scss */
 .playlist-item span.source {
   float: right;
   color: #a3a7b0;
   margin-top: 0.625em;
 }
-/* line 350, ../scss/app.scss */
+/* line 351, ../scss/app.scss */
 .playlist-item.selectable {
   min-height: 3.125em;
 }
-/* line 353, ../scss/app.scss */
+/* line 354, ../scss/app.scss */
 .playlist-item.selectable:hover {
   cursor: pointer;
   background: #f5f7f9;
