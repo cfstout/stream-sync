@@ -44,11 +44,12 @@ streamSyncServices.factory('user', ['$http', '$location',
                             console.log(data);
                         });
                 },
-            signup: function(username, password, loc) {
+            signup: function(username, password, loc, email) {
                 var params = {
                     username: username,
                     password: password,
-                    loc: loc
+                    loc: loc,
+                    email: email
                 };
                 $http.post(root + 'signup', params)
                     .success(function (data, status) {

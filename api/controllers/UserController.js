@@ -29,8 +29,10 @@ module.exports = {
 		User.create({
 			username: req.param('username'),
 			password: req.param('password'),
-			loc: req.param('loc')
+			loc: req.param('loc'),
+			email: req.param('email')
 		}).done(function(err, user) {
+			console.log(user.email)
 			if (err || (typeof user === 'undefined')) {
 				return res.send({
 					message: err,

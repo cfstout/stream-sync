@@ -24,6 +24,10 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
+		email: {
+			type: 'string',
+			required: true
+		},
 		event: {
 			type: 'string',
 			defaultsTo: ''

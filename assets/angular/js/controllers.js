@@ -29,10 +29,11 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
     $scope.username = "";
     $scope.password = "";
     $scope.loc = "";
+    $scope.email = ""
 
     //Request to server to perform action
     $scope.submit = function() {
-    	user.signup(this.username, this.password, this.loc);
+    	user.signup(this.username, this.password, this.loc, this.email);
     };
 
   }]);
