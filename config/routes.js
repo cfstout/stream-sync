@@ -22,19 +22,23 @@ module.exports.routes = {
 
   'post /login/local': {
     controller: 'UserController',
-    action: 'auth_local'
+    action: 'auth_local',
+    cors: true
   },
   'post /signup': {
     controller: 'UserController',
-    action: 'signup'
+    action: 'signup',
+    cors: true
   },
   'post /logout': {
     controller: 'UserController',
-    action: 'logout'
+    action: 'logout',
+    cors: true
   },
   'get /user/logged_in': {
     controller: 'UserController',
-    action: 'logged_in'
+    action: 'logged_in',
+    cors: true
   },
 
   // EVENTS
