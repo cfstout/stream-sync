@@ -26,7 +26,7 @@ streamSyncServices.factory('user', ['$http', '$location',
 	function($http, $location) {
 		return {
             logged_in: function() {
-                    return $http.get('user/logged_in')
+                    return $http.get(root + 'user/logged_in')
                         .error(function(data, status){
                             $location.path('/login');
                         });
@@ -50,7 +50,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     password: password,
                     loc: loc
                 };
-                $http.post('/signup', params)
+                $http.post(root + 'signup', params)
                     .success(function (data, status) {
                         $location.path('/profile');
                     })
@@ -59,7 +59,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     });
                 },
             logout: function() {
-                    return $http.post('/logout')
+                    return $http.post(root + 'logout')
                         .success(function (data, status){
                             $location.path('/login');
                         })
@@ -74,10 +74,13 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
     function($http, $location, socket){
         return {
             search: function(query) {
-                return $http.get('event/list/'+query)
+                return $http.get(root + 'event/list/'+query)
                     .error(function (data, status) {
                         console.log("ERROR");
                     });
+            },
+            get_events_by_creator: function() {
+                return $http.get(root + 'event/get_events_by_creator');
             },
             create: function(eventName, date, time) {
                 //console.log(time);
@@ -86,7 +89,7 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
                     date: date,
                     time: time
                 };
-                return $http.post('event/create',params)
+                return $http.post(root + 'event/create',params)
                     .success(function (data, status){
                         $location.path('event/' + data.event.slug);
                     })
@@ -95,8 +98,8 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
                     });
             },
             join: function(slug) {
-                socket.execute('/event/' + slug + '/subscribe');
-                return $http.put('event/' + slug + '/join');
+                socket.execute(root + 'event/' + slug + '/subscribe');
+                return $http.put(root + 'event/' + slug + '/join');
             }
         };
     }]);
@@ -153,10 +156,10 @@ streamSyncServices.factory('song', ['$http', 'track',
             },
             search: {
                     youtube: function(query) {
-                        return $http.get('song/search/youtube/'+query);
+                        return $http.get(root + 'song/search/youtube/'+query);
                     },
                     soundcloud: function(query) {
-                        return $http.get('song/search/soundcloud/'+query);
+                        return $http.get(root + 'song/search/soundcloud/'+query);
                     }
                 },
             process: {
@@ -190,7 +193,7 @@ streamSyncServices.factory('song', ['$http', 'track',
                     }
                 },
             createRemoteSong: function(song) {
-                    return $http.post('song/create/remote', song);
+                    return $http.post(root + 'song/create/remote', song);
                 },
 
             initializeTrack: function(song) {
@@ -222,7 +225,7 @@ streamSyncServices.factory('playlist', ['$http','$location',
     function($http, $location){
         return {
             addSong: function(playlist_id, song) {
-                return $http.put('/playlist/'+playlist_id+'/addSong', {song: song});
+                return $http.put(root + 'playlist/'+playlist_id+'/addSong', {song: song});
             }
         };
     }]);

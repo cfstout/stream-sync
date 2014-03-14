@@ -59,8 +59,8 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
         };
     }]); 
 
-streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 'user',
-    function($scope, $http, user) {
+streamSyncControllers.controller('ProfileCtrl', ['$scope', 'user', 'event',
+    function($scope, user, event) {
         $scope.current_user = {};
         user.logged_in()
             .success(function(data, status) {
@@ -70,9 +70,8 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 'user',
         $scope.current_user_created_events = [];
         // returns the events created by the current user
         $scope.get_events_by_creator = function(){
-            $http.get('event/get_events_by_creator')
+            event.get_events_by_creator()
                 .success(function(data, status){
-                    console.log(data);
                     $scope.current_user_created_events = data.events;
                 });
             };
@@ -80,8 +79,8 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', '$http', 'user',
 
     }]); 
 
-streamSyncControllers.controller('EventListCtrl', ['$scope', '$http', 'user', 'event',
-    function($scope, $http, user, event) {
+streamSyncControllers.controller('EventListCtrl', ['$scope', 'user', 'event',
+    function($scope, user, event) {
 
         //List of events to display
         $scope.events = [];
