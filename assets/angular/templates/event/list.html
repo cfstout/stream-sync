@@ -4,7 +4,8 @@
 <div class="content default-u-padding pure-g-r">
 
   <div class="pure-u-7-24">
-    <a href="#/event/create" class="full pure-button button-lg push-up-light">Create Event</a>
+    <a href="#/event/create" class="full pure-button button-lg push-up-light"
+    data-hint="Create a New Event!" ng-class="hints ? 'hint--always hint--bottom' : 'hint--hidden'">Create Event</a>
   </div>
   
   <div class="pure-u-2-3 pure-g pure-form push-right push-up-light">
@@ -14,14 +15,16 @@
           <input ng-model="query" type="text" placeholder="query">
         </div>
       </div>
-      <button class="pure-u-7-24 pure-button button-lg push-right">Search</button>
+      <button class="pure-u-7-24 pure-button button-lg push-right"
+      data-hint="Or Search for an Existing One" ng-class="hints ? 'hint--always hint--bottom' : 'hint--hidden'">Search</button>
     </fieldset>
   </div>
 
   <div class="pure-g-r full">
     <div class="pure-u-1-3" ng-repeat="event in events">
       <div class="segment grid-item">
-        <a ng-href="#/event/{{event.slug}}" class="pure-button push-right push-down-light">Join</a>
+        <a ng-href="#/event/{{event.slug}}" class="pure-button push-right push-down-light"
+        data-hint="When You Found One Click Here" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Join</a>
         <h3>{{event.name}}</h3>
         <h4>{{event.creator}} | {{event.loc}}</h4>
         <h4>{{event.datetime | date: "MM/dd/yyyy @ hh:mm a"}}</h4>

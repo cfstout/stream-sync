@@ -5,6 +5,12 @@
             <li ng-class="base_path == 'event' ? 'pure-menu-selected' : ''"><a href="#/event/list">Events</a></li>
             <li ng-class="base_path == 'profile' ? 'pure-menu-selected' : ''"><a href="#/profile">Profile</a></li>
         </ul>
-        <a class="push-right" ng-click="logout()">Logout</a>
+        <ul class="push-right">
+            <li><a  ng-click="toggleHints()" data-hint="Click Again to Close Hints" ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'">
+                    Help
+                </a>
+            </li>
+            <li><a ng-click="logout()">Logout</a></li>
+        </ul>
     </div>
 </div>

@@ -29,7 +29,7 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
     $scope.username = "";
     $scope.password = "";
     $scope.loc = "";
-    $scope.email = ""
+    $scope.email = "";
 
     //Request to server to perform action
     $scope.submit = function() {
@@ -38,12 +38,17 @@ streamSyncControllers.controller('SignupCtrl', ['$scope', 'user',
 
   }]);
 
-streamSyncControllers.controller('NavCtrl', ['$scope', '$location', 'user', 
-  function($scope, $location, user) {
+streamSyncControllers.controller('NavCtrl', ['$scope', '$location', '$rootScope', 'user',
+  function($scope, $location, $rootScope, user) {
     $scope.logout = function() {
       user.logout();
     };
     $scope.base_path = $location.path().split('/')[1];
+
+    $rootScope.hints = false;
+    $scope.toggleHints = function(){
+      $rootScope.hints = !$rootScope.hints;
+    };
   }]);
 
 streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',

@@ -35,6 +35,10 @@
 		-webkit-transition: 0.3s ease;
 		-moz-transition: 0.3s ease;
 		transition: 0.3s ease;
+
+		font-size: 100%;
+		text-transform: none;
+		font-weight: normal;
 	}
 
 	&:hover:before, &:hover:after,

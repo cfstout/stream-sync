@@ -4180,13 +4180,16 @@ striping:
   -webkit-transition: 0.3s ease;
   -moz-transition: 0.3s ease;
   transition: 0.3s ease;
+  font-size: 100%;
+  text-transform: none;
+  font-weight: normal;
 }
-/* line 41, ../scss/hint/_hint-core.scss */
+/* line 45, ../scss/hint/_hint-core.scss */
 .hint:hover:before, .hint:hover:after, .hint:focus:before, .hint:focus:after, [data-hint]:hover:before, [data-hint]:hover:after, [data-hint]:focus:before, [data-hint]:focus:after {
   visibility: visible;
   opacity: 1;
 }
-/* line 49, ../scss/hint/_hint-core.scss */
+/* line 53, ../scss/hint/_hint-core.scss */
 .hint:before, [data-hint]:before {
   content: '';
   position: absolute;
@@ -4194,7 +4197,7 @@ striping:
   border: 6px solid transparent;
   z-index: 1000001;
 }
-/* line 61, ../scss/hint/_hint-core.scss */
+/* line 65, ../scss/hint/_hint-core.scss */
 .hint:after, [data-hint]:after {
   content: attr(data-hint);
   background: #383838;
@@ -4450,13 +4453,15 @@ striping:
 /**
  * source: hint-always.scss
  *
- * Defines a persisted tooltip which shows always.
+ * Defines a persisted tooltip which shows always
+ * or one which shows never.
  *
  * Classes added:
  * 	1) hint--always
+ *  2) hint--hidden
  *
  */
-/* line 12, ../scss/hint/_hint-always.scss */
+/* line 14, ../scss/hint/_hint-always.scss */
 .hint--always:after, .hint--always:before {
   opacity: 1;
   visibility: visible;
@@ -4484,6 +4489,17 @@ striping:
   -webkit-transform: translateX(8px);
   -moz-transform: translateX(8px);
   transform: translateX(8px);
+}
+
+/* line 37, ../scss/hint/_hint-always.scss */
+.hint--hidden:after, .hint--hidden:before {
+  visibility: hidden;
+  display: none;
+}
+
+/* line 44, ../scss/hint/_hint-always.scss */
+.hint--wrap:after {
+  white-space: normal;
 }
 
 /**
