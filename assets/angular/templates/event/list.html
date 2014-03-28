@@ -12,11 +12,11 @@
     <fieldset>
       <div class="fieldset pure-u-2-3">
         <div class="input">
-          <input ng-model="query" type="text" placeholder="query">
+          <input ng-model="query" type="text" placeholder="Filter Results">
         </div>
       </div>
       <button class="pure-u-7-24 pure-button button-lg push-right"
-      data-hint="Or Search for an Existing One" ng-class="hints ? 'hint--always hint--bottom' : 'hint--hidden'">Search</button>
+      data-hint="Or Search for an Existing One" ng-class="hints ? 'hint--always hint--bottom' : 'hint--hidden'" ng-click="search()">Search</button>
     </fieldset>
   </div>
 
