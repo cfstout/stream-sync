@@ -102,6 +102,7 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', 'user', 'event',
         $scope.search = function() {
           event.search(this.query)
             .success(function(data, status) {
+              console.log(data.events);
               $scope.events = data.events;
             });
         };

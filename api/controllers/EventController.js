@@ -186,24 +186,36 @@ module.exports = {
 		var search_func;
 		var query = req.param('query');
 		var params = {
-			or: {
-				name: { contains: query },
-				creator: { contains: query },
-				loc: { contains: query },
-			},
-			limit: 10
+			or: [
+				{ name: { contains: query } },
+				{ creator: { contains: query } },
+				{ loc: { contains: query } },
+			]
 		};
+		var searchLim = 3;
+		if(typeof(query) === 'undefined'){
+			Event.find().sort('createdAt DESC').limit(searchLim).done(function(err, events){
+				if(err){
+					return console.log(err);
+				}
+				return res.send({events: events, status: 200}, 200);
+			})
+		}
+		else{
+			Event.find(params).sort('createdAt DESC').limit(searchLim).done(function(err,events){
+				if (err) {
+					return console.log(err);
+				}
+				console.log(events);
+				console.log(params);
+				/*
+				* If successsful logs the events found 
+				* and sends them to the front end
+				*/
 
-		Event.find(params).done(function(err,events){
-			if (err) {
-				return console.log(err);
-			}	
-			/*
-			* If successsful logs the events found 
-			* and sends them to the front end
-			*/
-			return res.send({events: events, status: 200}, 200);
-		});
+				return res.send({events: events, status: 200}, 200);
+			});
+		}
 	},
 
 	/**
