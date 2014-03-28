@@ -151,8 +151,12 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
 
         return {
             initializePlayers: function() {
-                playersAPI.youtube.loadScript();
-                playersAPI.soundcloud.loadScript();
+                if (!playersAPI.youtube.isReady()) {
+                    playersAPI.youtube.loadScript();
+                }
+                if (!playersAPI.soundcloud.isReady()) {
+                    playersAPI.soundcloud.loadScript();
+                }
             },
             search: {
                     youtube: function(query) {
@@ -227,7 +231,7 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
             };
     }]);
 
-streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
+streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song',
     function($http, $location, socket, song){
 
         var observerCallback = false;
@@ -247,6 +251,7 @@ streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
             },
             set: function(playlist, userIsHost) {
                 this.instance = playlist;
+                this.instance.isPlaying = 'loading';
                 isHost = userIsHost;
                 notifyObserver();
                 this.layTrack();
@@ -256,7 +261,6 @@ streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
             },
             layTrack: function() {
                 var current = this.instance.current;
-                console.log(this.instance);
                 if (current > -1) {
                     var self = this;
                     song.initializeTrack(this.instance.songs[current], function() {
@@ -269,10 +273,14 @@ streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
                 }
             },
             play: function () {
+                this.instance.isPlaying = true;
                 song.play();
+                notifyObserver();
             },
             pause: function () {
+                this.instance.isPlaying = false;
                 song.pause();
+                notifyObserver();
             },
             stop: function () {
                 song.stop();
