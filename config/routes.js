@@ -51,7 +51,7 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'join'
   },
-  'get /event/:slug/subscribe': {
+  'post /event/:slug/subscribe': {
     controller: 'EventController',
     action: 'subscribe'
   },

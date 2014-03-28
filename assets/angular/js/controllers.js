@@ -111,8 +111,8 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', 'user', 'event',
 
     }]); 
 
-streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'song', 'playlist', 'memberlist', 'user', 'socket',
-  function($scope, $routeParams, event, song, playlist, memberlist, user, socket) {
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'playlist', 'memberlist', 'user', 'song',
+  function($scope, $routeParams, event, playlist, memberlist, user, song) {
     // get logged in user
     $scope.user = {};
         user.logged_in()
@@ -125,27 +125,26 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
     $scope.playlist = {};
     $scope.isHost = false;
 
-    $scope.initializePlayers = function() {
-      song.initializePlayers($scope.initializeTrack);
+    $scope.updatePlaylist = function() {
+      $scope.playlist = playlist.instance;
     };
 
-    // initialize track
-    $scope.initializeTrack = function() {
-      var current = $scope.playlist.current;
-      if (current > -1) {
-        song.initializeTrack($scope.playlist.songs[current]);
-      }
+    $scope.updateMemberlist = function() {
+      $scope.memberlist = memberlist.instance;
     };
 
     // initialize event
     event.join($routeParams.eventSlug)
       .success(function (data, status) {
           $scope.event = data.event;
-          $scope.memberlist = data.event.memberlist;
-          $scope.playlist = data.event.playlist;
-          $scope.playlist.isPlaying = $scope.playlist.current > -1;
           $scope.isHost = data.event.isHost;
-          $scope.initializePlayers();
+          // set playlist
+          playlist.set.call(playlist, data.event.playlist, $scope.isHost);
+          playlist.watch($scope.updatePlaylist);
+          // set memberlist
+          memberlist.set.call(memberlist, data.event.memberlist, $scope.user);
+          memberlist.watch($scope.updateMemberlist);
+
       });
 
     // Search objects
@@ -179,47 +178,26 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
         var db_song;
         song.createRemoteSong(this.selectedResult)
           .success(function (data, status) {
-              playlist.addSong($scope.playlist.id, data.song);
+              playlist.addSong(data.song);
               $scope.unselectResult();
               $scope.searchModeOff();
           });
     };
 
-    $scope.socketFuncs = {
-      'playlist': {
-        song_added: function(data) {
-          $scope.playlist.songs = data.songs;
-        },
-        initialized: function(data) {
-          $scope.playlist.current = 0;
-          $scope.initializeTrack();
-        }
-      },
-      'memberlist': {
-        user_added: function(data) {
-          $scope.memberlist.members = data.members;
-        }
-      }
-    };
-
-    // socket stuff
-    socket.on('message', function(message) {
-      $scope.socketFuncs[message.model][message.data.meta](message.data);
-    });
+    song.initializePlayers();
 
     $scope.controls = {
       play: function() { 
-        $scope.playlist.isPlaying = true;
-        song.play($scope.isHost); 
+        playlist.play(); 
       },
       pause: function() { 
-        $scope.playlist.isPlaying = false;
-        song.pause($scope.isHost); 
+        playlist.pause(); 
       }
     };
 
     $scope.$on('$destroy', function() {
-      song.stop();
+      playlist.stop();
+      memberlist.leave();
     });
 
   }]);

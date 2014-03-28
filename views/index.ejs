@@ -13,12 +13,14 @@
   <!--STYLES-->
   <link rel="stylesheet" href="/linker/css/app.css">
   <!--STYLES END-->
+  <script type="text/javascript" src="angular/lib/angular.min.js"></script>
   <!--SCRIPTS-->
   <script src="/linker/js/socket.io.js"></script>
   <script src="/linker/js/sails.io.js"></script>
-  <script src="/linker/js/general.js"></script>
+  <script src="/linker/js/init.js"></script>
+  <script src="/linker/js/ntp.js"></script>
+  <script src="/linker/js/settings.js"></script>
   <!--SCRIPTS END-->
-  <script type="text/javascript" src="angular/lib/angular.min.js"></script>
   <script>
     
 //# sourceMappingURL=angular-loader.min.js.map
@@ -45,7 +47,7 @@
       // when all is done, execute bootstrap angular application
       // debugger;
       angular.bootstrap(document, ['streamSyncApp']);
-    })
+    });
   </script>
 </head>
 <!-- where the view will be injected -->

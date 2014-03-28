@@ -16,8 +16,14 @@ streamSyncServices.factory('socket', ['$rootScope',
                     });
                 });
             },
-            execute: function(url) {
-                socket.get(url, function(res){});
+            execute: function(url, data, callback) {
+                if (typeof callback === 'undefined') {
+                    callback = function(response){};
+                }
+                if (typeof data === 'undefined') {
+                    data = {};
+                }
+                socket.post(url, data, callback);
             }
         };
     }]);
@@ -26,7 +32,7 @@ streamSyncServices.factory('user', ['$http', '$location',
 	function($http, $location) {
 		return {
             logged_in: function() {
-                    return $http.get(root + 'user/logged_in')
+                    return $http.get($settings.root + 'user/logged_in')
                         .error(function(data, status){
                             $location.path('/login');
                         });
@@ -51,7 +57,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     loc: loc,
                     email: email
                 };
-                $http.post(root + 'signup', params)
+                $http.post($settings.root + 'signup', params)
                     .success(function (data, status) {
                         $location.path('/event/list');
                     })
@@ -60,7 +66,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     });
                 },
             logout: function() {
-                    return $http.post(root + 'logout')
+                    return $http.post($settings.root + 'logout')
                         .success(function (data, status){
                             $location.path('/login');
                         })
@@ -75,13 +81,13 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
     function($http, $location, socket){
         return {
             search: function(query) {
-                return $http.get(root + 'event/list/'+query)
+                return $http.get($settings.root + 'event/list/'+query)
                     .error(function (data, status) {
                         console.log("ERROR");
                     });
             },
             get_events_by_creator: function() {
-                return $http.get(root + 'event/get_events_by_creator');
+                return $http.get($settings.root + 'event/get_events_by_creator');
             },
             create: function(eventName, datetime) {
 
@@ -90,7 +96,7 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
                     eventName: eventName,
                     datetime: datetime
                 };
-                return $http.post(root + 'event/create',params)
+                return $http.post($settings.root + 'event/create',params)
                     .success(function (data, status){
                         $location.path('event/' + data.event.slug);
                     })
@@ -99,16 +105,20 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
                     });
             },
             join: function(slug) {
-                socket.execute(root + 'event/' + slug + '/subscribe');
-                return $http.put(root + 'event/' + slug + '/join');
+                socket.execute($settings.root + 'event/' + slug + '/subscribe');
+                return $http.put($settings.root + 'event/' + slug + '/join');
             }
         };
     }]);
 
-streamSyncServices.factory('song', ['$http', 'track',
-    function($http, track) {
+streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
+    function($http, track, playersAPI) {
 
         var cur_track;
+        var playlist = {
+            isHost: false,
+            id: 0
+        };
 
         function processTitle(title) {
             var segments = title.split(' - ');
@@ -133,34 +143,17 @@ streamSyncServices.factory('song', ['$http', 'track',
         }
 
         return {
-            initializePlayers: function(callback) {
-                var youtube_tag = document.createElement('script');
-                youtube_tag.src = "https://www.youtube.com/iframe_api";
-                var soundcloud_tag = document.createElement('script');
-                soundcloud_tag.src = "https://connect.soundcloud.com/sdk.js";
-                var firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(youtube_tag, firstScriptTag);
-                firstScriptTag.parentNode.insertBefore(soundcloud_tag, firstScriptTag);
-
-                var players_check = setInterval(function() {
-                    if (youtube_player_ready && typeof SC != 'undefined') {
-                        clearInterval(players_check);
-                        SC.initialize({
-                            client_id: '9be920a0587219cd0d35a351b4366c5d'
-                        });
-                        callback();
-                    }
-                }, 100);
-                setTimeout(function() {
-                    clearInterval(players_check);
-                }, 10000);
+            initializePlayers: function() {
+                playersAPI.youtube.loadScript();
+                playersAPI.soundcloud.loadScript();
+                playersAPI.soundcloud.init();
             },
             search: {
                     youtube: function(query) {
-                        return $http.get(root + 'song/search/youtube/'+query);
+                        return $http.get($settings.root + 'song/search/youtube/'+query);
                     },
                     soundcloud: function(query) {
-                        return $http.get(root + 'song/search/soundcloud/'+query);
+                        return $http.get($settings.root + 'song/search/soundcloud/'+query);
                     }
                 },
             process: {
@@ -194,26 +187,32 @@ streamSyncServices.factory('song', ['$http', 'track',
                     }
                 },
             createRemoteSong: function(song) {
-                    return $http.post(root + 'song/create/remote', song);
+                    return $http.post($settings.root + 'song/create/remote', song);
                 },
 
-            initializeTrack: function(song) {
+            initializeTrack: function(song, callback) {
                     switch (song.source) {
                         case 'youtube':
-                            cur_track = new track.youtube(song);
+                            playersAPI.youtube.doWhenReady(function() {
+                                cur_track = new track.youtube(song);
+                                callback();
+                            });
                             break;
                         case 'soundcloud':
-                            cur_track = new track.soundcloud(song);
+                            playersAPI.soundcloud.doWhenReady(function() {
+                                cur_track = new track.soundcloud(song);
+                                callback();
+                            });
                             break;
                         default:
                             console.log(song.source + ' is and invalid source');
                             break;
                     }
                 },
-            play: function(isHost) {
+            play: function() {
                     cur_track.play();
                 },
-            pause: function(isHost) {
+            pause: function() {
                     cur_track.pause();
                 },
             stop: function() {
@@ -222,20 +221,115 @@ streamSyncServices.factory('song', ['$http', 'track',
             };
     }]);
 
-streamSyncServices.factory('playlist', ['$http','$location',
-    function($http, $location){
-        return {
+streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
+    function($http, $location, socket, song){
+
+        var observerCallback = false;
+        function notifyObserver() {
+            observerCallback();
+        }
+
+        var isHost = false;
+
+        var service = {
+            instance: false,
+            watch: function(callback) {
+                observerCallback = callback;
+                callback();
+            },
+            set: function(playlist, userIsHost) {
+                this.instance = playlist;
+                isHost = userIsHost;
+                notifyObserver();
+            },
             addSong: function(playlist_id, song) {
-                return $http.put(root + 'playlist/'+playlist_id+'/addSong', {song: song});
+                return $http.put($settings.root + 'playlist/' + this.instance.id + '/addSong', {song: song});
+            },
+            layTrack: function() {
+                var current = this.instance.current;
+                if (current > -1) {
+                    var self = this;
+                    song.initializeTrack(this.instance.songs[current], function() {
+                        self.instance.isPlaying = true;
+                        notifyObserver();
+                    });
+                } else {
+                    this.instance.isPlaying = false;
+                    notifyObserver();
+                }
+            },
+            play: function () {
+                song.play();
+            },
+            pause: function () {
+                song.pause();
+            },
+            stop: function () {
+                song.stop();
+                observerCallback = false;
             }
         };
+
+        var socketFuncs = {
+            song_added: function(data) {
+              service.instance.playlist.songs = data.songs;
+            },
+            initialized: function(data) {
+              service.instance.current = 0;
+              service.layTrack();
+            }
+        };
+
+        socket.on('message', function(message) {
+            if (message.model == 'playlist') {
+                socketFuncs[message.data.meta](message.data);
+                notifyObserver();
+            }
+        });
+
+        return service;
     }]);
 
-streamSyncServices.factory('memberlist', ['$http','$location',
-    function($http, $location){
-        return {
-            
+streamSyncServices.factory('memberlist', ['$http','$location', 'socket',
+    function($http, $location, socket){
+
+        var observerCallback = false;
+        function notifyObserver() {
+            observerCallback();
+        }
+
+        var user = {};
+
+        var service = {
+            instance: false,
+            watch: function(callback) {
+                observerCallback = callback;
+                callback();
+            },
+            set: function(memberlist, curUser) {
+                this.instance = memberlist;
+                user = curUser;
+                notifyObserver();
+            },
+            leave: function() {
+                observerCallback = false;
+            }
         };
+
+        var socketFuncs = {
+            user_added: function(data) {
+                service.instance.members = data.members;
+            }
+        };
+
+        socket.on('message', function(message) {
+            if (message.model == 'memberlist') {
+                socketFuncs[message.data.meta](message.data);
+                notifyObserver();
+            }
+        });
+
+        return service;
     }]);
 
 streamSyncServices.factory('track', [
@@ -312,4 +406,141 @@ streamSyncServices.factory('track', [
             soundcloud: SCtrack
         };
 
+    }]);
+
+streamSyncServices.factory('playersAPI', [
+    function () {
+
+        var initializers = {
+            soundcloud: {
+                isReady: false,
+                queue: []
+            },
+            youtube: {
+                isReady: false,
+                queue: []
+            }
+        };
+
+        return {
+            youtube: {
+                loadScript: function() {
+                    var firstScriptTag = document.getElementsByTagName('script')[0];
+                    var youtube_tag = document.createElement('script');
+                    youtube_tag.src = "https://www.youtube.com/iframe_api";
+                    firstScriptTag.parentNode.insertBefore(youtube_tag, firstScriptTag);
+                },
+                onReady: function() {
+                    initializers.youtube.isReady = true;
+                    initializers.youtube.queue.forEach(function(fn) {
+                        fn.func.apply(null, fn.args);
+                    });
+                },
+                doWhenReady: function(fn, args) {
+                    if (typeof args === 'undefined') {
+                        args = [];
+                    } else if(Object.prototype.toString.call(args) !== '[object Array]') {
+                        args = [args];
+                    }
+                    if (initializers.youtube.isReady) {
+                        fn.apply(null, args);
+                    } else {
+                        initializers.youtube.queue.push({
+                            func: fn,
+                            args: args
+                        });
+                    }
+                },
+                isReady: function() {
+                    return initializers.youtube.isReady;
+                }
+            },
+            soundcloud: {
+                loadScript: function() {
+                    var firstScriptTag = document.getElementsByTagName('script')[0];
+                    var soundcloud_tag = document.createElement('script');
+                    soundcloud_tag.src = "https://connect.soundcloud.com/sdk.js";
+                    firstScriptTag.parentNode.insertBefore(soundcloud_tag, firstScriptTag);
+                },
+                SCfound: function () {
+                    return (typeof SC !== 'undefined');
+                },
+                isReady: function() {
+                    return initializers.soundcloud.isReady;
+                },
+                init: function () {
+                    var self = this;
+                    var SC_check = setInterval(function() {
+                        if (self.SCfound()) {
+                            clearInterval(SC_check);
+                            SC.initialize({
+                                client_id: '9be920a0587219cd0d35a351b4366c5d'
+                            });
+                            self.onReady();
+                        }
+                    }, 100);
+                    setTimeout(function() {
+                        console.log('player could not be initialized');
+                        clearInterval(SC_check);
+                    }, 20000);
+                },
+                onReady: function() {
+                    initializers.soundcloud.isReady = true;
+                    initializers.soundcloud.queue.forEach(function(fn) {
+                        fn.func.apply(null, fn.args);
+                    });
+                },
+                doWhenReady: function(fn, args) {
+                    if (typeof args === 'undefined') {
+                        args = [];
+                    } else if(Object.prototype.toString.call(args) !== '[object Array]') {
+                        args = [args];
+                    }
+                    if (initializers.soundcloud.isReady) {
+                        fn.apply(null, args);
+                    } else {
+                        initializers.soundcloud.queue.push({
+                            func: fn,
+                            args: args
+                        });
+                    }
+                }
+            },
+            playersReady: function () {
+                return (initializers.youtube.isReady && initializers.soundcloud.isReady);
+            }
+        };
+    }]);
+
+streamSyncServices.factory('phonegap', [
+    function () {
+        var queue = [];
+        /* @TODO Change to false when pushed to device */
+        var isReady = true;
+        return {
+            onReady: function() {
+                isReady = true;
+                queue.forEach(function(fn) {
+                    fn.func.apply(null, fn.args);
+                });
+            },
+            doWhenReady: function(fn, args) {
+                if (typeof args === 'undefined') {
+                    args = [];
+                } else if(Object.prototype.toString.call(args) !== '[object Array]') {
+                    args = [args];
+                }
+                if (isReady) {
+                    fn.apply(null, args);
+                } else if (phonegapUtil.isReady) {
+                    isReady = true;
+                    fn.apply(null, args);
+                } else {
+                    queue.push({
+                        func: fn,
+                        args: args
+                    });
+                }
+            }
+        };
     }]);
