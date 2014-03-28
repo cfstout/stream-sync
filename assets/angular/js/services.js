@@ -4,6 +4,13 @@
 
 var streamSyncServices = angular.module('streamSyncServices', []);
 
+/*  To get rid of annoying errors in JSLint 
+    @TODO delete in production */
+
+if (typeof console == 'undefined') { var console = {}; }
+if (typeof $initializers == 'undefined') { var $initializers = {}; }
+if (typeof $settings == 'undefined') { var $settings = {}; }
+
 streamSyncServices.factory('socket', ['$rootScope', 
     function($rootScope) {
         var socket = io.connect();
@@ -146,7 +153,6 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
             initializePlayers: function() {
                 playersAPI.youtube.loadScript();
                 playersAPI.soundcloud.loadScript();
-                playersAPI.soundcloud.init();
             },
             search: {
                     youtube: function(query) {
@@ -226,7 +232,9 @@ streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
 
         var observerCallback = false;
         function notifyObserver() {
-            observerCallback();
+            if (observerCallback) {
+                observerCallback();
+            }
         }
 
         var isHost = false;
@@ -241,12 +249,14 @@ streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
                 this.instance = playlist;
                 isHost = userIsHost;
                 notifyObserver();
+                this.layTrack();
             },
-            addSong: function(playlist_id, song) {
+            addSong: function(song) {
                 return $http.put($settings.root + 'playlist/' + this.instance.id + '/addSong', {song: song});
             },
             layTrack: function() {
                 var current = this.instance.current;
+                console.log(this.instance);
                 if (current > -1) {
                     var self = this;
                     song.initializeTrack(this.instance.songs[current], function() {
@@ -272,7 +282,7 @@ streamSyncServices.factory('playlist', ['$http','$location','socket', 'song',
 
         var socketFuncs = {
             song_added: function(data) {
-              service.instance.playlist.songs = data.songs;
+              service.instance.songs = data.songs;
             },
             initialized: function(data) {
               service.instance.current = 0;
@@ -295,7 +305,9 @@ streamSyncServices.factory('memberlist', ['$http','$location', 'socket',
 
         var observerCallback = false;
         function notifyObserver() {
-            observerCallback();
+            if (observerCallback) {
+                observerCallback();
+            }
         }
 
         var user = {};
@@ -410,18 +422,6 @@ streamSyncServices.factory('track', [
 
 streamSyncServices.factory('playersAPI', [
     function () {
-
-        var initializers = {
-            soundcloud: {
-                isReady: false,
-                queue: []
-            },
-            youtube: {
-                isReady: false,
-                queue: []
-            }
-        };
-
         return {
             youtube: {
                 loadScript: function() {
@@ -429,30 +429,23 @@ streamSyncServices.factory('playersAPI', [
                     var youtube_tag = document.createElement('script');
                     youtube_tag.src = "https://www.youtube.com/iframe_api";
                     firstScriptTag.parentNode.insertBefore(youtube_tag, firstScriptTag);
+
+                    // initialization check
+                    var self = this;
+                    setTimeout(function() {
+                        if (!self.isReady()) {
+                            console.log('youtube could not be initialized');
+                        }
+                    }, 20000);
                 },
                 onReady: function() {
-                    initializers.youtube.isReady = true;
-                    initializers.youtube.queue.forEach(function(fn) {
-                        fn.func.apply(null, fn.args);
-                    });
+                    $initializers.onReadyApply($initializers.youtube);
                 },
                 doWhenReady: function(fn, args) {
-                    if (typeof args === 'undefined') {
-                        args = [];
-                    } else if(Object.prototype.toString.call(args) !== '[object Array]') {
-                        args = [args];
-                    }
-                    if (initializers.youtube.isReady) {
-                        fn.apply(null, args);
-                    } else {
-                        initializers.youtube.queue.push({
-                            func: fn,
-                            args: args
-                        });
-                    }
+                    $initializers.doWhenReadyApply($initializers.youtube, fn, args);
                 },
                 isReady: function() {
-                    return initializers.youtube.isReady;
+                    return $initializers.youtube.isReady;
                 }
             },
             soundcloud: {
@@ -461,12 +454,13 @@ streamSyncServices.factory('playersAPI', [
                     var soundcloud_tag = document.createElement('script');
                     soundcloud_tag.src = "https://connect.soundcloud.com/sdk.js";
                     firstScriptTag.parentNode.insertBefore(soundcloud_tag, firstScriptTag);
+                    this.init();
                 },
                 SCfound: function () {
-                    return (typeof SC !== 'undefined');
+                    return (typeof SC != 'undefined');
                 },
                 isReady: function() {
-                    return initializers.soundcloud.isReady;
+                    return $initializers.soundcloud.isReady;
                 },
                 init: function () {
                     var self = this;
@@ -480,67 +474,34 @@ streamSyncServices.factory('playersAPI', [
                         }
                     }, 100);
                     setTimeout(function() {
-                        console.log('player could not be initialized');
-                        clearInterval(SC_check);
+                        if (!self.isReady) {
+                            console.log('soundcloud could not be initialized');
+                            clearInterval(SC_check);
+                        }
                     }, 20000);
                 },
                 onReady: function() {
-                    initializers.soundcloud.isReady = true;
-                    initializers.soundcloud.queue.forEach(function(fn) {
-                        fn.func.apply(null, fn.args);
-                    });
+                    $initializers.onReadyApply($initializers.soundcloud);
                 },
                 doWhenReady: function(fn, args) {
-                    if (typeof args === 'undefined') {
-                        args = [];
-                    } else if(Object.prototype.toString.call(args) !== '[object Array]') {
-                        args = [args];
-                    }
-                    if (initializers.soundcloud.isReady) {
-                        fn.apply(null, args);
-                    } else {
-                        initializers.soundcloud.queue.push({
-                            func: fn,
-                            args: args
-                        });
-                    }
+                    $initializers.doWhenReadyApply($initializers.soundcloud, fn, args);
                 }
-            },
-            playersReady: function () {
-                return (initializers.youtube.isReady && initializers.soundcloud.isReady);
             }
         };
     }]);
 
 streamSyncServices.factory('phonegap', [
     function () {
-        var queue = [];
-        /* @TODO Change to false when pushed to device */
-        var isReady = true;
+
         return {
             onReady: function() {
-                isReady = true;
-                queue.forEach(function(fn) {
-                    fn.func.apply(null, fn.args);
-                });
+                $initializers.onReadyApply($initializers.phonegap);
             },
             doWhenReady: function(fn, args) {
-                if (typeof args === 'undefined') {
-                    args = [];
-                } else if(Object.prototype.toString.call(args) !== '[object Array]') {
-                    args = [args];
-                }
-                if (isReady) {
-                    fn.apply(null, args);
-                } else if (phonegapUtil.isReady) {
-                    isReady = true;
-                    fn.apply(null, args);
-                } else {
-                    queue.push({
-                        func: fn,
-                        args: args
-                    });
-                }
+                $initializers.doWhenReadyApply($initializers.phonegap, fn, args);
+            },
+            isReady: function() {
+                return $initializers.soundcloud.isReady;
             }
         };
     }]);
