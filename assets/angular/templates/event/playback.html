@@ -12,7 +12,7 @@
         data-hint="Current Song Details are displayed here" ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
             <h2 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].title : 'No Song Selected'}}</h2>
             <h3 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].artist : 'Add Songs to Playlist'}}</h3>
-            <h1 class="play-controller">
+            <h1 class="play-controller" ng-class="isHost && playlist.isReady ? '' : 'hidden'">
                 <a ng-click="playlist.isPlaying ? controls.pause() : controls.play()">
                     <span class="fa-stack fa-large">
                         <i class="fa fa-circle fa-stack-2x"></i>

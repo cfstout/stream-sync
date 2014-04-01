@@ -50,13 +50,43 @@ module.exports = {
     sync: function(req, res) {
         PlayList.publishUpdate(req.param('id'), {
                 meta: 'time_update',
-                time: req.param('time')
+                songTime: req.param('songTime'),
+                hostTime: req.param('hostTime'),
+                isPlaying: req.param('isPlaying'),
+                current: req.param('current')
             });
         PlayList.findOne(req.param('id')).done(function(err, playlist) {
             if (err || typeof playlist == 'undefined') {
                 return res.send({error: err, status: 500}, 500);
             }
-            playlist.time = req.param('time');
+            playlist.songTime = req.param('songTime');
+            playlist.hostTime = req.param('hostTime');
+            playlist.isPlaying = req.param('isPlaying');
+            playlist.current = req.param('current');
+            playlist.save(function(err) {
+                if (err) {
+                    return res.send({error: err, status: 500}, 500);
+                }
+                return res.send({status: 200}, 200);
+            });
+        });
+    },
+    pause: function(req, res) {
+        PlayList.publishUpdate(req.param('id'), {
+                meta: 'pause',
+                songTime: req.param('songTime'),
+                hostTime: req.param('hostTime'),
+                isPlaying: req.param('isPlaying'),
+                current: req.param('current')
+            });
+        PlayList.findOne(req.param('id')).done(function(err, playlist) {
+            if (err || typeof playlist == 'undefined') {
+                return res.send({error: err, status: 500}, 500);
+            }
+            playlist.songTime = req.param('songTime');
+            playlist.hostTime = req.param('hostTime');
+            playlist.isPlaying = req.param('isPlaying');
+            playlist.current = req.param('current');
             playlist.save(function(err) {
                 if (err) {
                     return res.send({error: err, status: 500}, 500);

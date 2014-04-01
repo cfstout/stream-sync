@@ -18,10 +18,19 @@ module.exports = {
 		},
 		current: {
 			type: 'integer',
-			defaultsTo: '-1'
+			defaultsTo: -1
 		},
-		time: {
-			type: 'float'
+		songTime: {
+			type: 'float',
+			defaultsTo: 0
+		},
+		hostTime: {
+			type: 'float',
+			defaultsTo: 0
+		},
+		isPlaying: {
+			type: 'boolean',
+			defaultsTo: false
 		}
 
 	}

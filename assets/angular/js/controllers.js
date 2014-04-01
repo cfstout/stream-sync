@@ -201,8 +201,10 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
         playlist.pause(); 
       },
       seek: function(click) {
-        var newTime = (click.offsetX / click.target.offsetWidth) * $scope.playlist.curDuration.real;
-        playlist.seek(newTime);
+        if ($scope.isHost) {
+          var newTime = (click.offsetX / click.target.offsetWidth) * $scope.playlist.curDuration.real;
+          playlist.seek(newTime);
+        }
       }
     };
 

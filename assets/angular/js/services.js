@@ -206,18 +206,16 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                     return $http.post($settings.root + 'song/create/remote', song);
                 },
 
-            initializeTrack: function(song, callback) {
+            initializeTrack: function(song, autoplay, callback) {
                     switch (song.source) {
                         case 'youtube':
                             playersAPI.youtube.doWhenReady(function() {
-                                cur_track = new track.youtube(song);
-                                callback();
+                                cur_track = new track.youtube(song, autoplay, callback);
                             });
                             break;
                         case 'soundcloud':
                             playersAPI.soundcloud.doWhenReady(function() {
-                                cur_track = new track.soundcloud(song);
-                                callback();
+                                cur_track = new track.soundcloud(song, autoplay, callback);
                             });
                             break;
                         default:
@@ -243,8 +241,10 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
         };
     }]);
 
-streamSyncServices.factory('playlist', ['$http', '$rootScope', '$location', 'socket', 'song', 'time', 'ntp',
-    function($http, $rootScope, $location, socket, song, time, ntp){
+streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 'time', 'ntp',
+    function($http, $location, socket, song, time, ntp){
+
+        ntp.init();
 
         var observerCallback = false;
         function notifyObserver() {
@@ -255,25 +255,59 @@ streamSyncServices.factory('playlist', ['$http', '$rootScope', '$location', 'soc
 
         var isHost = false;
 
-        var timeUpdates = false;
-
-        function setTimeUpdates(playlist) {
-            timeUpdates = setInterval(function() {
-                playlist.curTime.real = song.getTime();
-                if (isHost) {
-                    socket.execute($settings.root + 'playlist/' + playlist.id + '/sync', {
-                        time: playlist.curTime.real
+        var timeUpdate = {
+            happening: false,
+            playlist: null,
+            publish: {
+                update: function(ms) {
+                var updatedTime = typeof ms == 'undefined' ? this.playlist.curTime.real : ms;
+                socket.execute($settings.root + 'playlist/' + this.playlist.id + '/sync', {
+                        songTime: updatedTime,
+                        hostTime: ntp.getTime(),
+                        current: this.playlist.current,
+                        isPlaying: this.playlist.isPlaying
+                    });
+                },
+                pause: function() {
+                    socket.execute($settings.root + 'playlist/' + this.playlist.id + '/pause', {
+                        songTime: this.playlist.curTime.real,
+                        hostTime: ntp.getTime(),
+                        current: this.playlist.current,
+                        isPlaying: this.playlist.isPlaying
                     });
                 }
+            },
+            update: function() {
+                this.playlist.curTime.real = song.getTime();
+                if (isHost) {
+                    this.publish.update();
+                }
                 notifyObserver();
-                $rootScope.$digest();
-            }, 100);
-        }
-
-        function stopTimeUpdates() {
-            clearInterval(timeUpdates);
-            timeUpdates = false;
-        }
+            },
+            init: function(playlist) {
+                this.playlist = playlist;
+                this.publish.playlist = playlist;
+                playlist.curDuration = {
+                    real: playlist.songs[playlist.current].duration,
+                    pretty: time.prettify(playlist.songs[playlist.current].duration)
+                };
+                var offset = playlist.isPlaying ? playlist.hostTime - ntp.getTime() : 0;
+                playlist.songTime = offset + playlist.songTime;
+                playlist.curTime = {
+                    real: playlist.songTime
+                };
+            },
+            start: function() {
+                var self = this;
+                this.happening = setInterval(function() {
+                    self.update();
+                }, 100);
+            },
+            stop: function() {
+                clearInterval(this.happening);
+                this.happening = false;
+            }
+        };
 
         var service = {
             instance: false,
@@ -283,7 +317,7 @@ streamSyncServices.factory('playlist', ['$http', '$rootScope', '$location', 'soc
             },
             set: function(playlist, userIsHost) {
                 this.instance = playlist;
-                this.instance.isPlaying = 'loading';
+                this.instance.isReady = false;
                 isHost = userIsHost;
                 notifyObserver();
                 this.layTrack();
@@ -295,42 +329,43 @@ streamSyncServices.factory('playlist', ['$http', '$rootScope', '$location', 'soc
                 var current = this.instance.current;
                 if (current > -1) {
                     var self = this;
-                    song.initializeTrack(this.instance.songs[current], function() {
-                        self.instance.isPlaying = true;
-                        self.instance.curDuration = {
-                            real: self.instance.songs[current].duration,
-                            pretty: time.prettify(self.instance.songs[current].duration)
-                        };
-                        self.instance.curTime = {
-                            real: 0
-                        };
-                        setTimeUpdates(self.instance);
+                    song.initializeTrack(this.instance.songs[current], this.instance.isPlaying, function() {
+                        self.instance.isReady = true;
+                        timeUpdate.init(self.instance);
+                        self.seek(self.instance.songTime);
+                        if (self.instance.isPlaying) {
+                            timeUpdate.start();
+                        }
                         notifyObserver();
                     });
-                } else {
-                    this.instance.isPlaying = false;
-                    notifyObserver();
                 }
             },
             play: function () {
                 this.instance.isPlaying = true;
-                setTimeUpdates(this.instance);
+                timeUpdate.start();
                 song.play();
                 notifyObserver();
             },
             pause: function () {
                 this.instance.isPlaying = false;
-                stopTimeUpdates();
+                timeUpdate.stop();
+                if (isHost) {
+                    timeUpdate.publish.pause();
+                }
                 song.pause();
                 notifyObserver();
             },
             stop: function () {
                 song.stop();
-                stopTimeUpdates();
+                timeUpdate.stop();
                 observerCallback = false;
             },
             seek: function(ms) {
                 song.seek(ms);
+                if (isHost) {
+                    timeUpdate.publish.update(ms);
+                }
+                this.instance.curTime.real = ms;
                 notifyObserver();
             }
         };
@@ -349,8 +384,12 @@ streamSyncServices.factory('playlist', ['$http', '$rootScope', '$location', 'soc
                         service.seek(data.time);
                     }
                 }
-                console.log('update recieved: ' + data.time);
-            } 
+            },
+            pause: function(data) {
+                if (!isHost) {
+                    service.pause();
+                }
+            }
         };
 
         socket.on('message', function(message) {
@@ -412,14 +451,21 @@ streamSyncServices.factory('track', [
 
         var track;
 
-        function YTtrack(song) {
+        function YTtrack(song, autoplay, callback) {
             track = this;
             this.song = song;
             this.isReady = false;
+            this.initializers = {
+                autoplay: autoplay,
+                callback: callback
+            };
             this.player = new YT.Player('ytplayer', {
                 height: 0,
                 width: 0,
                 videoId: song.source_id,
+                playerVars : {
+                    autoplay: 0
+                },
                 events: {
                     'onReady': track.onReady
                 }
@@ -429,7 +475,12 @@ streamSyncServices.factory('track', [
         YTtrack.prototype = {
             onReady: function() {
                 track.isReady = true;
-                track.play();
+                if (track.initializers.autoplay) {
+                    track.play();
+                } else {
+                    track.pause();
+                }
+                track.initializers.callback();
             },
             play: function() {
                 if (this.isReady) {
@@ -458,7 +509,7 @@ streamSyncServices.factory('track', [
             }
         };
 
-        function SCtrack(song) {
+        function SCtrack(song, autoplay, callback) {
             track = this;
             this.song = song;
             this.isReady = false;
@@ -466,7 +517,10 @@ streamSyncServices.factory('track', [
             SC.stream('/tracks/'+song.source_id, function(player) {
                 track.player = player;
                 track.isReady = true;
-                track.play();
+                if (autoplay) {
+                    track.play();
+                }
+                callback();
             });
         }
 
@@ -654,6 +708,9 @@ streamSyncServices.factory('ntp', ['socket',
 
                 sum /= offsets.length;
                 return sum;
+            },
+            getTime: function() {
+                return Date.now() + this.offset();
             }
         };
     }]);
