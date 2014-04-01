@@ -31,6 +31,12 @@ streamSyncServices.factory('socket', ['$rootScope',
                     data = {};
                 }
                 socket.post(url, data, callback);
+            },
+            emit: function(name, data) {
+                if (typeof data == 'undefined') {
+                    data = {};
+                }
+                socket.emit(name, data);
             }
         };
     }]);
@@ -49,7 +55,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                         username: username,
                         password: password
                     };
-                    return $http.post('/login/local', params)
+                    return $http.post($settings.root + 'login/local', params)
                         .success(function (data, status) {
                             $location.path('/event/list');
                         })
@@ -227,12 +233,18 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                 },
             stop: function() {
                     cur_track.stop();
+                },
+            seek: function(ms) {
+                    cur_track.seek(ms);
+                },
+            getTime: function() {
+                    return cur_track.getTime();
                 }
-            };
+        };
     }]);
 
-streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song',
-    function($http, $location, socket, song){
+streamSyncServices.factory('playlist', ['$http', '$rootScope', '$location', 'socket', 'song', 'time', 'ntp',
+    function($http, $rootScope, $location, socket, song, time, ntp){
 
         var observerCallback = false;
         function notifyObserver() {
@@ -242,6 +254,26 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song',
         }
 
         var isHost = false;
+
+        var timeUpdates = false;
+
+        function setTimeUpdates(playlist) {
+            timeUpdates = setInterval(function() {
+                playlist.curTime.real = song.getTime();
+                if (isHost) {
+                    socket.execute($settings.root + 'playlist/' + playlist.id + '/sync', {
+                        time: playlist.curTime.real
+                    });
+                }
+                notifyObserver();
+                $rootScope.$digest();
+            }, 100);
+        }
+
+        function stopTimeUpdates() {
+            clearInterval(timeUpdates);
+            timeUpdates = false;
+        }
 
         var service = {
             instance: false,
@@ -265,6 +297,14 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song',
                     var self = this;
                     song.initializeTrack(this.instance.songs[current], function() {
                         self.instance.isPlaying = true;
+                        self.instance.curDuration = {
+                            real: self.instance.songs[current].duration,
+                            pretty: time.prettify(self.instance.songs[current].duration)
+                        };
+                        self.instance.curTime = {
+                            real: 0
+                        };
+                        setTimeUpdates(self.instance);
                         notifyObserver();
                     });
                 } else {
@@ -274,17 +314,24 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song',
             },
             play: function () {
                 this.instance.isPlaying = true;
+                setTimeUpdates(this.instance);
                 song.play();
                 notifyObserver();
             },
             pause: function () {
                 this.instance.isPlaying = false;
+                stopTimeUpdates();
                 song.pause();
                 notifyObserver();
             },
             stop: function () {
                 song.stop();
+                stopTimeUpdates();
                 observerCallback = false;
+            },
+            seek: function(ms) {
+                song.seek(ms);
+                notifyObserver();
             }
         };
 
@@ -295,7 +342,15 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song',
             initialized: function(data) {
               service.instance.current = 0;
               service.layTrack();
-            }
+            },
+            time_update: function(data) {
+                if (!isHost) {
+                    if (Math.abs(service.instance.curTime.real - data.time) > 200) {
+                        service.seek(data.time);
+                    }
+                }
+                console.log('update recieved: ' + data.time);
+            } 
         };
 
         socket.on('message', function(message) {
@@ -388,6 +443,18 @@ streamSyncServices.factory('track', [
             },
             stop: function() {
                 this.player.stopVideo();
+            },
+            seek: function(ms) {
+                if (this.isReady) {
+                    this.player.seekTo(ms/1000);
+                }
+            },
+            getTime: function() {
+                if (this.isReady) {
+                    return this.player.getCurrentTime()*1000;
+                } else {
+                    return 0;
+                }
             }
         };
 
@@ -418,6 +485,18 @@ streamSyncServices.factory('track', [
             },
             stop: function() {
                 this.player.stop();
+            },
+            seek: function(ms) {
+                if (this.isReady) {
+                    this.player.setPosition(ms);
+                }
+            },
+            getTime: function() {
+                if (this.isReady) {
+                    return this.player.position;
+                } else {
+                    return 0;
+                }
             }
         };
 
@@ -510,6 +589,71 @@ streamSyncServices.factory('phonegap', [
             },
             isReady: function() {
                 return $initializers.soundcloud.isReady;
+            }
+        };
+    }]);
+
+streamSyncServices.factory('time', [
+    function() {
+        var divisors = [1000, 60, 60];
+        return {
+            prettify: function(ms, places) {
+                var segments = [];
+                if (typeof places == 'undefined') {
+                    places = 2;
+                }
+                for (var i = 0; i < divisors.length; i++) {
+                    segments.push(Math.floor(ms % divisors[i]));
+                    ms = ms / divisors[i];
+                }
+                var result = "";
+                var segment = "";
+                for (var j = 0; j < places; j++) {
+                    segment = segments[divisors.length-j-1];
+                    if (segment < 10) {
+                        result = result + 0;
+                    }
+                    result = result + segment;
+                    if (j < places - 1) {
+                        result = result + ':';
+                    }
+                }
+                return result;
+            }
+        };
+    }]);
+
+streamSyncServices.factory('ntp', ['socket',
+    function(socket) {
+        var offsets = [];
+
+        var onSync = function (data) {
+            var diff = Date.now() - data.t1 + ((Date.now() - data.t0)/2);
+            offsets.unshift(diff);
+            if (offsets.length > 10) {
+              offsets.pop();
+            }
+        }; 
+
+        var sync = function () {
+            socket.emit('ntp:client_sync', { t0 : Date.now() });
+        };
+
+        return {
+            init: function() {
+                socket.execute($settings.root + 'ntp/sync');
+                socket.on('ntp:server_sync', function(data) {
+                    onSync(data);
+                });
+                setInterval(sync, 1000);
+            },
+            offset: function() {
+                var sum = 0;
+                for (var i = 0; i < offsets.length; i++)
+                    sum += offsets[i];
+
+                sum /= offsets.length;
+                return sum;
             }
         };
     }]);

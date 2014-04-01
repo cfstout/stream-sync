@@ -111,8 +111,8 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', 'user', 'event',
 
     }]); 
 
-streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'playlist', 'memberlist', 'user', 'song',
-  function($scope, $routeParams, event, playlist, memberlist, user, song) {
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'playlist', 'memberlist', 'user', 'song', 'time',
+  function($scope, $routeParams, event, playlist, memberlist, user, song, time) {
     // get logged in user
     $scope.user = {};
         user.logged_in()
@@ -125,8 +125,16 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
     $scope.playlist = {};
     $scope.isHost = false;
 
+    $scope.updateTime = function() {
+      if ($scope.playlist.curTime) {
+        $scope.playlist.percentPlayed = (100 * $scope.playlist.curTime.real / $scope.playlist.curDuration.real);
+        $scope.playlist.curTime.pretty = time.prettify($scope.playlist.curTime.real);
+      }
+    };
+
     $scope.updatePlaylist = function() {
       $scope.playlist = playlist.instance;
+      $scope.updateTime();
     };
 
     $scope.updateMemberlist = function() {
@@ -175,7 +183,6 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
 
     // Adding Song
     $scope.addSelectedSong = function() {
-        var db_song;
         song.createRemoteSong(this.selectedResult)
           .success(function (data, status) {
               playlist.addSong(data.song);
@@ -192,6 +199,10 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
       },
       pause: function() { 
         playlist.pause(); 
+      },
+      seek: function(click) {
+        var newTime = (click.offsetX / click.target.offsetWidth) * $scope.playlist.curDuration.real;
+        playlist.seek(newTime);
       }
     };
 

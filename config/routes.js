@@ -61,6 +61,10 @@ module.exports.routes = {
     controller: 'PlayListController',
     action: 'addSong'
   },
+  'post /playlist/:id/sync': {
+    controller: 'PlayListController',
+    action: 'sync'
+  },
 
   // SONGS
 
@@ -71,6 +75,13 @@ module.exports.routes = {
   'post /song/create/remote': {
     controller: 'SongController',
     action: 'create_remote'
+  },
+
+  // MISC
+
+  'post /ntp/sync': {
+    controller: 'NtpController',
+    action: 'sync'
   }
 
 

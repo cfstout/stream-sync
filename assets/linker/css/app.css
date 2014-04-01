@@ -62,6 +62,13 @@ audio:not([controls]) {
   display: none;
 }
 
+/* line 67, ../scss/_pure.scss */
+div {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
 /* ==========================================================================
    Base
    ========================================================================== */
@@ -71,7 +78,7 @@ audio:not([controls]) {
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
-/* line 78, ../scss/_pure.scss */
+/* line 84, ../scss/_pure.scss */
 html {
   font-size: 100%;
   /* 1 */
@@ -85,7 +92,7 @@ html {
  * Address `font-family` inconsistency between `textarea` and other form
  * elements.
  */
-/* line 93, ../scss/_pure.scss */
+/* line 99, ../scss/_pure.scss */
 html,
 button,
 input,
@@ -97,7 +104,7 @@ textarea {
 /**
  * Address margins handled incorrectly in IE 6/7.
  */
-/* line 101, ../scss/_pure.scss */
+/* line 107, ../scss/_pure.scss */
 body {
   margin: 0;
 }
@@ -108,7 +115,7 @@ body {
 /**
  * Address `outline` inconsistency between Chrome and other browsers.
  */
-/* line 113, ../scss/_pure.scss */
+/* line 119, ../scss/_pure.scss */
 a:focus {
   outline: thin dotted;
 }
@@ -116,7 +123,7 @@ a:focus {
 /**
  * Improve readability when focused and also mouse hovered in all browsers.
  */
-/* line 122, ../scss/_pure.scss */
+/* line 128, ../scss/_pure.scss */
 a:active,
 a:hover {
   outline: 0;
@@ -130,42 +137,42 @@ a:hover {
  * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
  * and Chrome.
  */
-/* line 136, ../scss/_pure.scss */
+/* line 142, ../scss/_pure.scss */
 h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0;
 }
 
-/* line 140, ../scss/_pure.scss */
+/* line 146, ../scss/_pure.scss */
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
 
-/* line 145, ../scss/_pure.scss */
+/* line 151, ../scss/_pure.scss */
 h2 {
   font-size: 1.5em;
   margin: 0.83em 0;
 }
 
-/* line 150, ../scss/_pure.scss */
+/* line 156, ../scss/_pure.scss */
 h3 {
   font-size: 1.17em;
   margin: 1em 0;
 }
 
-/* line 155, ../scss/_pure.scss */
+/* line 161, ../scss/_pure.scss */
 h4 {
   font-size: 1em;
   margin: 1.33em 0;
 }
 
-/* line 160, ../scss/_pure.scss */
+/* line 166, ../scss/_pure.scss */
 h5 {
   font-size: 0.83em;
   margin: 1.67em 0;
 }
 
-/* line 165, ../scss/_pure.scss */
+/* line 171, ../scss/_pure.scss */
 h6 {
   font-size: 0.67em;
   margin: 2.33em 0;
@@ -174,7 +181,7 @@ h6 {
 /**
  * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
  */
-/* line 174, ../scss/_pure.scss */
+/* line 180, ../scss/_pure.scss */
 abbr[title] {
   border-bottom: 1px dotted;
 }
@@ -182,13 +189,13 @@ abbr[title] {
 /**
  * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
  */
-/* line 183, ../scss/_pure.scss */
+/* line 189, ../scss/_pure.scss */
 b,
 strong {
   font-weight: bold;
 }
 
-/* line 187, ../scss/_pure.scss */
+/* line 193, ../scss/_pure.scss */
 blockquote {
   margin: 1em 40px;
 }
@@ -196,7 +203,7 @@ blockquote {
 /**
  * Address styling not present in Safari 5 and Chrome.
  */
-/* line 195, ../scss/_pure.scss */
+/* line 201, ../scss/_pure.scss */
 dfn {
   font-style: italic;
 }
@@ -205,7 +212,7 @@ dfn {
  * Address differences between Firefox and other browsers.
  * Known issue: no IE 6/7 normalization.
  */
-/* line 204, ../scss/_pure.scss */
+/* line 210, ../scss/_pure.scss */
 hr {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -215,7 +222,7 @@ hr {
 /**
  * Address styling not present in IE 6/7/8/9.
  */
-/* line 214, ../scss/_pure.scss */
+/* line 220, ../scss/_pure.scss */
 mark {
   background: #ff0;
   color: #000;
@@ -224,7 +231,7 @@ mark {
 /**
  * Address margins set differently in IE 6/7.
  */
-/* line 224, ../scss/_pure.scss */
+/* line 230, ../scss/_pure.scss */
 p,
 pre {
   margin: 1em 0;
@@ -233,7 +240,7 @@ pre {
 /**
  * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
  */
-/* line 235, ../scss/_pure.scss */
+/* line 241, ../scss/_pure.scss */
 code,
 kbd,
 pre,
@@ -246,7 +253,7 @@ samp {
 /**
  * Improve readability of pre-formatted text in all browsers.
  */
-/* line 245, ../scss/_pure.scss */
+/* line 251, ../scss/_pure.scss */
 pre {
   white-space: pre;
   white-space: pre-wrap;
@@ -256,7 +263,7 @@ pre {
 /**
  * Address CSS quotes not supported in IE 6/7.
  */
-/* line 255, ../scss/_pure.scss */
+/* line 261, ../scss/_pure.scss */
 q {
   quotes: none;
 }
@@ -264,7 +271,7 @@ q {
 /**
  * Address `quotes` property not supported in Safari 4.
  */
-/* line 264, ../scss/_pure.scss */
+/* line 270, ../scss/_pure.scss */
 q:before,
 q:after {
   content: '';
@@ -274,7 +281,7 @@ q:after {
 /**
  * Address inconsistent and variable font size in all browsers.
  */
-/* line 273, ../scss/_pure.scss */
+/* line 279, ../scss/_pure.scss */
 small {
   font-size: 80%;
 }
@@ -282,7 +289,7 @@ small {
 /**
  * Prevent `sub` and `sup` affecting `line-height` in all browsers.
  */
-/* line 282, ../scss/_pure.scss */
+/* line 288, ../scss/_pure.scss */
 sub,
 sup {
   font-size: 75%;
@@ -291,12 +298,12 @@ sup {
   vertical-align: baseline;
 }
 
-/* line 289, ../scss/_pure.scss */
+/* line 295, ../scss/_pure.scss */
 sup {
   top: -0.5em;
 }
 
-/* line 293, ../scss/_pure.scss */
+/* line 299, ../scss/_pure.scss */
 sub {
   bottom: -0.25em;
 }
@@ -307,7 +314,7 @@ sub {
 /**
  * Address margins set differently in IE 6/7.
  */
-/* line 308, ../scss/_pure.scss */
+/* line 314, ../scss/_pure.scss */
 dl,
 menu,
 ol,
@@ -315,7 +322,7 @@ ul {
   margin: 1em 0;
 }
 
-/* line 312, ../scss/_pure.scss */
+/* line 318, ../scss/_pure.scss */
 dd {
   margin: 0 0 0 40px;
 }
@@ -323,7 +330,7 @@ dd {
 /**
  * Address paddings set differently in IE 6/7.
  */
-/* line 322, ../scss/_pure.scss */
+/* line 328, ../scss/_pure.scss */
 menu,
 ol,
 ul {
@@ -333,7 +340,7 @@ ul {
 /**
  * Correct list images handled incorrectly in IE 7.
  */
-/* line 331, ../scss/_pure.scss */
+/* line 337, ../scss/_pure.scss */
 nav ul,
 nav ol {
   list-style: none;
@@ -347,7 +354,7 @@ nav ol {
  * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
  * 2. Improve image quality when scaled in IE 7.
  */
-/* line 345, ../scss/_pure.scss */
+/* line 351, ../scss/_pure.scss */
 img {
   border: 0;
   /* 1 */
@@ -358,7 +365,7 @@ img {
 /**
  * Correct overflow displayed oddly in IE 9.
  */
-/* line 354, ../scss/_pure.scss */
+/* line 360, ../scss/_pure.scss */
 svg:not(:root) {
   overflow: hidden;
 }
@@ -369,7 +376,7 @@ svg:not(:root) {
 /**
  * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
  */
-/* line 366, ../scss/_pure.scss */
+/* line 372, ../scss/_pure.scss */
 figure {
   margin: 0;
 }
@@ -380,7 +387,7 @@ figure {
 /**
  * Correct margin displayed oddly in IE 6/7.
  */
-/* line 378, ../scss/_pure.scss */
+/* line 384, ../scss/_pure.scss */
 form {
   margin: 0;
 }
@@ -388,7 +395,7 @@ form {
 /**
  * Define consistent border, margin, and padding.
  */
-/* line 386, ../scss/_pure.scss */
+/* line 392, ../scss/_pure.scss */
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
@@ -400,7 +407,7 @@ fieldset {
  * 2. Correct text not wrapping in Firefox 3.
  * 3. Correct alignment displayed oddly in IE 6/7.
  */
-/* line 398, ../scss/_pure.scss */
+/* line 404, ../scss/_pure.scss */
 legend {
   border: 0;
   /* 1 */
@@ -417,7 +424,7 @@ legend {
  *    and Chrome.
  * 3. Improve appearance and consistency in all browsers.
  */
-/* line 415, ../scss/_pure.scss */
+/* line 421, ../scss/_pure.scss */
 button,
 input,
 select,
@@ -436,7 +443,7 @@ textarea {
  * Address Firefox 3+ setting `line-height` on `input` using `!important` in
  * the UA stylesheet.
  */
-/* line 428, ../scss/_pure.scss */
+/* line 434, ../scss/_pure.scss */
 button,
 input {
   line-height: normal;
@@ -448,7 +455,7 @@ input {
  * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
  * Correct `select` style inheritance in Firefox 4+ and Opera.
  */
-/* line 440, ../scss/_pure.scss */
+/* line 446, ../scss/_pure.scss */
 button,
 select {
   text-transform: none;
@@ -463,7 +470,7 @@ select {
  * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
  *    Known issue: inner spacing remains in IE 6.
  */
-/* line 457, ../scss/_pure.scss */
+/* line 463, ../scss/_pure.scss */
 button,
 html input[type="button"],
 input[type="reset"],
@@ -479,7 +486,7 @@ input[type="submit"] {
 /**
  * Re-set default cursor for disabled elements.
  */
-/* line 468, ../scss/_pure.scss */
+/* line 474, ../scss/_pure.scss */
 button[disabled],
 html input[disabled] {
   cursor: default;
@@ -491,7 +498,7 @@ html input[disabled] {
  * 3. Remove excess padding in IE 7.
  *    Known issue: excess padding remains in IE 6.
  */
-/* line 480, ../scss/_pure.scss */
+/* line 486, ../scss/_pure.scss */
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
@@ -509,7 +516,7 @@ input[type="radio"] {
  * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
  *    (include `-moz` to future-proof).
  */
-/* line 493, ../scss/_pure.scss */
+/* line 499, ../scss/_pure.scss */
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
@@ -523,7 +530,7 @@ input[type="search"] {
  * Remove inner padding and search cancel button in Safari 5 and Chrome
  * on OS X.
  */
-/* line 506, ../scss/_pure.scss */
+/* line 512, ../scss/_pure.scss */
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -532,7 +539,7 @@ input[type="search"]::-webkit-search-decoration {
 /**
  * Remove inner padding and border in Firefox 3+.
  */
-/* line 515, ../scss/_pure.scss */
+/* line 521, ../scss/_pure.scss */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
@@ -543,7 +550,7 @@ input::-moz-focus-inner {
  * 1. Remove default vertical scrollbar in IE 6/7/8/9.
  * 2. Improve readability and alignment in all browsers.
  */
-/* line 525, ../scss/_pure.scss */
+/* line 531, ../scss/_pure.scss */
 textarea {
   overflow: auto;
   /* 1 */
@@ -557,7 +564,7 @@ textarea {
 /**
  * Remove most spacing between table cells.
  */
-/* line 538, ../scss/_pure.scss */
+/* line 544, ../scss/_pure.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -573,13 +580,13 @@ table {
 /**
  * Always hide an element when it has the `hidden` HTML attribute.
  */
-/* line 557, ../scss/_pure.scss */
+/* line 563, ../scss/_pure.scss */
 [hidden] {
   display: none !important;
 }
 
 /*csslint regex-selectors:false, known-properties:false, duplicate-properties:false*/
-/* line 563, ../scss/_pure.scss */
+/* line 569, ../scss/_pure.scss */
 .pure-g {
   letter-spacing: -0.31em;
   /* Webkit: collapse white-space between units */
@@ -623,13 +630,13 @@ table {
    The ".opera-only" selector is used to prevent actual prefocus styling
    and is not required in markup.
 */
-/* line 607, ../scss/_pure.scss */
+/* line 613, ../scss/_pure.scss */
 .opera-only :-o-prefocus,
 .pure-g {
   word-spacing: -0.43em;
 }
 
-/* line 611, ../scss/_pure.scss */
+/* line 617, ../scss/_pure.scss */
 .pure-u {
   display: inline-block;
   *display: inline;
@@ -645,12 +652,12 @@ table {
 Resets the font family back to the OS/browser's default sans-serif font,
 this the same font stack that Normalize.css sets for the `body`.
 */
-/* line 625, ../scss/_pure.scss */
+/* line 631, ../scss/_pure.scss */
 .pure-g [class*="pure-u"] {
   font-family: sans-serif;
 }
 
-/* line 674, ../scss/_pure.scss */
+/* line 680, ../scss/_pure.scss */
 .pure-u-1,
 .pure-u-1-1,
 .pure-u-1-2,
@@ -706,184 +713,184 @@ this the same font stack that Normalize.css sets for the `body`.
   text-rendering: auto;
 }
 
-/* line 684, ../scss/_pure.scss */
+/* line 690, ../scss/_pure.scss */
 .pure-u-1-24 {
   width: 4.1667%;
   *width: 4.1357%;
 }
 
-/* line 690, ../scss/_pure.scss */
+/* line 696, ../scss/_pure.scss */
 .pure-u-1-12,
 .pure-u-2-24 {
   width: 8.3333%;
   *width: 8.3023%;
 }
 
-/* line 696, ../scss/_pure.scss */
+/* line 702, ../scss/_pure.scss */
 .pure-u-1-8,
 .pure-u-3-24 {
   width: 12.5000%;
   *width: 12.4690%;
 }
 
-/* line 702, ../scss/_pure.scss */
+/* line 708, ../scss/_pure.scss */
 .pure-u-1-6,
 .pure-u-4-24 {
   width: 16.6667%;
   *width: 16.6357%;
 }
 
-/* line 707, ../scss/_pure.scss */
+/* line 713, ../scss/_pure.scss */
 .pure-u-1-5 {
   width: 20%;
   *width: 19.9690%;
 }
 
-/* line 712, ../scss/_pure.scss */
+/* line 718, ../scss/_pure.scss */
 .pure-u-5-24 {
   width: 20.8333%;
   *width: 20.8023%;
 }
 
-/* line 718, ../scss/_pure.scss */
+/* line 724, ../scss/_pure.scss */
 .pure-u-1-4,
 .pure-u-6-24 {
   width: 25%;
   *width: 24.9690%;
 }
 
-/* line 723, ../scss/_pure.scss */
+/* line 729, ../scss/_pure.scss */
 .pure-u-7-24 {
   width: 29.1667%;
   *width: 29.1357%;
 }
 
-/* line 729, ../scss/_pure.scss */
+/* line 735, ../scss/_pure.scss */
 .pure-u-1-3,
 .pure-u-8-24 {
   width: 33.3333%;
   *width: 33.3023%;
 }
 
-/* line 735, ../scss/_pure.scss */
+/* line 741, ../scss/_pure.scss */
 .pure-u-3-8,
 .pure-u-9-24 {
   width: 37.5000%;
   *width: 37.4690%;
 }
 
-/* line 740, ../scss/_pure.scss */
+/* line 746, ../scss/_pure.scss */
 .pure-u-2-5 {
   width: 40%;
   *width: 39.9690%;
 }
 
-/* line 746, ../scss/_pure.scss */
+/* line 752, ../scss/_pure.scss */
 .pure-u-5-12,
 .pure-u-10-24 {
   width: 41.6667%;
   *width: 41.6357%;
 }
 
-/* line 751, ../scss/_pure.scss */
+/* line 757, ../scss/_pure.scss */
 .pure-u-11-24 {
   width: 45.8333%;
   *width: 45.8023%;
 }
 
-/* line 757, ../scss/_pure.scss */
+/* line 763, ../scss/_pure.scss */
 .pure-u-1-2,
 .pure-u-12-24 {
   width: 50%;
   *width: 49.9690%;
 }
 
-/* line 762, ../scss/_pure.scss */
+/* line 768, ../scss/_pure.scss */
 .pure-u-13-24 {
   width: 54.1667%;
   *width: 54.1357%;
 }
 
-/* line 768, ../scss/_pure.scss */
+/* line 774, ../scss/_pure.scss */
 .pure-u-7-12,
 .pure-u-14-24 {
   width: 58.3333%;
   *width: 58.3023%;
 }
 
-/* line 773, ../scss/_pure.scss */
+/* line 779, ../scss/_pure.scss */
 .pure-u-3-5 {
   width: 60%;
   *width: 59.9690%;
 }
 
-/* line 779, ../scss/_pure.scss */
+/* line 785, ../scss/_pure.scss */
 .pure-u-5-8,
 .pure-u-15-24 {
   width: 62.5000%;
   *width: 62.4690%;
 }
 
-/* line 785, ../scss/_pure.scss */
+/* line 791, ../scss/_pure.scss */
 .pure-u-2-3,
 .pure-u-16-24 {
   width: 66.6667%;
   *width: 66.6357%;
 }
 
-/* line 790, ../scss/_pure.scss */
+/* line 796, ../scss/_pure.scss */
 .pure-u-17-24 {
   width: 70.8333%;
   *width: 70.8023%;
 }
 
-/* line 796, ../scss/_pure.scss */
+/* line 802, ../scss/_pure.scss */
 .pure-u-3-4,
 .pure-u-18-24 {
   width: 75%;
   *width: 74.9690%;
 }
 
-/* line 801, ../scss/_pure.scss */
+/* line 807, ../scss/_pure.scss */
 .pure-u-19-24 {
   width: 79.1667%;
   *width: 79.1357%;
 }
 
-/* line 806, ../scss/_pure.scss */
+/* line 812, ../scss/_pure.scss */
 .pure-u-4-5 {
   width: 80%;
   *width: 79.9690%;
 }
 
-/* line 812, ../scss/_pure.scss */
+/* line 818, ../scss/_pure.scss */
 .pure-u-5-6,
 .pure-u-20-24 {
   width: 83.3333%;
   *width: 83.3023%;
 }
 
-/* line 818, ../scss/_pure.scss */
+/* line 824, ../scss/_pure.scss */
 .pure-u-7-8,
 .pure-u-21-24 {
   width: 87.5000%;
   *width: 87.4690%;
 }
 
-/* line 824, ../scss/_pure.scss */
+/* line 830, ../scss/_pure.scss */
 .pure-u-11-12,
 .pure-u-22-24 {
   width: 91.6667%;
   *width: 91.6357%;
 }
 
-/* line 829, ../scss/_pure.scss */
+/* line 835, ../scss/_pure.scss */
 .pure-u-23-24 {
   width: 95.8333%;
   *width: 95.8023%;
 }
 
-/* line 837, ../scss/_pure.scss */
+/* line 843, ../scss/_pure.scss */
 .pure-u-1,
 .pure-u-1-1,
 .pure-u-5-5,
@@ -892,7 +899,7 @@ this the same font stack that Normalize.css sets for the `body`.
 }
 
 /*csslint regex-selectors:false, known-properties:false, duplicate-properties:false*/
-/* line 842, ../scss/_pure.scss */
+/* line 848, ../scss/_pure.scss */
 .pure-g-r {
   letter-spacing: -0.31em;
   *letter-spacing: normal;
@@ -931,7 +938,7 @@ this the same font stack that Normalize.css sets for the `body`.
    The ".opera-only" selector is used to prevent actual prefocus styling
    and is not required in markup.
 */
-/* line 885, ../scss/_pure.scss */
+/* line 891, ../scss/_pure.scss */
 .opera-only :-o-prefocus,
 .pure-g-r {
   word-spacing: -0.43em;
@@ -941,69 +948,69 @@ this the same font stack that Normalize.css sets for the `body`.
 Resets the font family back to the OS/browser's default sans-serif font,
 this the same font stack that Normalize.css sets for the `body`.
 */
-/* line 893, ../scss/_pure.scss */
+/* line 899, ../scss/_pure.scss */
 .pure-g-r [class*="pure-u"] {
   font-family: sans-serif;
 }
 
-/* line 897, ../scss/_pure.scss */
+/* line 903, ../scss/_pure.scss */
 .pure-g-r img {
   max-width: 100%;
   height: auto;
 }
 
 @media (min-width: 980px) {
-  /* line 903, ../scss/_pure.scss */
+  /* line 909, ../scss/_pure.scss */
   .pure-visible-phone {
     display: none;
   }
 
-  /* line 906, ../scss/_pure.scss */
+  /* line 912, ../scss/_pure.scss */
   .pure-visible-tablet {
     display: none;
   }
 
-  /* line 909, ../scss/_pure.scss */
+  /* line 915, ../scss/_pure.scss */
   .pure-hidden-desktop {
     display: none;
   }
 }
 @media (max-width: 480px) {
-  /* line 916, ../scss/_pure.scss */
+  /* line 922, ../scss/_pure.scss */
   .pure-g-r > .pure-u,
   .pure-g-r > [class*="pure-u-"] {
     width: 100%;
   }
 }
 @media (max-width: 767px) {
-  /* line 923, ../scss/_pure.scss */
+  /* line 929, ../scss/_pure.scss */
   .pure-g-r > .pure-u,
   .pure-g-r > [class*="pure-u-"] {
     width: 100%;
   }
 
-  /* line 926, ../scss/_pure.scss */
+  /* line 932, ../scss/_pure.scss */
   .pure-hidden-phone {
     display: none;
   }
 
-  /* line 929, ../scss/_pure.scss */
+  /* line 935, ../scss/_pure.scss */
   .pure-visible-desktop {
     display: none;
   }
 }
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 935, ../scss/_pure.scss */
+  /* line 941, ../scss/_pure.scss */
   .pure-hidden-tablet {
     display: none;
   }
 
-  /* line 938, ../scss/_pure.scss */
+  /* line 944, ../scss/_pure.scss */
   .pure-visible-desktop {
     display: none;
   }
 }
-/* line 943, ../scss/_pure.scss */
+/* line 949, ../scss/_pure.scss */
 .pure-button {
   /* Structure */
   display: inline-block;
@@ -1023,14 +1030,14 @@ this the same font stack that Normalize.css sets for the `body`.
 }
 
 /* Firefox: Get rid of the inner focus border */
-/* line 961, ../scss/_pure.scss */
+/* line 967, ../scss/_pure.scss */
 .pure-button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
 /*csslint outline-none:false*/
-/* line 968, ../scss/_pure.scss */
+/* line 974, ../scss/_pure.scss */
 .pure-button {
   font-family: inherit;
   font-size: 100%;
@@ -1054,7 +1061,7 @@ this the same font stack that Normalize.css sets for the `body`.
   border-radius: 2px;
 }
 
-/* line 986, ../scss/_pure.scss */
+/* line 992, ../scss/_pure.scss */
 .pure-button-hover,
 .pure-button:hover,
 .pure-button:focus {
@@ -1066,18 +1073,18 @@ this the same font stack that Normalize.css sets for the `body`.
   background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
 }
 
-/* line 994, ../scss/_pure.scss */
+/* line 1000, ../scss/_pure.scss */
 .pure-button:focus {
   outline: 0;
 }
 
-/* line 998, ../scss/_pure.scss */
+/* line 1004, ../scss/_pure.scss */
 .pure-button-active,
 .pure-button:active {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.2) inset;
 }
 
-/* line 1006, ../scss/_pure.scss */
+/* line 1012, ../scss/_pure.scss */
 .pure-button[disabled],
 .pure-button-disabled,
 .pure-button-disabled:hover,
@@ -1094,19 +1101,19 @@ this the same font stack that Normalize.css sets for the `body`.
   box-shadow: none;
 }
 
-/* line 1018, ../scss/_pure.scss */
+/* line 1024, ../scss/_pure.scss */
 .pure-button-hidden {
   display: none;
 }
 
 /* Firefox: Get rid of the inner focus border */
-/* line 1023, ../scss/_pure.scss */
+/* line 1029, ../scss/_pure.scss */
 .pure-button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-/* line 1031, ../scss/_pure.scss */
+/* line 1037, ../scss/_pure.scss */
 .pure-button-primary,
 .pure-button-selected,
 a.pure-button-primary,
@@ -1115,7 +1122,7 @@ a.pure-button-selected {
   color: #fff;
 }
 
-/* line 1051, ../scss/_pure.scss */
+/* line 1057, ../scss/_pure.scss */
 .pure-form input[type="text"],
 .pure-form input[type="password"],
 .pure-form input[type="email"],
@@ -1145,7 +1152,7 @@ a.pure-button-selected {
 Need to separate out the :not() selector from the rest of the CSS 2.1 selectors
 since IE8 won't execute CSS that contains a CSS3 selector.
 */
-/* line 1065, ../scss/_pure.scss */
+/* line 1071, ../scss/_pure.scss */
 .pure-form input:not([type]) {
   padding: 0.5em 0.6em;
   display: inline-block;
@@ -1158,7 +1165,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   box-sizing: border-box;
 }
 
-/* line 1093, ../scss/_pure.scss */
+/* line 1099, ../scss/_pure.scss */
 .pure-form input[type="text"]:focus,
 .pure-form input[type="password"]:focus,
 .pure-form input[type="email"]:focus,
@@ -1185,7 +1192,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 Need to separate out the :not() selector from the rest of the CSS 2.1 selectors
 since IE8 won't execute CSS that contains a CSS3 selector.
 */
-/* line 1103, ../scss/_pure.scss */
+/* line 1109, ../scss/_pure.scss */
 .pure-form input:not([type]):focus {
   outline: 0;
   outline: thin dotted \9;
@@ -1193,7 +1200,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   border-color: #129FEA;
 }
 
-/* line 1111, ../scss/_pure.scss */
+/* line 1117, ../scss/_pure.scss */
 .pure-form input[type="file"]:focus,
 .pure-form input[type="radio"]:focus,
 .pure-form input[type="checkbox"]:focus {
@@ -1201,14 +1208,14 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   outline: 1px auto #129FEA;
 }
 
-/* line 1116, ../scss/_pure.scss */
+/* line 1122, ../scss/_pure.scss */
 .pure-form .pure-checkbox,
 .pure-form .pure-radio {
   margin: 0.5em 0;
   display: block;
 }
 
-/* line 1136, ../scss/_pure.scss */
+/* line 1142, ../scss/_pure.scss */
 .pure-form input[type="text"][disabled],
 .pure-form input[type="password"][disabled],
 .pure-form input[type="email"][disabled],
@@ -1234,14 +1241,14 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 Need to separate out the :not() selector from the rest of the CSS 2.1 selectors
 since IE8 won't execute CSS that contains a CSS3 selector.
 */
-/* line 1146, ../scss/_pure.scss */
+/* line 1152, ../scss/_pure.scss */
 .pure-form input:not([type])[disabled] {
   cursor: not-allowed;
   background-color: #eaeded;
   color: #cad2d3;
 }
 
-/* line 1153, ../scss/_pure.scss */
+/* line 1159, ../scss/_pure.scss */
 .pure-form input[readonly],
 .pure-form select[readonly],
 .pure-form textarea[readonly] {
@@ -1252,7 +1259,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   border-color: #ccc;
 }
 
-/* line 1161, ../scss/_pure.scss */
+/* line 1167, ../scss/_pure.scss */
 .pure-form input:focus:invalid,
 .pure-form textarea:focus:invalid,
 .pure-form select:focus:invalid {
@@ -1260,45 +1267,45 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   border: 1px solid #ee5f5b;
 }
 
-/* line 1167, ../scss/_pure.scss */
+/* line 1173, ../scss/_pure.scss */
 .pure-form input:focus:invalid:focus,
 .pure-form textarea:focus:invalid:focus,
 .pure-form select:focus:invalid:focus {
   border-color: #e9322d;
 }
 
-/* line 1172, ../scss/_pure.scss */
+/* line 1178, ../scss/_pure.scss */
 .pure-form input[type="file"]:focus:invalid:focus,
 .pure-form input[type="radio"]:focus:invalid:focus,
 .pure-form input[type="checkbox"]:focus:invalid:focus {
   outline-color: #e9322d;
 }
 
-/* line 1175, ../scss/_pure.scss */
+/* line 1181, ../scss/_pure.scss */
 .pure-form select {
   border: 1px solid #ccc;
   background-color: white;
 }
 
-/* line 1179, ../scss/_pure.scss */
+/* line 1185, ../scss/_pure.scss */
 .pure-form select[multiple] {
   height: auto;
 }
 
-/* line 1182, ../scss/_pure.scss */
+/* line 1188, ../scss/_pure.scss */
 .pure-form label {
   margin: 0.5em 0 0.2em;
   font-size: 90%;
 }
 
-/* line 1186, ../scss/_pure.scss */
+/* line 1192, ../scss/_pure.scss */
 .pure-form fieldset {
   margin: 0;
   padding: 0 0 0.75em;
   border: 0;
 }
 
-/* line 1191, ../scss/_pure.scss */
+/* line 1197, ../scss/_pure.scss */
 .pure-form legend {
   display: block;
   width: 100%;
@@ -1310,7 +1317,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   text-align: center;
 }
 
-/* line 1218, ../scss/_pure.scss */
+/* line 1224, ../scss/_pure.scss */
 .pure-form-stacked input[type="text"],
 .pure-form-stacked input[type="password"],
 .pure-form-stacked input[type="email"],
@@ -1336,13 +1343,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 Need to separate out the :not() selector from the rest of the CSS 2.1 selectors
 since IE8 won't execute CSS that contains a CSS3 selector.
 */
-/* line 1227, ../scss/_pure.scss */
+/* line 1233, ../scss/_pure.scss */
 .pure-form-stacked input:not([type]) {
   display: block;
   margin: 0.25em 0;
 }
 
-/* line 1236, ../scss/_pure.scss */
+/* line 1242, ../scss/_pure.scss */
 .pure-form-aligned input,
 .pure-form-aligned textarea,
 .pure-form-aligned select,
@@ -1355,18 +1362,18 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   width: 70%;
 }
 
-/* line 1243, ../scss/_pure.scss */
+/* line 1249, ../scss/_pure.scss */
 .pure-form-aligned textarea {
   vertical-align: top;
 }
 
 /* Aligned Forms */
-/* line 1248, ../scss/_pure.scss */
+/* line 1254, ../scss/_pure.scss */
 .pure-form-aligned .pure-control-group {
   margin-bottom: 0.5em;
 }
 
-/* line 1251, ../scss/_pure.scss */
+/* line 1257, ../scss/_pure.scss */
 .pure-form-aligned .pure-control-group label {
   text-align: right;
   display: inline-block;
@@ -1376,7 +1383,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Rounded Inputs */
-/* line 1261, ../scss/_pure.scss */
+/* line 1267, ../scss/_pure.scss */
 .pure-form input.pure-input-rounded,
 .pure-form .pure-input-rounded {
   border-radius: 2em;
@@ -1384,12 +1391,12 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Grouped Inputs */
-/* line 1267, ../scss/_pure.scss */
+/* line 1273, ../scss/_pure.scss */
 .pure-form .pure-group fieldset {
   margin-bottom: 10px;
 }
 
-/* line 1270, ../scss/_pure.scss */
+/* line 1276, ../scss/_pure.scss */
 .pure-form .pure-group input {
   display: block;
   padding: 10px;
@@ -1399,56 +1406,56 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   top: -1px;
 }
 
-/* line 1278, ../scss/_pure.scss */
+/* line 1284, ../scss/_pure.scss */
 .pure-form .pure-group input:focus {
   z-index: 2;
 }
 
-/* line 1281, ../scss/_pure.scss */
+/* line 1287, ../scss/_pure.scss */
 .pure-form .pure-group input:first-child {
   top: 1px;
   border-radius: 4px 4px 0 0;
 }
 
-/* line 1285, ../scss/_pure.scss */
+/* line 1291, ../scss/_pure.scss */
 .pure-form .pure-group input:last-child {
   top: -2px;
   border-radius: 0 0 4px 4px;
 }
 
-/* line 1289, ../scss/_pure.scss */
+/* line 1295, ../scss/_pure.scss */
 .pure-form .pure-group button {
   margin: 0.35em 0;
 }
 
-/* line 1293, ../scss/_pure.scss */
+/* line 1299, ../scss/_pure.scss */
 .pure-form .pure-input-1 {
   width: 100%;
 }
 
-/* line 1296, ../scss/_pure.scss */
+/* line 1302, ../scss/_pure.scss */
 .pure-form .pure-input-2-3 {
   width: 66%;
 }
 
-/* line 1299, ../scss/_pure.scss */
+/* line 1305, ../scss/_pure.scss */
 .pure-form .pure-input-1-2 {
   width: 50%;
 }
 
-/* line 1302, ../scss/_pure.scss */
+/* line 1308, ../scss/_pure.scss */
 .pure-form .pure-input-1-3 {
   width: 33%;
 }
 
-/* line 1305, ../scss/_pure.scss */
+/* line 1311, ../scss/_pure.scss */
 .pure-form .pure-input-1-4 {
   width: 25%;
 }
 
 /* Inline help for forms */
 /* NOTE: pure-help-inline is deprecated. Use .pure-form-message-inline instead. */
-/* line 1312, ../scss/_pure.scss */
+/* line 1318, ../scss/_pure.scss */
 .pure-form .pure-help-inline,
 .pure-form-message-inline {
   display: inline-block;
@@ -1459,7 +1466,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Block help for forms */
-/* line 1321, ../scss/_pure.scss */
+/* line 1327, ../scss/_pure.scss */
 .pure-form-message {
   display: block;
   color: #666;
@@ -1467,7 +1474,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 1344, ../scss/_pure.scss */
+  /* line 1350, ../scss/_pure.scss */
   .pure-form input:not([type]),
   .pure-form input[type="text"],
   .pure-form input[type="password"],
@@ -1489,7 +1496,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     width: 100%;
   }
 
-  /* line 1364, ../scss/_pure.scss */
+  /* line 1370, ../scss/_pure.scss */
   .pure-group input:not([type]),
   .pure-group input[type="text"],
   .pure-group input[type="password"],
@@ -1508,7 +1515,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     margin-bottom: 0;
   }
 
-  /* line 1368, ../scss/_pure.scss */
+  /* line 1374, ../scss/_pure.scss */
   .pure-form-aligned .pure-control-group label {
     margin-bottom: 0.3em;
     text-align: left;
@@ -1516,13 +1523,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     width: 100%;
   }
 
-  /* line 1375, ../scss/_pure.scss */
+  /* line 1381, ../scss/_pure.scss */
   .pure-form-aligned .pure-controls {
     margin: 1.5em 0 0 0;
   }
 
   /* NOTE: pure-help-inline is deprecated. Use .pure-form-message-inline instead. */
-  /* line 1382, ../scss/_pure.scss */
+  /* line 1388, ../scss/_pure.scss */
   .pure-form .pure-help-inline,
   .pure-form-message-inline,
   .pure-form-message {
@@ -1534,20 +1541,20 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 /*csslint adjoining-classes:false, outline-none:false*/
 /*TODO: Remove this lint rule override after a refactor of this code.*/
-/* line 1393, ../scss/_pure.scss */
+/* line 1399, ../scss/_pure.scss */
 .pure-menu ul {
   position: absolute;
   visibility: hidden;
 }
 
-/* line 1398, ../scss/_pure.scss */
+/* line 1404, ../scss/_pure.scss */
 .pure-menu.pure-menu-open {
   visibility: visible;
   z-index: 2;
   width: 100%;
 }
 
-/* line 1404, ../scss/_pure.scss */
+/* line 1410, ../scss/_pure.scss */
 .pure-menu ul {
   left: -10000px;
   list-style: none;
@@ -1557,29 +1564,29 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   z-index: 1;
 }
 
-/* line 1413, ../scss/_pure.scss */
+/* line 1419, ../scss/_pure.scss */
 .pure-menu > ul {
   position: relative;
 }
 
-/* line 1415, ../scss/_pure.scss */
+/* line 1421, ../scss/_pure.scss */
 .pure-menu-open > ul {
   left: 0;
   top: 0;
   visibility: visible;
 }
 
-/* line 1421, ../scss/_pure.scss */
+/* line 1427, ../scss/_pure.scss */
 .pure-menu-open > ul:focus {
   outline: 0;
 }
 
-/* line 1425, ../scss/_pure.scss */
+/* line 1431, ../scss/_pure.scss */
 .pure-menu li {
   position: relative;
 }
 
-/* line 1428, ../scss/_pure.scss */
+/* line 1434, ../scss/_pure.scss */
 .pure-menu a,
 .pure-menu .pure-menu-heading {
   display: block;
@@ -1590,7 +1597,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   white-space: nowrap;
 }
 
-/* line 1437, ../scss/_pure.scss */
+/* line 1443, ../scss/_pure.scss */
 .pure-menu.pure-menu-horizontal > .pure-menu-heading {
   display: inline-block;
   *display: inline;
@@ -1599,7 +1606,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   vertical-align: middle;
 }
 
-/* line 1444, ../scss/_pure.scss */
+/* line 1450, ../scss/_pure.scss */
 .pure-menu.pure-menu-horizontal > ul {
   display: inline-block;
   *display: inline;
@@ -1607,12 +1614,12 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   vertical-align: middle;
 }
 
-/* line 1451, ../scss/_pure.scss */
+/* line 1457, ../scss/_pure.scss */
 .pure-menu li a {
   padding: 5px 20px;
 }
 
-/* line 1453, ../scss/_pure.scss */
+/* line 1459, ../scss/_pure.scss */
 .pure-menu-can-have-children > .pure-menu-label:after {
   content: '\25B8';
   float: right;
@@ -1622,12 +1629,12 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   margin-top: -1px;
 }
 
-/* line 1462, ../scss/_pure.scss */
+/* line 1468, ../scss/_pure.scss */
 .pure-menu-can-have-children > .pure-menu-label {
   padding-right: 30px;
 }
 
-/* line 1466, ../scss/_pure.scss */
+/* line 1472, ../scss/_pure.scss */
 .pure-menu-separator {
   background-color: #dfdfdf;
   display: block;
@@ -1637,13 +1644,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   overflow: hidden;
 }
 
-/* line 1475, ../scss/_pure.scss */
+/* line 1481, ../scss/_pure.scss */
 .pure-menu-hidden {
   display: none;
 }
 
 /* FIXED MENU */
-/* line 1480, ../scss/_pure.scss */
+/* line 1486, ../scss/_pure.scss */
 .pure-menu-fixed {
   position: fixed;
   top: 0;
@@ -1653,7 +1660,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 
 /* HORIZONTAL MENU CODE */
 /* Initial menus should be inline-block so that they are horizontal */
-/* line 1491, ../scss/_pure.scss */
+/* line 1497, ../scss/_pure.scss */
 .pure-menu-horizontal li {
   display: inline-block;
   *display: inline;
@@ -1662,25 +1669,25 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Submenus should still be display: block; */
-/* line 1499, ../scss/_pure.scss */
+/* line 1505, ../scss/_pure.scss */
 .pure-menu-horizontal li li {
   display: block;
 }
 
 /* Content after should be down arrow */
-/* line 1504, ../scss/_pure.scss */
+/* line 1510, ../scss/_pure.scss */
 .pure-menu-horizontal > .pure-menu-children > .pure-menu-can-have-children > .pure-menu-label:after {
   content: "\25BE";
 }
 
 /*Add extra padding to elements that have the arrow so that the hover looks nice */
-/* line 1508, ../scss/_pure.scss */
+/* line 1514, ../scss/_pure.scss */
 .pure-menu-horizontal > .pure-menu-children > .pure-menu-can-have-children > .pure-menu-label {
   padding-right: 30px;
 }
 
 /* Adjusting separator for vertical menus */
-/* line 1513, ../scss/_pure.scss */
+/* line 1519, ../scss/_pure.scss */
 .pure-menu-horizontal li.pure-menu-separator {
   height: 50%;
   width: 1px;
@@ -1688,7 +1695,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Submenus should be horizontal separator again */
-/* line 1520, ../scss/_pure.scss */
+/* line 1526, ../scss/_pure.scss */
 .pure-menu-horizontal li li.pure-menu-separator {
   height: 1px;
   width: auto;
@@ -1698,7 +1705,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 /*csslint adjoining-classes:false*/
 /*TODO: Remove this lint rule override after a refactor of this code.*/
 /* MAIN MENU STYLING */
-/* line 1533, ../scss/_pure.scss */
+/* line 1539, ../scss/_pure.scss */
 .pure-menu.pure-menu-open,
 .pure-menu.pure-menu-horizontal li .pure-menu-children {
   background: #fff;
@@ -1707,66 +1714,66 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* remove borders for horizontal menus */
-/* line 1540, ../scss/_pure.scss */
+/* line 1546, ../scss/_pure.scss */
 .pure-menu.pure-menu-horizontal,
 .pure-menu.pure-menu-horizontal .pure-menu-heading {
   border: none;
 }
 
 /* LINK STYLES */
-/* line 1547, ../scss/_pure.scss */
+/* line 1553, ../scss/_pure.scss */
 .pure-menu a {
   border: 1px solid transparent;
   border-left: none;
   border-right: none;
 }
 
-/* line 1555, ../scss/_pure.scss */
+/* line 1561, ../scss/_pure.scss */
 .pure-menu a,
 .pure-menu .pure-menu-can-have-children > li:after {
   color: #777;
 }
 
-/* line 1559, ../scss/_pure.scss */
+/* line 1565, ../scss/_pure.scss */
 .pure-menu .pure-menu-can-have-children > li:hover:after {
   color: #fff;
 }
 
 /* Focus style for a dropdown menu-item when the parent has been opened */
-/* line 1564, ../scss/_pure.scss */
+/* line 1570, ../scss/_pure.scss */
 .pure-menu .pure-menu-open {
   background: #dedede;
 }
 
-/* line 1570, ../scss/_pure.scss */
+/* line 1576, ../scss/_pure.scss */
 .pure-menu li a:hover,
 .pure-menu li a:focus {
   background: #eee;
 }
 
 /* DISABLED STATES */
-/* line 1576, ../scss/_pure.scss */
+/* line 1582, ../scss/_pure.scss */
 .pure-menu li.pure-menu-disabled a:hover,
 .pure-menu li.pure-menu-disabled a:focus {
   background: #fff;
   color: #bfbfbf;
 }
 
-/* line 1581, ../scss/_pure.scss */
+/* line 1587, ../scss/_pure.scss */
 .pure-menu .pure-menu-disabled > a {
   background-image: none;
   border-color: transparent;
   cursor: default;
 }
 
-/* line 1588, ../scss/_pure.scss */
+/* line 1594, ../scss/_pure.scss */
 .pure-menu .pure-menu-disabled > a,
 .pure-menu .pure-menu-can-have-children.pure-menu-disabled > a:after {
   color: #bfbfbf;
 }
 
 /* HEADINGS */
-/* line 1593, ../scss/_pure.scss */
+/* line 1599, ../scss/_pure.scss */
 .pure-menu .pure-menu-heading {
   color: #565d64;
   text-transform: uppercase;
@@ -1778,13 +1785,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* ACTIVE MENU ITEM */
-/* line 1604, ../scss/_pure.scss */
+/* line 1610, ../scss/_pure.scss */
 .pure-menu .pure-menu-selected a {
   color: #000;
 }
 
 /* FIXED MENU */
-/* line 1609, ../scss/_pure.scss */
+/* line 1615, ../scss/_pure.scss */
 .pure-menu.pure-menu-open.pure-menu-fixed {
   border: none;
   border-bottom: 1px solid #b7b7b7;
@@ -1792,7 +1799,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 
 /*csslint box-model:false*/
 /*TODO: Remove this lint rule override after a refactor of this code.*/
-/* line 1618, ../scss/_pure.scss */
+/* line 1624, ../scss/_pure.scss */
 .pure-paginator {
   /* `pure-g` Grid styles */
   letter-spacing: -0.31em;
@@ -1809,14 +1816,14 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   padding: 0;
 }
 
-/* line 1632, ../scss/_pure.scss */
+/* line 1638, ../scss/_pure.scss */
 .opera-only :-o-prefocus,
 .pure-paginator {
   word-spacing: -0.43em;
 }
 
 /* `pure-u` Grid styles */
-/* line 1637, ../scss/_pure.scss */
+/* line 1643, ../scss/_pure.scss */
 .pure-paginator li {
   display: inline-block;
   *display: inline;
@@ -1828,7 +1835,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   text-rendering: auto;
 }
 
-/* line 1648, ../scss/_pure.scss */
+/* line 1654, ../scss/_pure.scss */
 .pure-paginator .pure-button {
   border-radius: 0;
   padding: 0.8em 1.4em;
@@ -1836,42 +1843,42 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   height: 1.1em;
 }
 
-/* line 1655, ../scss/_pure.scss */
+/* line 1661, ../scss/_pure.scss */
 .pure-paginator .pure-button:focus,
 .pure-paginator .pure-button:active {
   outline-style: none;
 }
 
-/* line 1659, ../scss/_pure.scss */
+/* line 1665, ../scss/_pure.scss */
 .pure-paginator .prev,
 .pure-paginator .next {
   color: #C0C1C3;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.45);
 }
 
-/* line 1663, ../scss/_pure.scss */
+/* line 1669, ../scss/_pure.scss */
 .pure-paginator .prev {
   border-radius: 2px 0 0 2px;
 }
 
-/* line 1666, ../scss/_pure.scss */
+/* line 1672, ../scss/_pure.scss */
 .pure-paginator .next {
   border-radius: 0 2px 2px 0;
 }
 
 @media (max-width: 480px) {
-  /* line 1671, ../scss/_pure.scss */
+  /* line 1677, ../scss/_pure.scss */
   .pure-menu-horizontal {
     width: 100%;
   }
 
-  /* line 1675, ../scss/_pure.scss */
+  /* line 1681, ../scss/_pure.scss */
   .pure-menu-children li {
     display: block;
     border-bottom: 1px solid black;
   }
 }
-/* line 1681, ../scss/_pure.scss */
+/* line 1687, ../scss/_pure.scss */
 .pure-table {
   /* Remove spacing between table cells (from Normalize.css) */
   border-collapse: collapse;
@@ -1880,7 +1887,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   border: 1px solid #cbcbcb;
 }
 
-/* line 1689, ../scss/_pure.scss */
+/* line 1695, ../scss/_pure.scss */
 .pure-table caption {
   color: #000;
   font: italic 85%/1 arial, sans-serif;
@@ -1888,7 +1895,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   text-align: center;
 }
 
-/* line 1697, ../scss/_pure.scss */
+/* line 1703, ../scss/_pure.scss */
 .pure-table td,
 .pure-table th {
   border-left: 1px solid #cbcbcb;
@@ -1902,13 +1909,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
   /* cell padding */
 }
 
-/* line 1706, ../scss/_pure.scss */
+/* line 1712, ../scss/_pure.scss */
 .pure-table td:first-child,
 .pure-table th:first-child {
   border-left-width: 0;
 }
 
-/* line 1710, ../scss/_pure.scss */
+/* line 1716, ../scss/_pure.scss */
 .pure-table thead {
   background: #e0e0e0;
   color: #000;
@@ -1921,43 +1928,43 @@ striping:
    even - #fff (white)
    odd  - #f2f2f2 (light gray)
 */
-/* line 1722, ../scss/_pure.scss */
+/* line 1728, ../scss/_pure.scss */
 .pure-table td {
   background-color: transparent;
 }
 
-/* line 1725, ../scss/_pure.scss */
+/* line 1731, ../scss/_pure.scss */
 .pure-table-odd td {
   background-color: #f2f2f2;
 }
 
 /* nth-child selector for modern browsers */
-/* line 1730, ../scss/_pure.scss */
+/* line 1736, ../scss/_pure.scss */
 .pure-table-striped tr:nth-child(2n-1) td {
   background-color: #f2f2f2;
 }
 
 /* BORDERED TABLES */
-/* line 1735, ../scss/_pure.scss */
+/* line 1741, ../scss/_pure.scss */
 .pure-table-bordered td {
   border-bottom: 1px solid #cbcbcb;
 }
 
-/* line 1739, ../scss/_pure.scss */
+/* line 1745, ../scss/_pure.scss */
 .pure-table-bordered tbody > tr:last-child td,
 .pure-table-horizontal tbody > tr:last-child td {
   border-bottom-width: 0;
 }
 
 /* HORIZONTAL BORDERED TABLES */
-/* line 1747, ../scss/_pure.scss */
+/* line 1753, ../scss/_pure.scss */
 .pure-table-horizontal td,
 .pure-table-horizontal th {
   border-width: 0 0 1px 0;
   border-bottom: 1px solid #cbcbcb;
 }
 
-/* line 1751, ../scss/_pure.scss */
+/* line 1757, ../scss/_pure.scss */
 .pure-table-horizontal tbody > tr:last-child td {
   border-bottom-width: 0;
 }
@@ -4856,4 +4863,41 @@ a.pure-button.full {
 .playlist-item.selectable:hover {
   cursor: pointer;
   background: #f5f7f9;
+}
+
+/* line 361, ../scss/app.scss */
+.seek-bar {
+  position: relative;
+  height: 3.125em;
+}
+/* line 365, ../scss/app.scss */
+.seek-bar .container {
+  position: absolute;
+  height: 3.125em;
+  padding: 0 3.75em;
+  width: 100%;
+}
+/* line 371, ../scss/app.scss */
+.seek-bar .container .outer {
+  background: #CCC;
+}
+/* line 374, ../scss/app.scss */
+.seek-bar .container .outer .inner {
+  height: 3.125em;
+  width: 0%;
+  pointer-events: none;
+  background: #000;
+}
+/* line 383, ../scss/app.scss */
+.seek-bar .track-time {
+  position: absolute;
+  top: 0.8125em;
+}
+/* line 387, ../scss/app.scss */
+.seek-bar .track-time.current {
+  left: 0.625em;
+}
+/* line 391, ../scss/app.scss */
+.seek-bar .track-time.duration {
+  right: 0.625em;
 }

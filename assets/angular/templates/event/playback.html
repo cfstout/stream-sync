@@ -7,7 +7,7 @@
         </a>
         {{event.name}}
     </h1>
-    <div class="pure-u-1-1 segment">
+    <div class="pure-u-1-1 segment pure-g">
         <div class="song-details"
         data-hint="Current Song Details are displayed here" ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
             <h2 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].title : 'No Song Selected'}}</h2>
@@ -20,6 +20,17 @@
                     </span>
                 </a>
             </h1>
+        </div>
+        <div class="song-controls">
+            <div class="seek-bar">
+                <div class="container">
+                    <div class="outer" ng-click="controls.seek($event)">
+                        <div class="inner" ng-style="{width:(playlist.percentPlayed + '%')}"></div>
+                    </div>
+                </div>
+                <div class="track-time current">{{playlist.curTime.pretty}}</div>
+                <div class="track-time duration">{{playlist.curDuration.pretty}}</div>
+            </div>
         </div>
     </div>
     <h2>

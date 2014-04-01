@@ -47,6 +47,24 @@ module.exports = {
             });
         });
     },
+    sync: function(req, res) {
+        PlayList.publishUpdate(req.param('id'), {
+                meta: 'time_update',
+                time: req.param('time')
+            });
+        PlayList.findOne(req.param('id')).done(function(err, playlist) {
+            if (err || typeof playlist == 'undefined') {
+                return res.send({error: err, status: 500}, 500);
+            }
+            playlist.time = req.param('time');
+            playlist.save(function(err) {
+                if (err) {
+                    return res.send({error: err, status: 500}, 500);
+                }
+                return res.send({status: 200}, 200);
+            });
+        });
+    },
 
     /**
     * Overrides for the settings in `config/controllers.js`

@@ -357,3 +357,39 @@ a.pure-button.full {
 		}
 	}
 }
+
+.seek-bar {
+	position: relative;
+	height: em(50);
+
+	.container {
+		position: absolute;
+		height: em(50);
+		padding: 0 em(60);
+		width: 100%;
+
+		.outer {
+			background: #CCC;
+
+			.inner {
+				height: em(50);
+				width: 0%;
+				pointer-events: none;
+				background: #000;
+			}
+		}
+	}
+
+	.track-time {
+		position: absolute;
+		top: em(13);
+
+		&.current {
+			left: em(10);
+		}
+
+		&.duration {
+			right: em(10);
+		}
+	}
+}
