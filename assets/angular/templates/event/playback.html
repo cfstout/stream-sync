@@ -9,7 +9,7 @@
     </h1>
     <div class="pure-u-1-1 segment pure-g">
         <div class="song-details"
-        data-hint="Current Song Details are displayed here" ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
+        data-hint="Here are the song details." ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
             <h2 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].title : 'No Song Selected'}}</h2>
             <h3 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].artist : 'Add Songs to Playlist'}}</h3>
             <h1 class="play-controller" ng-class="isHost && playlist.isReady ? '' : 'hidden'">
@@ -35,11 +35,11 @@
     </div>
     <h2>
         <a class="tabbed-left no-style" ng-class="results === null ? 'hidden' : ''" ng-click="searchModeOff()">
-            <span data-hint="Click To Finish Editing" ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'"></span><i class="fa fa-arrow-circle-o-left"></i>
+            <span data-hint="Click to finish editing." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'"></span><i class="fa fa-arrow-circle-o-left"></i>
         </a>
         <div ng-class="results === null ? '' : 'hidden'">
             <button class="pure-button button-sm push-right" ng-click="searchModeOn()" 
-            data-hint="Click To Edit the Current Playlist" ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'">Edit</button>
+            data-hint="Click to edit the current playlist." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'">Edit</button>
         </div>
         {{results === null ? 'What\'s Next?' : 'Editing Playlist'}}
     </h2>
@@ -47,7 +47,7 @@
         <div ng-class="results === null || selectedResult !== null ? 'hidden' : ''">
             <div class="pure-form pure-g default-u-padding">
                 <fieldset class="full">
-                    <div class="fieldset pure-u-2-3" data-hint="Search Youtube and Soundcloud for New Songs" ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
+                    <div class="fieldset pure-u-2-3" data-hint="Search YouTube and SoundCloud for songs to add to your playlist." ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
                         <div class="input">
                             <input ng-model="query" type="text">
                         </div>
@@ -59,7 +59,7 @@
                 <div class="push-right">
                     <div>
                         <a class="pure-button button-secondary button-md push-right"
-                        data-hint="Click To Add Songs to Playlist" ng-class="(hints && $first) ? 'hint--always hint--left' : 'hint--hidden'">
+                        data-hint="Add this song to your playlist." ng-class="(hints && $first) ? 'hint--always hint--left' : 'hint--hidden'">
                             Add
                         </a>
                     </div>
@@ -96,7 +96,7 @@
     <div class="pure-u-1-1 segment" ng-class="results !== null || selectedResult !== null ? 'push-down-light' : ''">
         <div ng-repeat="song in playlist.songs.slice(playlist.current + 1)" class="playlist-item">
             <span ng-class="{hidden:!$first}" class="pure-button green button-secondary button-md push-right">Next</span>
-            <span class="title" data-hint="Next Song in Your Playlist" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">
+            <span class="title" data-hint="The next song in your playlist." ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">
                 {{song.title}}
             </span>
             <span class="artist">{{song.artist}}</span>
