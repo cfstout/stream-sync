@@ -206,16 +206,16 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                     return $http.post($settings.root + 'song/create/remote', song);
                 },
 
-            initializeTrack: function(song, autoplay, callback) {
+            initializeTrack: function(song, callback) {
                     switch (song.source) {
                         case 'youtube':
                             playersAPI.youtube.doWhenReady(function() {
-                                cur_track = new track.youtube(song, autoplay, callback);
+                                cur_track = new track.youtube(song, callback);
                             });
                             break;
                         case 'soundcloud':
                             playersAPI.soundcloud.doWhenReady(function() {
-                                cur_track = new track.soundcloud(song, autoplay, callback);
+                                cur_track = new track.soundcloud(song, callback);
                             });
                             break;
                         default:
@@ -329,13 +329,15 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 var current = this.instance.current;
                 if (current > -1) {
                     var self = this;
-                    song.initializeTrack(this.instance.songs[current], this.instance.isPlaying, function() {
+                    song.initializeTrack(this.instance.songs[current], function() {
                         self.instance.isReady = true;
                         timeUpdate.init(self.instance);
-                        self.seek(self.instance.songTime);
                         if (self.instance.isPlaying) {
-                            timeUpdate.start();
+                            self.play();
+                        } else {
+                            self.pause();
                         }
+                        self.seek(self.instance.songTime);
                         notifyObserver();
                     });
                 }
@@ -451,23 +453,19 @@ streamSyncServices.factory('track', [
 
         var track;
 
-        function YTtrack(song, autoplay, callback) {
+        function YTtrack(song, callback) {
             track = this;
             this.song = song;
             this.isReady = false;
-            this.initializers = {
-                autoplay: autoplay,
-                callback: callback
-            };
+            this.isPlaying = false;
+            this.callback = callback;
             this.player = new YT.Player('ytplayer', {
                 height: 0,
                 width: 0,
                 videoId: song.source_id,
-                playerVars : {
-                    autoplay: 0
-                },
                 events: {
-                    'onReady': track.onReady
+                    'onReady': track.onReady,
+                    'onStateChange': track.doubleCheck
                 }
             });
         }
@@ -475,20 +473,22 @@ streamSyncServices.factory('track', [
         YTtrack.prototype = {
             onReady: function() {
                 track.isReady = true;
-                if (track.initializers.autoplay) {
-                    track.play();
-                } else {
+                track.callback();
+            },
+            doubleCheck: function(event) {
+                if(event.data == YT.PlayerState.PLAYING && !track.isPlaying) {
                     track.pause();
                 }
-                track.initializers.callback();
             },
             play: function() {
                 if (this.isReady) {
+                    this.isPlaying = true;
                     this.player.playVideo();
                 }
             },
             pause: function() {
                 if (this.isReady) {
+                    this.isPlaying = false;
                     this.player.pauseVideo();
                 }
             },
@@ -509,7 +509,7 @@ streamSyncServices.factory('track', [
             }
         };
 
-        function SCtrack(song, autoplay, callback) {
+        function SCtrack(song, callback) {
             track = this;
             this.song = song;
             this.isReady = false;
@@ -517,9 +517,6 @@ streamSyncServices.factory('track', [
             SC.stream('/tracks/'+song.source_id, function(player) {
                 track.player = player;
                 track.isReady = true;
-                if (autoplay) {
-                    track.play();
-                }
                 callback();
             });
         }
