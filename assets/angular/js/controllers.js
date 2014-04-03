@@ -4,6 +4,12 @@
 
 var streamSyncControllers = angular.module('streamSyncControllers', []);
 
+streamSyncControllers.controller('HomeCtrl', ['$scope','user',
+  function($scope,user){
+    $scope.existing = function(){
+      user.existing(this.user);
+    };
+  }]);
 /**
 *   Login form [templates/user/login]
 */

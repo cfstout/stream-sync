@@ -47,6 +47,15 @@ streamSyncServices.factory('user', ['$http', '$location',
             logged_in: function() {
                     return $http.get($settings.root + 'user/logged_in')
                         .error(function(data, status){
+                            $location.path('/home');
+                        });
+                },
+            existing: function() {
+                    return $http.get($settings.root + 'user/logged_in')
+                        .success(function (data, status) {
+                            $location.path('/profile');
+                        })
+                        .error(function(data,status){
                             $location.path('/login');
                         });
                 },
@@ -57,7 +66,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     };
                     return $http.post($settings.root + 'login/local', params)
                         .success(function (data, status) {
-                            $location.path('/event/list');
+                            $location.path('/profile');
                         })
                         .error(function (data, status) {
                             console.log(data);
@@ -72,7 +81,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                 };
                 $http.post($settings.root + 'signup', params)
                     .success(function (data, status) {
-                        $location.path('/event/list');
+                        $location.path('/profile');
                     })
                     .error(function (data, status) {
                         console.log("ERROR");
@@ -81,7 +90,7 @@ streamSyncServices.factory('user', ['$http', '$location',
             logout: function() {
                     return $http.post($settings.root + 'logout')
                         .success(function (data, status){
-                            $location.path('/login');
+                            $location.path('/home');
                         })
                         .error(function (data, status){
                             console.log("error: " + data);
