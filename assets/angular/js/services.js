@@ -386,36 +386,6 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             }
         };
 
-        var errLoop = {
-            diffs: [],
-            fixedCounter: 0,
-            needsPush: false,
-            countErr: function(diff) {
-                this.diffs.push(diff);
-                if (this.diffs.length > 10) {
-                    if (this.fixedCounter < 5) {
-                        this.needsPush = true;
-                    }
-                    this.fixedCounter = 0;
-                    this.diffs = [];
-                }
-            },
-            countSuccess: function() {
-                this.fixedCounter += 1;
-            },
-            push: function() {
-                return (this.needsPush ? this.getOffset() : 0);
-            },
-            getOffset: function() {
-                var sum = 0;
-                for (var i = 0; i < this.diffs.length; i++)
-                    sum += this.diffs[i];
-
-                sum /= this.diffs.length;
-                return sum;
-            }
-        };
-
         var socketFuncs = {
             song_added: function(data) {
               service.instance.songs = data.songs;
@@ -432,10 +402,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                     var newTime = data.songTime + (ntp.getTime() - data.hostTime);
                     var diff = newTime - service.instance.curTime.real;
                     if (Math.abs(diff) > 200) {
-                        service.seek(newTime + errLoop.push());
-                        errLoop.countErr();
-                    } else {
-                        errLoop.countSuccess();
+                        service.seek(newTime);
                     }
                 }
             }
