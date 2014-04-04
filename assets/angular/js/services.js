@@ -47,6 +47,15 @@ streamSyncServices.factory('user', ['$http', '$location',
             logged_in: function() {
                     return $http.get($settings.root + 'user/logged_in')
                         .error(function(data, status){
+                            $location.path('/home');
+                        });
+                },
+            existing: function() {
+                    return $http.get($settings.root + 'user/logged_in')
+                        .success(function (data, status) {
+                            $location.path('/profile');
+                        })
+                        .error(function(data,status){
                             $location.path('/login');
                         });
                 },
@@ -57,7 +66,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                     };
                     return $http.post($settings.root + 'login/local', params)
                         .success(function (data, status) {
-                            $location.path('/event/list');
+                            $location.path('/profile');
                         })
                         .error(function (data, status) {
                             console.log(data);
@@ -72,7 +81,7 @@ streamSyncServices.factory('user', ['$http', '$location',
                 };
                 $http.post($settings.root + 'signup', params)
                     .success(function (data, status) {
-                        $location.path('/event/list');
+                        $location.path('/profile');
                     })
                     .error(function (data, status) {
                         console.log("ERROR");
@@ -81,7 +90,7 @@ streamSyncServices.factory('user', ['$http', '$location',
             logout: function() {
                     return $http.post($settings.root + 'logout')
                         .success(function (data, status){
-                            $location.path('/login');
+                            $location.path('/home');
                         })
                         .error(function (data, status){
                             console.log("error: " + data);
@@ -377,6 +386,36 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             }
         };
 
+        var errLoop = {
+            diffs: [],
+            fixedCounter: 0,
+            needsPush: false,
+            countErr: function(diff) {
+                this.diffs.push(diff);
+                if (this.diffs.length > 10) {
+                    if (this.fixedCounter < 5) {
+                        this.needsPush = true;
+                    }
+                    this.fixedCounter = 0;
+                    this.diffs = [];
+                }
+            },
+            countSuccess: function() {
+                this.fixedCounter += 1;
+            },
+            push: function() {
+                return (this.needsPush ? this.getOffset() : 0);
+            },
+            getOffset: function() {
+                var sum = 0;
+                for (var i = 0; i < this.diffs.length; i++)
+                    sum += this.diffs[i];
+
+                sum /= this.diffs.length;
+                return sum;
+            }
+        };
+
         var socketFuncs = {
             song_added: function(data) {
               service.instance.songs = data.songs;
@@ -391,8 +430,12 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                         service.togglePlay();
                     }
                     var newTime = data.songTime + (ntp.getTime() - data.hostTime);
-                    if (Math.abs(service.instance.curTime.real - newTime) > 200) {
-                        service.seek(newTime);
+                    var diff = newTime - service.instance.curTime.real;
+                    if (Math.abs(diff) > 200) {
+                        service.seek(newTime + errLoop.push());
+                        errLoop.countErr();
+                    } else {
+                        errLoop.countSuccess();
                     }
                 }
             }
@@ -502,7 +545,7 @@ streamSyncServices.factory('track', [
             },
             seek: function(ms) {
                 if (this.isReady) {
-                    this.player.seekTo(ms/1000);
+                    this.player.seekTo((ms+100)/1000);
                 }
             },
             getTime: function() {

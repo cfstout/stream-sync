@@ -21,6 +21,10 @@ streamSyncApp.config(['$routeProvider',
         templateUrl: 'views/user/signup',
         controller: 'SignupCtrl'
       })
+      .when('/home',{
+        templateUrl: 'views/user/home',
+        controller:'HomeCtrl'
+      })
       .when('/event/create', {
         templateUrl: 'views/event/create',
         controller: 'EventCreateCtrl'

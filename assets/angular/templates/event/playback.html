@@ -7,6 +7,7 @@
         </a>
         {{event.name}}
     </h1>
+
     <div class="pure-u-1-1 segment pure-g">
         <div class="song-details pure-u-1-1"
         data-hint="Here are the song details." ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
@@ -45,16 +46,18 @@
             </div>
         </div>
     </div>
+
     <h2>
         <a class="tabbed-left no-style" ng-class="results === null ? 'hidden' : ''" ng-click="searchModeOff()">
             <span data-hint="Click to finish editing." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'"></span><i class="fa fa-arrow-circle-o-left"></i>
         </a>
         <div ng-class="results === null && playlist.songs.length > 1 ? '' : 'hidden'">
             <button class="pure-button button-sm push-right" ng-click="searchModeOn()" 
-            data-hint="Click to edit the current playlist." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'">Edit</button>
+            data-hint="Click to edit the current playlist." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'">Add Song</button>
         </div>
         {{results === null && playlist.songs.length > 1 ? 'What\'s Next?' : 'Editing Playlist'}}
     </h2>
+
     <div class="pure-u-1-1 segment">
         <div ng-class="(results === null && playlist.songs.length > 1) || selectedResult !== null? 'hidden' : ''">
             <div class="pure-form pure-g default-u-padding">
@@ -64,7 +67,7 @@
                             <input ng-model="query" type="text">
                         </div>
                     </div>
-                    <button class="pure-u-7-24 pure-button button-lg push-right" ng-click="search()">Search</button>
+                    <button class="pure-u-7-24 pure-button button-lg push-right" ng-click="search()">Search Songs</button>
                 </fieldset>
             </div> 
             <div ng-repeat="result in results" class="selectable playlist-item" ng-click="selectResult($index)">
