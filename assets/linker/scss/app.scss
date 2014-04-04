@@ -17,6 +17,7 @@
 --- --- 0.1.4 TABS
 --- 0.2.0 STYLING
 --- --- 0.2.1 LINKS
+--- 0.3.0 ANIMATIONS
 1.0.0 ELEMENTS
 --- 1.1.0 SEGMENTS
 --- 1.2.0 FORM
@@ -168,6 +169,13 @@ a {
 	}
 }
 
+/* 0.3.0 ANIMATIONS */
+
+@mixin transition($property, $duration, $timing:linear, $delay:0) {
+	transition: $property $duration $timing $delay;
+	-webkit-transition: $property $duration $timing $delay;
+}
+
 /* 1.0.0 ELEMENTS */
 
 /* 1.1.0 CONTAINERS */
@@ -313,10 +321,6 @@ a.pure-button.full {
 	@include h-padding(20);
 }
 
-.play-controller {
-	text-align: center;
-}
-
 .playlist-item {
 	@include v-padding(10);
 	@include h-padding(20);
@@ -376,6 +380,7 @@ a.pure-button.full {
 				width: 0%;
 				pointer-events: none;
 				background: #000;
+				@include transition(width, .5s);
 			}
 		}
 	}
@@ -390,6 +395,36 @@ a.pure-button.full {
 
 		&.duration {
 			right: em(10);
+		}
+	}
+}
+
+.controls {
+
+	padding: em(20) em(20) em(30) 0;
+
+	.play-controller {
+
+		.control-button {
+			display: inline-block;
+			width: 30%;
+
+			&.back {
+				text-align: right;
+			}
+
+			&.play {
+				font-size: 150%;
+				text-align: center;
+
+				span {
+					margin-left: em(-10);
+				}
+			}
+
+			&.next {
+				text-align: left;
+			}
 		}
 	}
 }

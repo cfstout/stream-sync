@@ -8,28 +8,40 @@
         {{event.name}}
     </h1>
     <div class="pure-u-1-1 segment pure-g">
-        <div class="song-details"
+        <div class="song-details pure-u-1-1"
         data-hint="Here are the song details." ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
             <h2 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].title : 'No Song Selected'}}</h2>
             <h3 class="title">{{(playlist.current > -1) ? playlist.songs[playlist.current].artist : 'Add Songs to Playlist'}}</h3>
-            <h1 class="play-controller" ng-class="isHost && playlist.isReady ? '' : 'hidden'">
-                <a ng-click="playlist.isPlaying ? controls.pause() : controls.play()">
+        </div>
+        <div class="seek-bar pure-u-1-1">
+            <div class="container">
+                <div class="outer" ng-click="controls.seek($event)">
+                    <div class="inner" ng-style="{width:(playlist.percentPlayed + '%')}"></div>
+                </div>
+            </div>
+            <div class="track-time current">{{playlist.curTime.pretty}}</div>
+            <div class="track-time duration">{{playlist.curDuration.pretty}}</div>
+        </div>
+        <div class="pure-u-1-1 pure-g controls">
+            <div class="play-controller pure-u-1-3" ng-class="isHost && playlist.isReady ? '' : 'hidden'">
+                <div class="control-button back">
+                    <span class="fa-stack fa-large">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-inverse fa-stack-1x fa-step-backward"></i>
+                    </span>
+                </div>
+                <div class="control-button play" ng-click="playlist.isPlaying ? controls.pause() : controls.play()">
                     <span class="fa-stack fa-large">
                         <i class="fa fa-circle fa-stack-2x"></i>
                         <i class="fa fa-inverse fa-stack-1x" ng-class="playlist.isPlaying ? 'fa-pause' : 'fa-play'"></i>
                     </span>
-                </a>
-            </h1>
-        </div>
-        <div class="song-controls">
-            <div class="seek-bar">
-                <div class="container">
-                    <div class="outer" ng-click="controls.seek($event)">
-                        <div class="inner" ng-style="{width:(playlist.percentPlayed + '%')}"></div>
-                    </div>
                 </div>
-                <div class="track-time current">{{playlist.curTime.pretty}}</div>
-                <div class="track-time duration">{{playlist.curDuration.pretty}}</div>
+                <div class="control-button next">
+                    <span class="fa-stack fa-large">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-inverse fa-stack-1x fa-step-forward"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -37,14 +49,14 @@
         <a class="tabbed-left no-style" ng-class="results === null ? 'hidden' : ''" ng-click="searchModeOff()">
             <span data-hint="Click to finish editing." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'"></span><i class="fa fa-arrow-circle-o-left"></i>
         </a>
-        <div ng-class="results === null ? '' : 'hidden'">
+        <div ng-class="results === null && playlist.songs.length > 1 ? '' : 'hidden'">
             <button class="pure-button button-sm push-right" ng-click="searchModeOn()" 
             data-hint="Click to edit the current playlist." ng-class="hints ? 'hint--always hint--left' : 'hint--hidden'">Edit</button>
         </div>
-        {{results === null ? 'What\'s Next?' : 'Editing Playlist'}}
+        {{results === null && playlist.songs.length > 1 ? 'What\'s Next?' : 'Editing Playlist'}}
     </h2>
     <div class="pure-u-1-1 segment">
-        <div ng-class="results === null || selectedResult !== null ? 'hidden' : ''">
+        <div ng-class="(results === null && playlist.songs.length > 1) || selectedResult !== null? 'hidden' : ''">
             <div class="pure-form pure-g default-u-padding">
                 <fieldset class="full">
                     <div class="fieldset pure-u-2-3" data-hint="Search YouTube and SoundCloud for songs to add to your playlist." ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">

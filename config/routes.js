@@ -65,10 +65,6 @@ module.exports.routes = {
     controller: 'PlayListController',
     action: 'sync'
   },
-  'post /playlist/:id/pause': {
-    controller: 'PlayListController',
-    action: 'pause'
-  },
 
   // SONGS
 

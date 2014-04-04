@@ -206,16 +206,16 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                     return $http.post($settings.root + 'song/create/remote', song);
                 },
 
-            initializeTrack: function(song, callback) {
+            initializeTrack: function(song, callbacks) {
                     switch (song.source) {
                         case 'youtube':
                             playersAPI.youtube.doWhenReady(function() {
-                                cur_track = new track.youtube(song, callback);
+                                cur_track = new track.youtube(song, callbacks);
                             });
                             break;
                         case 'soundcloud':
                             playersAPI.soundcloud.doWhenReady(function() {
-                                cur_track = new track.soundcloud(song, callback);
+                                cur_track = new track.soundcloud(song, callbacks);
                             });
                             break;
                         default:
@@ -257,20 +257,13 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
 
         var timeUpdate = {
             happening: false,
+            updateCounter: 0,
             playlist: null,
             publish: {
                 update: function(ms) {
-                var updatedTime = typeof ms == 'undefined' ? this.playlist.curTime.real : ms;
+                var updatedTime = typeof ms == 'undefined' ? song.getTime() : ms;
                 socket.execute($settings.root + 'playlist/' + this.playlist.id + '/sync', {
                         songTime: updatedTime,
-                        hostTime: ntp.getTime(),
-                        current: this.playlist.current,
-                        isPlaying: this.playlist.isPlaying
-                    });
-                },
-                pause: function() {
-                    socket.execute($settings.root + 'playlist/' + this.playlist.id + '/pause', {
-                        songTime: this.playlist.curTime.real,
                         hostTime: ntp.getTime(),
                         current: this.playlist.current,
                         isPlaying: this.playlist.isPlaying
@@ -280,7 +273,11 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             update: function() {
                 this.playlist.curTime.real = song.getTime();
                 if (isHost) {
-                    this.publish.update();
+                    this.updateCounter += 1;
+                    if (this.updateCounter > 10) {
+                        this.publish.update();
+                        this.updateCounter = 0;
+                    }
                 }
                 notifyObserver();
             },
@@ -301,7 +298,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 var self = this;
                 this.happening = setInterval(function() {
                     self.update();
-                }, 100);
+                }, 10);
             },
             stop: function() {
                 clearInterval(this.happening);
@@ -318,6 +315,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             set: function(playlist, userIsHost) {
                 this.instance = playlist;
                 this.instance.isReady = false;
+                this.instance.isPlaying = false;
                 isHost = userIsHost;
                 notifyObserver();
                 this.layTrack();
@@ -327,19 +325,26 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             },
             layTrack: function() {
                 var current = this.instance.current;
-                if (current > -1) {
+                if (current > -1 && current < this.instance.songs.length) {
                     var self = this;
-                    song.initializeTrack(this.instance.songs[current], function() {
-                        self.instance.isReady = true;
-                        timeUpdate.init(self.instance);
-                        if (self.instance.isPlaying) {
-                            self.play();
-                        } else {
-                            self.pause();
+                    song.initializeTrack(this.instance.songs[current], {
+                        init: function() {
+                            timeUpdate.init(self.instance);
+                            self.seek(self.instance.songTime);
+                            self.instance.isReady = true;
+                            notifyObserver();
+                        },
+                        ended: function() {
+                            console.log('song ended');
                         }
-                        self.seek(self.instance.songTime);
-                        notifyObserver();
                     });
+                }
+            },
+            togglePlay: function() {
+                if (this.instance.isPlaying) {
+                    this.pause();
+                } else {
+                    this.play();
                 }
             },
             play: function () {
@@ -352,7 +357,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 this.instance.isPlaying = false;
                 timeUpdate.stop();
                 if (isHost) {
-                    timeUpdate.publish.pause();
+                    timeUpdate.publish.update();
                 }
                 song.pause();
                 notifyObserver();
@@ -381,15 +386,14 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
               service.layTrack();
             },
             time_update: function(data) {
-                if (!isHost) {
-                    if (Math.abs(service.instance.curTime.real - data.time) > 200) {
-                        service.seek(data.time);
+                if (!isHost && service.instance.isReady) {
+                    if (data.isPlaying != service.instance.isPlaying) {
+                        service.togglePlay();
                     }
-                }
-            },
-            pause: function(data) {
-                if (!isHost) {
-                    service.pause();
+                    var newTime = data.songTime + (ntp.getTime() - data.hostTime);
+                    if (Math.abs(service.instance.curTime.real - newTime) > 200) {
+                        service.seek(newTime);
+                    }
                 }
             }
         };
@@ -453,19 +457,18 @@ streamSyncServices.factory('track', [
 
         var track;
 
-        function YTtrack(song, callback) {
+        function YTtrack(song, callbacks) {
             track = this;
             this.song = song;
-            this.isReady = false;
             this.isPlaying = false;
-            this.callback = callback;
+            this.callbacks = callbacks;
             this.player = new YT.Player('ytplayer', {
                 height: 0,
                 width: 0,
                 videoId: song.source_id,
                 events: {
                     'onReady': track.onReady,
-                    'onStateChange': track.doubleCheck
+                    'onStateChange': track.checkState
                 }
             });
         }
@@ -473,22 +476,24 @@ streamSyncServices.factory('track', [
         YTtrack.prototype = {
             onReady: function() {
                 track.isReady = true;
-                track.callback();
+                track.callbacks.init();
             },
-            doubleCheck: function(event) {
-                if(event.data == YT.PlayerState.PLAYING && !track.isPlaying) {
+            checkState: function(event) {
+                if (event.data == YT.PlayerState.PLAYING && !track.isPlaying) {
                     track.pause();
+                } else if (event.data == YT.PlayerState.ENDED) {
+                    track.callbacks.ended();
                 }
             },
             play: function() {
                 if (this.isReady) {
-                    this.isPlaying = true;
+                    track.isPlaying = true;
                     this.player.playVideo();
                 }
             },
             pause: function() {
                 if (this.isReady) {
-                    this.isPlaying = false;
+                    track.isPlaying = false;
                     this.player.pauseVideo();
                 }
             },
@@ -509,7 +514,7 @@ streamSyncServices.factory('track', [
             }
         };
 
-        function SCtrack(song, callback) {
+        function SCtrack(song, callbacks) {
             track = this;
             this.song = song;
             this.isReady = false;
@@ -517,7 +522,8 @@ streamSyncServices.factory('track', [
             SC.stream('/tracks/'+song.source_id, function(player) {
                 track.player = player;
                 track.isReady = true;
-                callback();
+                track.player._onfinish = callbacks.ended;
+                callbacks.init();
             });
         }
 
@@ -681,7 +687,7 @@ streamSyncServices.factory('ntp', ['socket',
         var onSync = function (data) {
             var diff = Date.now() - data.t1 + ((Date.now() - data.t0)/2);
             offsets.unshift(diff);
-            if (offsets.length > 10) {
+            if (offsets.length > 20) {
               offsets.pop();
             }
         }; 
@@ -696,7 +702,7 @@ streamSyncServices.factory('ntp', ['socket',
                 socket.on('ntp:server_sync', function(data) {
                     onSync(data);
                 });
-                setInterval(sync, 1000);
+                setInterval(sync, 200);
             },
             offset: function() {
                 var sum = 0;
@@ -707,7 +713,7 @@ streamSyncServices.factory('ntp', ['socket',
                 return sum;
             },
             getTime: function() {
-                return Date.now() + this.offset();
+                return Date.now() - this.offset();
             }
         };
     }]);
