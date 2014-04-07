@@ -24,6 +24,9 @@
             <input type="password" placeholder="password" id="password-input" ng-model="password">
             <i class="fa fa-key"></i><abbr></abbr>
           </div>
+          <div ng-show="password.length < 6">
+            <mark>Password too short</mark>
+          </div>
         </div>
         <div class="fieldset">
           <label>City</label>
