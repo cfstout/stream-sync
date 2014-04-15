@@ -211,6 +211,12 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
           var newTime = (click.offsetX / click.target.offsetWidth) * $scope.playlist.curDuration.real;
           playlist.seek(newTime);
         }
+      },
+      next: function() {
+        playlist.next_song();
+      },
+      prev: function() {
+        playlist.prev_song();
       }
     };
 

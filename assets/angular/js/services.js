@@ -215,16 +215,16 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                     return $http.post($settings.root + 'song/create/remote', song);
                 },
 
-            initializeTrack: function(song, callbacks) {
+            initializeTrack: function(song, autoplay, callbacks) {
                     switch (song.source) {
                         case 'youtube':
                             playersAPI.youtube.doWhenReady(function() {
-                                cur_track = new track.youtube(song, callbacks);
+                                cur_track = new track.youtube(song, autoplay, callbacks);
                             });
                             break;
                         case 'soundcloud':
                             playersAPI.soundcloud.doWhenReady(function() {
-                                cur_track = new track.soundcloud(song, callbacks);
+                                cur_track = new track.soundcloud(song, autoplay, callbacks);
                             });
                             break;
                         default:
@@ -268,6 +268,16 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             happening: false,
             updateCounter: 0,
             playlist: null,
+            calcTimeWithOffset: function(playlist) {
+                if (typeof playlist == 'undefined') {
+                    if (typeof this.playlist == 'undefined') {
+                        return 0;
+                    }
+                    playlist = this.playlist;
+                }
+                var offset = playlist.isPlaying ? playlist.hostTime - ntp.getTime() : 0;
+                return offset + playlist.songTime;
+            },
             publish: {
                 update: function(ms) {
                 var updatedTime = typeof ms == 'undefined' ? song.getTime() : ms;
@@ -297,8 +307,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                     real: playlist.songs[playlist.current].duration,
                     pretty: time.prettify(playlist.songs[playlist.current].duration)
                 };
-                var offset = playlist.isPlaying ? playlist.hostTime - ntp.getTime() : 0;
-                playlist.songTime = offset + playlist.songTime;
+                playlist.songTime = this.calcTimeWithOffset();
                 playlist.curTime = {
                     real: playlist.songTime
                 };
@@ -324,7 +333,6 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             set: function(playlist, userIsHost) {
                 this.instance = playlist;
                 this.instance.isReady = false;
-                this.instance.isPlaying = false;
                 isHost = userIsHost;
                 notifyObserver();
                 this.layTrack();
@@ -335,12 +343,20 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             layTrack: function() {
                 var current = this.instance.current;
                 if (current > -1 && current < this.instance.songs.length) {
+                    this.instance.isReady = false;
                     var self = this;
-                    song.initializeTrack(this.instance.songs[current], {
+                    song.initializeTrack(this.instance.songs[current], 
+                    {
+                        position: timeUpdate.calcTimeWithOffset(self.instance),
+                        isOn: self.instance.isPlaying
+                    },
+                    {
                         init: function() {
                             timeUpdate.init(self.instance);
-                            self.seek(self.instance.songTime);
                             self.instance.isReady = true;
+                            if (self.instance.isPlaying) {
+                                timeUpdate.start();
+                            }
                             notifyObserver();
                         },
                         ended: function() {
@@ -383,6 +399,22 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 }
                 this.instance.curTime.real = ms;
                 notifyObserver();
+            },
+            change_song: function(track) {
+                if (track > -1 && track < this.instance.songs.length) {
+                    song.stop();
+                    timeUpdate.stop();
+                    this.instance.current = track;
+                    this.instance.songTime = 0;
+                    this.layTrack();
+                    notifyObserver();
+                }
+            },
+            prev_song: function() {
+                this.change_song(this.instance.current - 1);
+            },
+            next_song: function() {
+                this.change_song(this.instance.current + 1);
             }
         };
 
@@ -467,10 +499,14 @@ streamSyncServices.factory('track', [
 
         var track;
 
-        function YTtrack(song, callbacks) {
+        function YTtrack(song, autoplay, callbacks) {
             track = this;
             this.song = song;
-            this.isPlaying = false;
+            this.isPlaying = autoplay.isOn;
+            var playerVars = {
+                start: autoplay.position/1000,
+                autoplay: autoplay.isOn ? 1 : 0
+            };
             this.callbacks = callbacks;
             this.player = new YT.Player('ytplayer', {
                 height: 0,
@@ -479,7 +515,8 @@ streamSyncServices.factory('track', [
                 events: {
                     'onReady': track.onReady,
                     'onStateChange': track.checkState
-                }
+                },
+                playerVars: playerVars
             });
         }
 
@@ -524,7 +561,7 @@ streamSyncServices.factory('track', [
             }
         };
 
-        function SCtrack(song, callbacks) {
+        function SCtrack(song, autoplay, callbacks) {
             track = this;
             this.song = song;
             this.isReady = false;
