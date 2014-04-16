@@ -25,13 +25,14 @@
       <div class="segment grid-item">
         <h3>{{event.name}}</h3>
         <h4>{{event.creator}} | {{event.loc}}</h4>
-        <h4>{{event.datetime | date: "MM/dd/yyyy @ hh:mm a"}}</h4>
-        <a ng-click="event.expanded= !event.expanded" data-hint="Click on an event to see details" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Details</a>
+        <h4>{{event.date | date: "MM/dd/yyyy"}}</h4>
+        <a class = "pure-button" ng-click="event.expanded= !event.expanded" data-hint="Click on an event to see details" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Details</a>
           <div ng-show="event.expanded" class ="segment grid-item">
             Song List will go here
             <a ng-href="#/event/{{event.slug}}" class="pure-button"
         data-hint="Join the event to participate." ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Join</a>
           </div>
+        <button class = "pure-button" ng-click = "delete()" data-hint = "Click here to delete an event you are hosting" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Delete</button>
       </div>
     </div>
   </div>

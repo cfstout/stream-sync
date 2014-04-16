@@ -24,9 +24,23 @@
 	<div class="pure-g-r full">
 		<div class="pure-u-1-3" ng-repeat = "event in current_user_created_events | filter: query">
 			<div class = "segment grid-item">
-				<h4>{{event.name}}<h4>
-				<h5>{{event.loc}}</h5>
-        		<h5>{{event.datetime | date: "MM/dd/yyyy @ hh:mm a"}}</h5>
+				<h3>{{event.name}}<h3>
+        		<h4>{{event.date | date: "MM/dd/yyyy"}}</h4>
+        		<div class = "pure-g-r full">
+        			<div class = "pure-u-1-2">
+	        			<a class = "pure-button pure-u-1-2" ng-click="event.expanded= !event.expanded" data-hint="Click on an event to see details" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Details</a>
+	        		</div>
+	        		<div class = "pure-u-1-2 push-right">
+	        			<button class = "pure-button pure-u-1-2" ng-click = "delete()" data-hint = "Click here to delete an event you are hosting" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">X</button>
+	        		</div>
+	        	</div>
+
+	          	<div ng-show="event.expanded" class ="segment grid-item">
+	            	Song List will go here
+	            	<a ng-href="#/event/{{event.slug}}" class="pure-button" data-hint="Enter the event to participate." ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Enter</a>
+				</div>
+
+					
 			</div>
 		</div>
 	</div>

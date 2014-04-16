@@ -61,12 +61,12 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
     function($scope, event, user) {
         //paramaters to request
         $scope.name = "";
-        $scope.datetime = new Date();
+        $scope.date = "";
         user.logged_in();
 
         //request server to perform action
         $scope.submit = function() {
-           event.create(this.name, this.datetime);
+           event.create(this.name, this.date);
         };
     }]); 
 

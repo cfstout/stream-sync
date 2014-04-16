@@ -111,13 +111,14 @@ streamSyncServices.factory('event', ['$http','$location', 'socket',
             get_events_by_creator: function() {
                 return $http.get($settings.root + 'event/get_events_by_creator');
             },
-            create: function(eventName, datetime) {
+            create: function(eventName, date) {
 
                 //console.log(time);
                 var params = {
                     eventName: eventName,
-                    datetime: datetime
+                    date: date
                 };
+                console.log(date);
                 return $http.post($settings.root + 'event/create',params)
                     .success(function (data, status){
                         $location.path('event/' + data.event.slug);

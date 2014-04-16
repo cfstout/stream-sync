@@ -29,7 +29,7 @@ module.exports = {
 	create: function (req, res) {
 		Event.create({
 			name: req.param('eventName'),
-			datetime: req.param('datetime'),
+			date: req.param('date'),
 			slug: Sanitization.createSlug(req.param('eventName')),
 			creator: req.user.username,
 			loc: req.user.loc 
@@ -72,7 +72,7 @@ module.exports = {
 							console.log(err);
 							return res.send({status: 403}, 403);
 						} else {
-							console.log("Event created: " + event.creator + " loc: "+event.loc);
+							console.log("Event created: " + event.creator + " date: "+event.date);
 							return res.send({event: event, status: 200}, 200);
 						}
 					});
