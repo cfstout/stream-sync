@@ -175,79 +175,82 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                 }
             },
             search: {
-                    youtube: function(query) {
-                        return $http.get($settings.root + 'song/search/youtube/'+query);
-                    },
-                    soundcloud: function(query) {
-                        return $http.get($settings.root + 'song/search/soundcloud/'+query);
-                    }
+                youtube: function(query) {
+                    return $http.get($settings.root + 'song/search/youtube/'+query);
                 },
-            process: {
-                    youtube: function(items) {
-                        var results = [];
-                        var track = {};
-                        for (var i = 0; i < 5; i++) {
-                            track = processTitle(items[i].snippet.title);
-                            results[i] = {
-                                title: track.title,
-                                artist: track.artist,
-                                source: 'youtube',
-                                source_id: items[i].id.videoId
-                            };
-                        }
-                        return results;
-                    },
-                    soundcloud: function(items) {
-                        var results = [];
-                        var track = {};
-                        for (var i = 0; i < 5; i++) {
-                            track = processTitle(items[i].title);
-                            results[i] = {
-                                title: track.title,
-                                artist: track.artist,
-                                source: 'soundcloud',
-                                source_id: items[i].id
-                            };
-                        }
-                        return results;
-                    }
-                },
-            createRemoteSong: function(song) {
-                    return $http.post($settings.root + 'song/create/remote', song);
-                },
-
-            initializeTrack: function(song, callbacks) {
-                    switch (song.source) {
-                        case 'youtube':
-                            playersAPI.youtube.doWhenReady(function() {
-                                cur_track = new track.youtube(song, callbacks);
-                            });
-                            break;
-                        case 'soundcloud':
-                            playersAPI.soundcloud.doWhenReady(function() {
-                                cur_track = new track.soundcloud(song, callbacks);
-                            });
-                            break;
-                        default:
-                            console.log(song.source + ' is and invalid source');
-                            break;
-                    }
-                },
-            play: function() {
-                    cur_track.play();
-                },
-            pause: function() {
-                    cur_track.pause();
-                },
-            stop: function() {
-                    cur_track.stop();
-                },
-            seek: function(ms) {
-                    cur_track.seek(ms);
-                },
-            getTime: function() {
-                    return cur_track.getTime();
+                soundcloud: function(query) {
+                    return $http.get($settings.root + 'song/search/soundcloud/'+query);
                 }
+            },
+            process: {
+                youtube: function(items) {
+                    var results = [];
+                    var track = {};
+                    for (var i = 0; i < 5; i++) {
+                        track = processTitle(items[i].snippet.title);
+                        results[i] = {
+                            title: track.title,
+                            artist: track.artist,
+                            source: 'youtube',
+                            source_id: items[i].id.videoId
+                        };
+                    }
+                    return results;
+                },
+                soundcloud: function(items) {
+                    var results = [];
+                    var track = {};
+                    for (var i = 0; i < 5; i++) {
+                        track = processTitle(items[i].title);
+                        results[i] = {
+                            title: track.title,
+                            artist: track.artist,
+                            source: 'soundcloud',
+                            source_id: items[i].id
+                        };
+                    }
+                    return results;
+                }
+            },
+            createRemoteSong: function(song) {
+                return $http.post($settings.root + 'song/create/remote', song);
+            },
+            initializeTrack: function(song, autoplay, callbacks) {
+                switch (song.source) {
+                    case 'youtube':
+                        playersAPI.youtube.doWhenReady(function() {
+                            cur_track = new track.youtube(song, autoplay, callbacks);
+                        });
+                        break;
+                    case 'soundcloud':
+                        playersAPI.soundcloud.doWhenReady(function() {
+                            cur_track = new track.soundcloud(song, autoplay, callbacks);
+                        });
+                        break;
+                    default:
+                        console.log(song.source + ' is and invalid source');
+                        break;
+                }
+            },
+            play: function() {
+                cur_track.play();
+            },
+            pause: function() {
+                cur_track.pause();
+            },
+            stop: function() {
+                cur_track.stop();
+            },
+            seek: function(ms) {
+                cur_track.seek(ms);
+            },
+            getTime: function() {
+                return cur_track.getTime();
+            },
+            destroy: function() {
+                this.stop();
+                playersAPI.youtube.destroy();
+            }
         };
     }]);
 
@@ -269,6 +272,16 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             happening: false,
             updateCounter: 0,
             playlist: null,
+            calcTimeWithOffset: function(playlist) {
+                if (typeof playlist == 'undefined') {
+                    if (typeof this.playlist == 'undefined') {
+                        return 0;
+                    }
+                    playlist = this.playlist;
+                }
+                var offset = playlist.isPlaying ? playlist.hostTime - ntp.getTime() : 0;
+                return offset + playlist.songTime;
+            },
             publish: {
                 update: function(ms) {
                 var updatedTime = typeof ms == 'undefined' ? song.getTime() : ms;
@@ -298,8 +311,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                     real: playlist.songs[playlist.current].duration,
                     pretty: time.prettify(playlist.songs[playlist.current].duration)
                 };
-                var offset = playlist.isPlaying ? playlist.hostTime - ntp.getTime() : 0;
-                playlist.songTime = offset + playlist.songTime;
+                playlist.songTime = this.calcTimeWithOffset();
                 playlist.curTime = {
                     real: playlist.songTime
                 };
@@ -325,7 +337,6 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             set: function(playlist, userIsHost) {
                 this.instance = playlist;
                 this.instance.isReady = false;
-                this.instance.isPlaying = false;
                 isHost = userIsHost;
                 notifyObserver();
                 this.layTrack();
@@ -336,12 +347,20 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             layTrack: function() {
                 var current = this.instance.current;
                 if (current > -1 && current < this.instance.songs.length) {
+                    this.instance.isReady = false;
                     var self = this;
-                    song.initializeTrack(this.instance.songs[current], {
+                    song.initializeTrack(this.instance.songs[current], 
+                    {
+                        position: timeUpdate.calcTimeWithOffset(self.instance),
+                        isOn: self.instance.isPlaying
+                    },
+                    {
                         init: function() {
                             timeUpdate.init(self.instance);
-                            self.seek(self.instance.songTime);
                             self.instance.isReady = true;
+                            if (self.instance.isPlaying) {
+                                timeUpdate.start();
+                            }
                             notifyObserver();
                         },
                         ended: function() {
@@ -384,6 +403,22 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 }
                 this.instance.curTime.real = ms;
                 notifyObserver();
+            },
+            change_song: function(track) {
+                if (track > -1 && track < this.instance.songs.length) {
+                    song.destroy();
+                    timeUpdate.stop();
+                    this.instance.current = track;
+                    this.instance.songTime = 0;
+                    this.layTrack();
+                    notifyObserver();
+                }
+            },
+            prev_song: function() {
+                this.change_song(this.instance.current - 1);
+            },
+            next_song: function() {
+                this.change_song(this.instance.current + 1);
             }
         };
 
@@ -468,10 +503,14 @@ streamSyncServices.factory('track', [
 
         var track;
 
-        function YTtrack(song, callbacks) {
+        function YTtrack(song, autoplay, callbacks) {
             track = this;
             this.song = song;
-            this.isPlaying = false;
+            this.isPlaying = autoplay.isOn;
+            var playerVars = {
+                start: autoplay.position/1000,
+                autoplay: autoplay.isOn ? 1 : 0
+            };
             this.callbacks = callbacks;
             this.player = new YT.Player('ytplayer', {
                 height: 0,
@@ -480,7 +519,8 @@ streamSyncServices.factory('track', [
                 events: {
                     'onReady': track.onReady,
                     'onStateChange': track.checkState
-                }
+                },
+                playerVars: playerVars
             });
         }
 
@@ -525,7 +565,7 @@ streamSyncServices.factory('track', [
             }
         };
 
-        function SCtrack(song, callbacks) {
+        function SCtrack(song, autoplay, callbacks) {
             track = this;
             this.song = song;
             this.isReady = false;
@@ -535,6 +575,9 @@ streamSyncServices.factory('track', [
                 track.isReady = true;
                 track.player._onfinish = callbacks.ended;
                 callbacks.init();
+                if (autoplay.isOn) {
+                    track.play();
+                }
             });
         }
 
@@ -592,6 +635,17 @@ streamSyncServices.factory('playersAPI', [
                             console.log('youtube could not be initialized');
                         }
                     }, 20000);
+                },
+                destroy: function() {
+                    var oldIFrame = document.getElementById("ytplayer");
+
+                    var parent = oldIFrame.parentNode;
+                    parent.removeChild(oldIFrame);
+
+                    var newDiv = document.createElement('div');
+                    newDiv.id = "ytplayer";
+
+                    parent.appendChild(newDiv);
                 },
                 onReady: function() {
                     $initializers.onReadyApply($initializers.youtube);
