@@ -56,6 +56,7 @@ module.exports.routes = {
     action: 'subscribe'
   },
 
+
   // PLAYLIST
   'put /playlist/:id/addSong': {
     controller: 'PlayListController',
@@ -64,6 +65,10 @@ module.exports.routes = {
   'post /playlist/:id/sync': {
     controller: 'PlayListController',
     action: 'sync'
+  },
+  'get /playlist/:id/getSongs': {
+    controller: 'PlayListController',
+    action: 'getSongs'
   },
 
   // SONGS

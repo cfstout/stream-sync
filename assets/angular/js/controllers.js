@@ -57,6 +57,22 @@ streamSyncControllers.controller('NavCtrl', ['$scope', '$location', '$rootScope'
     };
   }]);
 
+streamSyncControllers.controller('EventSongCtrl', ['$scope','$http',
+  function($scope,$http){
+    console.log($scope.playlistID);
+    $scope.getSongs = function(playlistID){
+      $http.get('/playlist/' + playlistID + '/getSongs')
+        .error(function (data, status) {
+          console.log("ERROR");
+        })
+        .success(function (data,status){
+          $scope.songs = data.songs;
+        });
+    };
+    $scope.getSongs($scope.playlistID);
+
+  }]);
+
 streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
     function($scope, event, user) {
         //paramaters to request
@@ -87,6 +103,7 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', 'user', 'event',
                 });
             };
         $scope.get_events_by_creator();
+        $scope.delete
 
     }]); 
 
