@@ -574,6 +574,9 @@ streamSyncServices.factory('track', [
                 track.isReady = true;
                 track.player._onfinish = callbacks.ended;
                 callbacks.init();
+                if (autoplay.isOn) {
+                    track.play();
+                }
             });
         }
 
