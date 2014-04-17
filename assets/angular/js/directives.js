@@ -14,3 +14,14 @@ streamSyncDirectives.directive('ssEventSongs', [
 			templateUrl: 'angular/templates/directive/EventSongsTemplate.html'
 		};
 }]);
+
+streamSyncDirectives.directive('ssEventDelete', [
+	function(){
+		return{
+			restrict: 'AEC',
+			scope:{
+				eventID: '=info'
+			},
+			templateUrl: 'angular/templates/directive/EventDeleteTemplate.html'
+		};
+	}]);

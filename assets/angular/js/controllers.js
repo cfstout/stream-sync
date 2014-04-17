@@ -86,6 +86,20 @@ streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
         };
     }]); 
 
+streamSyncControllers.controller('EventDeleteCtrl',['$scope', '$http','$location',
+  function($scope,$http,$location){
+    $scope.delete = function(){
+      $http.delete('/event/'+$scope.eventID + '/delete')
+        .error(function (data, status) {
+          console.log("ERROR");
+        })
+        .success(function (data, status){
+          console.log("SUCCESS");
+          location.reload();
+        });
+      };
+  }])
+
 streamSyncControllers.controller('ProfileCtrl', ['$scope', 'user', 'event',
     function($scope, user, event) {
         $scope.current_user = {};
@@ -103,8 +117,6 @@ streamSyncControllers.controller('ProfileCtrl', ['$scope', 'user', 'event',
                 });
             };
         $scope.get_events_by_creator();
-        $scope.delete
-
     }]); 
 
 streamSyncControllers.controller('EventListCtrl', ['$scope', 'user', 'event',
