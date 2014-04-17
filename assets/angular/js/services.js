@@ -174,79 +174,82 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
                 }
             },
             search: {
-                    youtube: function(query) {
-                        return $http.get($settings.root + 'song/search/youtube/'+query);
-                    },
-                    soundcloud: function(query) {
-                        return $http.get($settings.root + 'song/search/soundcloud/'+query);
-                    }
+                youtube: function(query) {
+                    return $http.get($settings.root + 'song/search/youtube/'+query);
                 },
-            process: {
-                    youtube: function(items) {
-                        var results = [];
-                        var track = {};
-                        for (var i = 0; i < 5; i++) {
-                            track = processTitle(items[i].snippet.title);
-                            results[i] = {
-                                title: track.title,
-                                artist: track.artist,
-                                source: 'youtube',
-                                source_id: items[i].id.videoId
-                            };
-                        }
-                        return results;
-                    },
-                    soundcloud: function(items) {
-                        var results = [];
-                        var track = {};
-                        for (var i = 0; i < 5; i++) {
-                            track = processTitle(items[i].title);
-                            results[i] = {
-                                title: track.title,
-                                artist: track.artist,
-                                source: 'soundcloud',
-                                source_id: items[i].id
-                            };
-                        }
-                        return results;
-                    }
-                },
-            createRemoteSong: function(song) {
-                    return $http.post($settings.root + 'song/create/remote', song);
-                },
-
-            initializeTrack: function(song, autoplay, callbacks) {
-                    switch (song.source) {
-                        case 'youtube':
-                            playersAPI.youtube.doWhenReady(function() {
-                                cur_track = new track.youtube(song, autoplay, callbacks);
-                            });
-                            break;
-                        case 'soundcloud':
-                            playersAPI.soundcloud.doWhenReady(function() {
-                                cur_track = new track.soundcloud(song, autoplay, callbacks);
-                            });
-                            break;
-                        default:
-                            console.log(song.source + ' is and invalid source');
-                            break;
-                    }
-                },
-            play: function() {
-                    cur_track.play();
-                },
-            pause: function() {
-                    cur_track.pause();
-                },
-            stop: function() {
-                    cur_track.stop();
-                },
-            seek: function(ms) {
-                    cur_track.seek(ms);
-                },
-            getTime: function() {
-                    return cur_track.getTime();
+                soundcloud: function(query) {
+                    return $http.get($settings.root + 'song/search/soundcloud/'+query);
                 }
+            },
+            process: {
+                youtube: function(items) {
+                    var results = [];
+                    var track = {};
+                    for (var i = 0; i < 5; i++) {
+                        track = processTitle(items[i].snippet.title);
+                        results[i] = {
+                            title: track.title,
+                            artist: track.artist,
+                            source: 'youtube',
+                            source_id: items[i].id.videoId
+                        };
+                    }
+                    return results;
+                },
+                soundcloud: function(items) {
+                    var results = [];
+                    var track = {};
+                    for (var i = 0; i < 5; i++) {
+                        track = processTitle(items[i].title);
+                        results[i] = {
+                            title: track.title,
+                            artist: track.artist,
+                            source: 'soundcloud',
+                            source_id: items[i].id
+                        };
+                    }
+                    return results;
+                }
+            },
+            createRemoteSong: function(song) {
+                return $http.post($settings.root + 'song/create/remote', song);
+            },
+            initializeTrack: function(song, autoplay, callbacks) {
+                switch (song.source) {
+                    case 'youtube':
+                        playersAPI.youtube.doWhenReady(function() {
+                            cur_track = new track.youtube(song, autoplay, callbacks);
+                        });
+                        break;
+                    case 'soundcloud':
+                        playersAPI.soundcloud.doWhenReady(function() {
+                            cur_track = new track.soundcloud(song, autoplay, callbacks);
+                        });
+                        break;
+                    default:
+                        console.log(song.source + ' is and invalid source');
+                        break;
+                }
+            },
+            play: function() {
+                cur_track.play();
+            },
+            pause: function() {
+                cur_track.pause();
+            },
+            stop: function() {
+                cur_track.stop();
+            },
+            seek: function(ms) {
+                cur_track.seek(ms);
+            },
+            getTime: function() {
+                return cur_track.getTime();
+            },
+            destroy: function() {
+                this.stop();
+                playersAPI.youtube.destroy();
+            }
         };
     }]);
 
@@ -402,7 +405,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             },
             change_song: function(track) {
                 if (track > -1 && track < this.instance.songs.length) {
-                    song.stop();
+                    song.destroy();
                     timeUpdate.stop();
                     this.instance.current = track;
                     this.instance.songTime = 0;
@@ -628,6 +631,17 @@ streamSyncServices.factory('playersAPI', [
                             console.log('youtube could not be initialized');
                         }
                     }, 20000);
+                },
+                destroy: function() {
+                    var oldIFrame = document.getElementById("ytplayer");
+
+                    var parent = oldIFrame.parentNode;
+                    parent.removeChild(oldIFrame);
+
+                    var newDiv = document.createElement('div');
+                    newDiv.id = "ytplayer";
+
+                    parent.appendChild(newDiv);
                 },
                 onReady: function() {
                     $initializers.onReadyApply($initializers.youtube);
