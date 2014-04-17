@@ -71,6 +71,16 @@ module.exports = {
             });
         });
     },
+    getSongs: function(req, res) {
+        console.log("Here");
+        PlayList.findOne(req.param('id')).done(function(err, playlist){
+            if(err || typeof playlist == 'undefined'){
+                return res.send({error: err, status: 500}, 500);
+            }
+            console.log(playlist.songs)
+            res.send({songs:playlist.songs, status: 200},200);
+        });
+    },
 
     /**
     * Overrides for the settings in `config/controllers.js`
