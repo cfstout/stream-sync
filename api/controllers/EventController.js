@@ -82,6 +82,15 @@ module.exports = {
 		});
 	},
 
+	delete: function (req, res) {
+		Event.findOne(req.param('id')).done(function (err, event){
+			event.destroy(function(err){
+				console.log("Event destroyed");
+			});
+			return res.send({status: 200}, 200);
+		});
+	},
+
 	/**
 	*	Returns events created by passed in user
 	*	@params:
@@ -192,7 +201,7 @@ module.exports = {
 				{ loc: { contains: query } },
 			]
 		};
-		var searchLim = 3;
+		var searchLim = 15;
 		if(typeof(query) === 'undefined'){
 			Event.find().sort('createdAt DESC').limit(searchLim).done(function(err, events){
 				if(err){

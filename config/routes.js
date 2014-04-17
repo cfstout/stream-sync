@@ -55,6 +55,10 @@ module.exports.routes = {
     controller: 'EventController',
     action: 'subscribe'
   },
+  'delete /event/:id/delete': {
+    controller: 'EventController',
+    action: 'delete'
+  },
 
 
   // PLAYLIST
