@@ -4906,23 +4906,28 @@ a.pure-button.full {
 }
 /* line 408, ../scss/app.scss */
 .controls .play-controller .control-button {
+  pointer-events: none;
   display: inline-block;
   width: 30%;
 }
-/* line 412, ../scss/app.scss */
+/* line 413, ../scss/app.scss */
+.controls .play-controller .control-button i {
+  pointer-events: all;
+}
+/* line 417, ../scss/app.scss */
 .controls .play-controller .control-button.back {
   text-align: right;
 }
-/* line 416, ../scss/app.scss */
+/* line 421, ../scss/app.scss */
 .controls .play-controller .control-button.play {
   font-size: 150%;
   text-align: center;
 }
-/* line 420, ../scss/app.scss */
+/* line 425, ../scss/app.scss */
 .controls .play-controller .control-button.play span {
   margin-left: -0.625em;
 }
-/* line 425, ../scss/app.scss */
+/* line 430, ../scss/app.scss */
 .controls .play-controller .control-button.next {
   text-align: left;
 }

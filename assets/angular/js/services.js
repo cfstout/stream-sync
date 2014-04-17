@@ -364,7 +364,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                             notifyObserver();
                         },
                         ended: function() {
-                            console.log('song ended');
+                            self.next_song();
                         }
                     });
                 }
@@ -422,6 +422,8 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             }
         };
 
+        var mismatches = -5;
+
         var socketFuncs = {
             song_added: function(data) {
               service.instance.songs = data.songs;
@@ -435,10 +437,19 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                     if (data.isPlaying != service.instance.isPlaying) {
                         service.togglePlay();
                     }
+                    if (data.current != service.instance.current) {
+                        service.change_song(data.current);
+                    }
                     var newTime = data.songTime + (ntp.getTime() - data.hostTime);
-                    var diff = newTime - service.instance.curTime.real;
-                    if (Math.abs(diff) > 200) {
+                    var diff = Math.abs(newTime - service.instance.curTime.real);
+                    if (diff > 150) {
+                        mismatches++;
+                    } else {
+                        mismatches = mismatches - 1 < 0 ? 0 : mismatches - 1;
+                    }
+                    if (mismatches > 5 || diff > 10000) {
                         service.seek(newTime);
+                        mismatches = -20;
                     }
                 }
             }
@@ -503,13 +514,22 @@ streamSyncServices.factory('track', [
 
         var track;
 
+        function updateTime() {
+            
+        }
+
         function YTtrack(song, autoplay, callbacks) {
             track = this;
             this.song = song;
             this.isPlaying = autoplay.isOn;
             var playerVars = {
                 start: autoplay.position/1000,
-                autoplay: autoplay.isOn ? 1 : 0
+                autoplay: autoplay.isOn ? 1 : 0,
+                controls: 0,
+                disablekb: 1,
+                fs: 0,
+                playsinline: 1,
+                showinfo: 0,
             };
             this.callbacks = callbacks;
             this.player = new YT.Player('ytplayer', {
@@ -528,6 +548,7 @@ streamSyncServices.factory('track', [
             onReady: function() {
                 track.isReady = true;
                 track.callbacks.init();
+                track.player.setPlaybackQuality('small');
             },
             checkState: function(event) {
                 if (event.data == YT.PlayerState.PLAYING && !track.isPlaying) {
@@ -553,14 +574,17 @@ streamSyncServices.factory('track', [
             },
             seek: function(ms) {
                 if (this.isReady) {
-                    this.player.seekTo((ms+100)/1000);
+                    var time = ms/1000;
+                    this.player.seekTo(time, true);
                 }
             },
             getTime: function() {
                 if (this.isReady) {
-                    return this.player.getCurrentTime()*1000;
+                    var time = this.player.getCurrentTime() * 1000;
+                    this.curTime = time ? time : this.curTime + 10;
+                    return this.curTime;
                 } else {
-                    return 0;
+                    return this.curTime || 0;
                 }
             }
         };

@@ -406,8 +406,13 @@ a.pure-button.full {
 	.play-controller {
 
 		.control-button {
+			pointer-events: none;
 			display: inline-block;
 			width: 30%;
+
+			i {
+				pointer-events: all;
+			}
 
 			&.back {
 				text-align: right;
