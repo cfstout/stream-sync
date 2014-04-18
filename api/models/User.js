@@ -3,7 +3,7 @@
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
- * @docs		:: http://sailsjs.org/#!documentation/models
+ * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
 var bcrypt = require('bcrypt');
@@ -24,6 +24,9 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
+        avatar: {
+            type: 'json'
+        },
 		email: {
 			type: 'string',
 			required: true
@@ -33,8 +36,8 @@ module.exports = {
 			defaultsTo: ''
 		},
 		/* checks to see if a password matches the stored hash */
-		validPassword: function(password) {
-			return bcrypt.compareSync(password, this.password);
+		validPassword: function (password) {
+		return bcrypt.compareSync(password, this.password);
 		},
 		/* removes password from object before returning it to user */
 		toJSON: function() {

@@ -19,7 +19,8 @@
         "passport-facebook": "*",
         "validator": "*",
         "bcrypt": "*",
-        "socket-ntp": "*"
+        "socket-ntp": "*",
+        "tumblr": "*"
     },
     "scripts": {
         "start": "node app.js",

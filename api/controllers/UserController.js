@@ -30,7 +30,11 @@ module.exports = {
 			username: req.param('username'),
 			password: req.param('password'),
 			loc: req.param('loc'),
-			email: req.param('email')
+			email: req.param('email'),
+			avatar: {
+				'icon': Avatar.randomIcon(),
+				'color': Avatar.randomColor()
+			}
 		}).done(function(err, user) {
 			console.log(user.email)
 			if (err || (typeof user === 'undefined')) {

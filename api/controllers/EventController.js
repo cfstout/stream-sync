@@ -27,58 +27,62 @@ module.exports = {
 	*		integer status: http response status
 	*/
 	create: function (req, res) {
-		Event.create({
-			name: req.param('eventName'),
-			date: req.param('date'),
-			slug: Sanitization.createSlug(req.param('eventName')),
-			creator: req.user.username,
-			loc: req.user.loc 
-		}).done(function (err, event) {
-			if (err) {
-				console.log(err);
-				return res.send({status: 401}, 401);
-			}
-			/* 
-			*  Below are requirements for an Event:
-			*  Specifically the playlist and memberlist
-			*  attributes
-			*/
-			PlayList.create({
-				event: event.id,
-				songs: []
-			}).done(function(err, playlist) {
+
+		Tumblr.getRandomPhoto( function(err, photos) {
+
+			Event.create({
+				name: req.param('eventName'),
+				slug: Sanitization.createSlug(req.param('eventName')),
+				creator: req.user.username,
+				photos: photos,
+				loc: req.user.loc 
+			}).done(function (err, event) {
 				if (err) {
-					return next(err);
+					console.log(err);
+					return res.send({status: 500}, 500);
 				}
-				event.playlist = playlist.id;
-
-				MemberList.create({
+				/* 
+				*  Below are requirements for an Event:
+				*  Specifically the playlist and memberlist
+				*  attributes
+				*/
+				PlayList.create({
 					event: event.id,
-					members: {},
-					host: event.creator
-				}).done(function(err, memberlist) {
+					songs: []
+				}).done(function(err, playlist) {
 					if (err) {
-						console.log(err);
-						return res.send({status: 402}, 402);
+						return next(err);
 					}
-					event.memberlist = memberlist.id;
+					event.playlist = playlist.id;
 
-					/* 
-					* Adds attributes and returns successful
-					* object to the user 
-					*/
-					event.save(function(err) {
+					MemberList.create({
+						event: event.id,
+						members: {},
+						host: event.creator
+					}).done(function(err, memberlist) {
 						if (err) {
 							console.log(err);
-							return res.send({status: 403}, 403);
-						} else {
-							console.log("Event created: " + event.creator + " date: "+event.date);
-							return res.send({event: event, status: 200}, 200);
+							return res.send({status: 402}, 402);
 						}
+						event.memberlist = memberlist.id;
+
+						/* 
+						* Adds attributes and returns successful
+						* object to the user 
+						*/
+						event.save(function(err) {
+							if (err) {
+								console.log(err);
+								return res.send({status: 403}, 403);
+							} else {
+								console.log("Event created: " + event.creator + " date: "+event.date);
+								return res.send({event: event, status: 200}, 200);
+							}
+						});
 					});
 				});
+				
 			});
-			
 		});
 	},
 

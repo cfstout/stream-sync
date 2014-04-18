@@ -17,6 +17,15 @@
 
 module.exports = {
 
+    get: function(req, res) {
+        MemberList.findOne(req.param('id')).done(function(err, memberlist){
+            if(err || typeof memberlist == 'undefined'){
+                return res.send({error: err, status: 500}, 500);
+            }
+            res.send({memberlist:memberlist, status: 200},200);
+        });
+    },
+
 
   /**
    * Overrides for the settings in `config/controllers.js`

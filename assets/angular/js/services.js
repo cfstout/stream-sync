@@ -250,12 +250,15 @@ streamSyncServices.factory('song', ['$http', 'track', 'playersAPI',
             destroy: function() {
                 this.stop();
                 playersAPI.youtube.destroy();
+            },
+            setVolume: function(level) {
+                cur_track.setVolume(level);
             }
         };
     }]);
 
-streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 'time', 'ntp',
-    function($http, $location, socket, song, time, ntp){
+streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 'ntp', 'volume',
+    function ($http, $location, socket, song, ntp, volume) {
 
         ntp.init();
 
@@ -272,7 +275,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
             happening: false,
             updateCounter: 0,
             playlist: null,
-            calcTimeWithOffset: function(playlist) {
+            calcTimeWithOffset: function (playlist) {
                 if (typeof playlist == 'undefined') {
                     if (typeof this.playlist == 'undefined') {
                         return 0;
@@ -283,7 +286,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 return offset + playlist.songTime;
             },
             publish: {
-                update: function(ms) {
+                update: function (ms) {
                 var updatedTime = typeof ms == 'undefined' ? song.getTime() : ms;
                 socket.execute($settings.root + 'playlist/' + this.playlist.id + '/sync', {
                         songTime: updatedTime,
@@ -308,8 +311,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                 this.playlist = playlist;
                 this.publish.playlist = playlist;
                 playlist.curDuration = {
-                    real: playlist.songs[playlist.current].duration,
-                    pretty: time.prettify(playlist.songs[playlist.current].duration)
+                    real: playlist.songs[playlist.current].duration
                 };
                 playlist.songTime = this.calcTimeWithOffset();
                 playlist.curTime = {
@@ -361,6 +363,7 @@ streamSyncServices.factory('playlist', ['$http', '$location', 'socket', 'song', 
                             if (self.instance.isPlaying) {
                                 timeUpdate.start();
                             }
+                            volume.change();
                             notifyObserver();
                         },
                         ended: function() {
@@ -586,6 +589,11 @@ streamSyncServices.factory('track', [
                 } else {
                     return this.curTime || 0;
                 }
+            },
+            setVolume: function(level) {
+                if (this.isReady) {
+                    this.player.setVolume(level);
+                }
             }
         };
 
@@ -631,6 +639,11 @@ streamSyncServices.factory('track', [
                     return this.player.position;
                 } else {
                     return 0;
+                }
+            },
+            setVolume: function(level) {
+                if (this.isReady) {
+                    this.player.setVolume(level);
                 }
             }
         };
@@ -803,6 +816,24 @@ streamSyncServices.factory('ntp', ['socket',
             },
             getTime: function() {
                 return Date.now() - this.offset();
+            }
+        };
+    }]);
+
+streamSyncServices.factory('volume', ['song',
+    function (song) {
+
+        var volumeLevel = 100;
+
+        return {
+            set: function(volume, doChange) {
+                volumeLevel = volume;
+                if (doChange) {
+                    this.change();
+                }
+            },
+            change: function() {
+                song.setVolume(volumeLevel);
             }
         };
     }]);

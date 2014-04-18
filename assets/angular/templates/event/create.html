@@ -11,12 +11,11 @@
             <input type="text" placeholder="Get Turnt"ng-model="name">
           </div>
         </div>
-        <div class="fieldset">
-          <label>Date event will take place</label>
-          <div class="input">
-            <input type="date" ng-model="date">
-          </div>
-        </div>
+        <!-- <div class="fieldset">
+          <input type="file" ng-file-select="uploadImage($files)">
+          <div ng-file-drop="uploadImage($files)" ng-file-drag-over-class="optional-css-class"
+          ng-show="dropSupported">drop files here</div>
+        </div> -->
         <div class="footer push-down">
           <button type="submit" class="pure-button button-lg full" id="submit-button" ng-click="submit()">Create!</button>
         </div>

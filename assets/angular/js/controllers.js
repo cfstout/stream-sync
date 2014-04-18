@@ -57,45 +57,42 @@ streamSyncControllers.controller('NavCtrl', ['$scope', '$location', '$rootScope'
         };
     }]);
 
-streamSyncControllers.controller('EventSongCtrl', ['$scope', '$http',
-    function ($scope, $http) {
-        console.log($scope.playlistID);
-        $scope.getSongs = function (playlistID) {
-            $http.get('/playlist/' + playlistID + '/getSongs')
-                .error(function (data, status) {
-                    console.log("ERROR");
-                })
-                .success(function (data, status) {
-                    $scope.songs = data.songs;
-                });
-        };
-        $scope.getSongs($scope.playlistID);
-
-    }]);
 
 streamSyncControllers.controller('EventCreateCtrl', ['$scope', 'event', 'user',
     function ($scope, event, user) {
         //paramaters to request
         $scope.name = "";
-        $scope.date = "";
         user.logged_in();
 
         //request server to perform action
         $scope.submit = function () {
-            event.create(this.name, this.date);
+            event.create(this.name, this.image)
+                .error(function(data, status) {
+                    console.log(data);
+                });
         };
     }]);
 
-streamSyncControllers.controller('EventDeleteCtrl', ['$scope', '$http', '$location',
-    function ($scope, $http, $location) {
+streamSyncControllers.controller('EventListItemCtrl', ['$scope', '$http',
+    function ($scope, $http) {
+        $http.get('/playlist/' + $scope.event.playlist)
+            .success(function (data, status) {
+                $scope.playlist = data.playlist;
+            });
+
+        $http.get('/memberlist/' + $scope.event.memberlist)
+            .success(function (data, status) {
+                $scope.memberlist = data.memberlist;
+                $scope.memberlist.size = -1;
+                for (var member in $scope.memberlist.members) {
+                    $scope.memberlist.size++;
+                }
+            });
+
         $scope.delete = function () {
-            $http.delete('/event/' + $scope.eventID + '/delete')
-                .error(function (data, status) {
-                    console.log("ERROR");
-                })
+            $http.delete('/event/' + $scope.event.id + '/delete')
                 .success(function (data, status){
-                    console.log("SUCCESS");
-                    $location.reload();
+                    $scope.wasDeleted = true;
                 });
         };
     }]);
@@ -146,8 +143,8 @@ streamSyncControllers.controller('EventListCtrl', ['$scope', 'user', 'event',
 
     }]);
 
-streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'playlist', 'memberlist', 'user', 'song', 'time',
-    function ($scope, $routeParams, event, playlist, memberlist, user, song, time) {
+streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'event', 'playlist', 'memberlist', 'user', 'song', 'volume',
+    function ($scope, $routeParams, event, playlist, memberlist, user, song, volume) {
         // get logged in user
         $scope.user = {};
         user.logged_in()
@@ -163,7 +160,6 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
         $scope.updateTime = function () {
             if ($scope.playlist.curTime) {
                 $scope.playlist.percentPlayed = (100 * $scope.playlist.curTime.real / $scope.playlist.curDuration.real);
-                $scope.playlist.curTime.pretty = time.prettify($scope.playlist.curTime.real);
             }
         };
 
@@ -245,8 +241,15 @@ streamSyncControllers.controller('PlayBackCtrl', ['$scope', '$routeParams', 'eve
             },
             prev: function () {
                 playlist.prev_song();
+            },
+            setVolume: function (click) {
+                $scope.volumeLevel = (click.offsetX / click.target.offsetWidth) * 100;
+                volume.set($scope.volumeLevel, true);
             }
         };
+
+        $scope.volumeLevel = 100;
+        volume.set($scope.volumeLevel);
 
         $scope.$on('$destroy', function () {
             playlist.stop();

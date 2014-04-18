@@ -1,18 +1,37 @@
 <ng-include src="'angular/templates/nav/main.html'"></ng-include>
 
-<div class = "content default-u-padding pure-g-r">
-	<div class="pure-u-1-1">
-		<h3> Hello, {{current_user.username}} </h3>
-		<div class= "segment grid-item pure-u-1-1"
-		data-hint="This is your set location." ng-class="hints ? 'hint--always hint--top' : 'hint--hidden'">
-			<h4>Current city: {{current_user.loc}}</h4>
+<div class="wrap" ng-style="{background: current_user.avatar.color}">
+	<div class = "content default-u-padding pure-g-r">
+		<div class="pure-u-1-3">
+			<div id="big-user-icon">
+				<span class="user-icon">
+					{{current_user.avatar.icon}}
+				</span>
+			</div>
+		</div>
+		<div class="pure-u-2-3">
+			<div id="welcome-text">
+				<h1>Hi, {{current_user.username}}!</h1>
+				<div class="buttons">
+					<a class="buttons-component pure-button button-lg button-secondary white" href="#/event/list">
+						Find Events
+					</a>
+					<span class="buttons-component divider">or</span>
+					<a class="buttons-component pure-button button-lg button-secondary white" href="#/event/create">
+						Create An Event
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
+</div>
+
+<div class = "content default-u-padding pure-g-r">
 	<div class = "pure-u-1-1 pure-g pure-form push-center">
-		<div class ="pure-u-2-3 push-left">
-			<h2>Here are your hosted events:</h2> 
+		<div class ="pure-u-1-3 push-left">
+			<h2>Events You Created</h2> 
 		</div>
-		<fieldset class="pure-u-1-3">
+		<fieldset class="pure-u-2-3">
 			<div class="fieldset push-right push-down-light">
 				<div class="input"
 				data-hint="Search the events you are hosting." ng-class="hints ? 'hint--always hint--bottom' : 'hint--hidden'">
@@ -22,31 +41,16 @@
 		</fieldset>
 	</div>
 	<div class="pure-g-r full">
-		<div class="pure-u-1-3" ng-repeat = "event in current_user_created_events | filter: query">
-			<div class = "segment grid-item">
-				<h3>{{event.name}}<h3>
-        		<h4>{{event.date | date: "MM/dd/yyyy"}}</h4>
-        		<div class = "pure-g-r full">
-        			<div class = "pure-u-1-2">
-	        			<a class = "pure-button pure-u-1-2" ng-click="event.expanded= !event.expanded" data-hint="Click on an event to see details" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Details</a>
-	        		</div>
-	        		<div class = "pure-u-1-2 push-right">
-	        			<ss-event-delete info="event.id"></ss-event-delete>
-	        		</div>
-	        	</div>
-
-	          	<div ng-show="event.expanded" class ="segment grid-item">
-	            	<ss-event-songs info="event.playlist">
-            		</ss-event-songs>
-	            	<a ng-href="#/event/{{event.slug}}" class="pure-button" data-hint="Enter the event to participate." ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Enter</a>
-				</div>
-
-					
+		<div class="pure-u-1-1" ng-repeat = "event in current_user_created_events | filter: query">
+			<event-list-item event="event" owned="true"></event-list-item>
+		</div>
+		<div class="pure-u-1-1" ng-class="current_user_created_events.length < 1 ? '' : 'hidden'">
+			<div class="no-events-message">
+				<i class="fa fa-lightbulb-o"></i>
+				<h4>There doesn't seem to be anything here :( I have an idea! How bout we do something fun together and <a href="#/event/create">make an event here</a></h4>
 			</div>
 		</div>
 	</div>
-
-  	<a href="#/event/create" class="pure-u-1-3 pure-button button-lg push-left">New Event</a>
   </div>
 
 

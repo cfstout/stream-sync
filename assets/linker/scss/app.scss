@@ -17,6 +17,7 @@
 --- --- 0.1.4 TABS
 --- 0.2.0 STYLING
 --- --- 0.2.1 LINKS
+--- --- 0.2.2 TYPOGRAPHY
 --- 0.3.0 ANIMATIONS
 1.0.0 ELEMENTS
 --- 1.1.0 SEGMENTS
@@ -169,6 +170,13 @@ a {
 	}
 }
 
+/* 0.2.2 TYPOGRAPHY */
+
+.contrast-font {
+	color: #FFF;
+	text-shadow: 1px 1px 1px #000;
+}
+
 /* 0.3.0 ANIMATIONS */
 
 @mixin transition($property, $duration, $timing:linear, $delay:0) {
@@ -191,7 +199,7 @@ a {
 }
 
 .content {
-	max-width: 700px;
+	max-width: 920px;
 	min-width: 270px;
 	@extend .h-centered;
 }
@@ -208,9 +216,9 @@ a {
 
 	.footer {
 		width: 100%;
-		background: $gray_bg;
-		margin: 0 em(-20) em(-33) em(-20);
-		@include u-padding(20);
+		// background: $gray_bg;
+		padding-top: em(20);
+		// @include u-padding(20);
 	}
 }
 
@@ -230,19 +238,16 @@ label {
 	input, select {
 		width: 100%;
 		border-color: #CCC;
+		padding-left: em(50) !important;
 	}
 	&.icon-left {
-		padding-left: em(50);
 		margin-bottom: em(-40);
 
 		i {
 			position: relative;
 			top: em(-50);
-			left: em(-48);
 			color: $secondary;
-			background: $gray_bg;
 			padding: em(14) em(17);
-			border: 1px solid #CCC;
 		}
 	}
 }
@@ -258,6 +263,10 @@ input[type="password"] {
 	background: $primary;
 	color: #FFF;
 	@include border-radius(3);
+
+	&.red {
+		background: #FF003C;
+	}
 
 	&.button-lg {
 		padding: em(10) em(20);
@@ -299,6 +308,11 @@ input[type="password"] {
 			color: $green;
 			border-color: $green;
 		}
+
+		&.white {
+			color: #FFF;
+			border-color: #FFF;
+		}
 	}
 }
 
@@ -314,17 +328,130 @@ a.pure-button.full {
 
 /* 2.0.0 SPECIFIC */
 
+.no-events-message {
+	@extend .h-centered;
+	@include v-padding(20);
+	width: 270px;
+	text-align: center;
+	color: #AAA;
+
+	i {
+		font-size: 300%;
+	}
+
+	a {
+		text-decoration: none;
+	}
+}
+
+/* 2.1.0 PROFILE ELEMENTS */
+
+#big-user-icon {
+	@include u-padding(30);
+	span {
+		display: inline-block;
+		font-size: em(200);
+		padding-top: em(3);
+		width: em(15);
+		height: em(15);
+		@include border-radius(20);
+		border: em(1) solid #FFF;
+	}
+}
+
+#welcome-text {
+	color: #FFF;
+	h1 {
+		font-size: em(72);
+	}
+
+	.buttons {
+		.buttons-component {
+			width: 30%;
+			text-align: center;
+
+			&.divider {
+				font-size: 130%;
+				@include h-padding(30);
+			}
+
+			&.pure-button {
+				border-width: em(3);
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+/* 2.1.0 EVENT LIST ITEM */
+
+.event-list-item {
+	width: 100%;
+	background: #FFF;
+	border-bottom: 2px #CCC solid;
+	@include border-radius(3);
+
+	margin-top: em(20);
+
+	div.details {
+		@extend .contrast-font;
+		width: 60%;
+		padding: em(20) 7%;
+		background-size: cover;
+
+		span.title {
+			font-weight: bold;
+			font-size: 150%;
+			display: block;
+		}
+		span.members {
+
+		}
+
+	}
+
+	div.buttons {
+		width: 40%;
+		float: right;
+		padding: em(25) 0;
+		text-align: center;
+	}
+
+	div.playlist {
+
+		margin-top: em(10);
+
+		span {
+			display: inline;
+
+			&.song-title {
+				font-weight: bold;
+			}
+
+			&.song-current {
+				float: right;
+				color: #CCC;
+				font-size: 80%;
+				text-transform: uppercase;
+			}
+		}
+	}
+}
+
 /* 2.1.0 PLAYBACK ELEMENTS */
 
 .song-details {
 	height: em(200);
-	@include h-padding(20);
+	padding: em(30) em(40);
+	@extend .contrast-font;
+	background-size: cover;
 }
 
 .playlist-item {
 	@include v-padding(10);
 	@include h-padding(20);
 	border-bottom: 1px solid #CCC;
+	overflow: auto;
 
 	&.no-border {
 		border-bottom: none;
@@ -369,7 +496,7 @@ a.pure-button.full {
 	.container {
 		position: absolute;
 		height: em(50);
-		padding: 0 em(60);
+		// padding: 0 em(60);
 		width: 100%;
 
 		.outer {
@@ -385,18 +512,18 @@ a.pure-button.full {
 		}
 	}
 
-	.track-time {
-		position: absolute;
-		top: em(13);
+	// .track-time {
+	// 	position: absolute;
+	// 	top: em(13);
 
-		&.current {
-			left: em(10);
-		}
+	// 	&.current {
+	// 		left: em(10);
+	// 	}
 
-		&.duration {
-			right: em(10);
-		}
-	}
+	// 	&.duration {
+	// 		right: em(10);
+	// 	}
+	// }
 }
 
 .controls {
@@ -435,19 +562,20 @@ a.pure-button.full {
 
 	.volume-bar {
 		position: relative;
-		height: em(10);
+		height: em(7);
+		padding-top: em(20);
 
 		.container {
 			position: absolute;
-			height: em(10);
-			padding: 0 em(20);
+			height: em(7);
+			padding: 0 em(40);
 			width: 100%;
 
 			.outer {
 				background: #CCC;
 
 				.inner {
-					height: em(10);
+					height: em(7);
 					width: 0%;
 					pointer-events: none;
 					background: #000;
@@ -458,7 +586,7 @@ a.pure-button.full {
 
 		.volume-icon {
 			position: absolute;
-			top: em(3);
+			top: em(15);
 
 			&.volume-icon-min {
 				left: em(10);

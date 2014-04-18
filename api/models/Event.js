@@ -28,11 +28,11 @@ module.exports = {
 		playlist: {
 			type: 'string'
 		},
-		date: {
-			type: 'date'
-		},
 		loc: {
 			type: 'string'
+		},
+		photos: {
+			type: 'array'
 		}
 
 	},

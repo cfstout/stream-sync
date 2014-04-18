@@ -1,0 +1,30 @@
+<div ng-controller="EventListItemCtrl">
+    <div class="event-list-item" ng-hide="wasDeleted">
+        <div class="buttons">
+            <a class="pure-button button-secondary" ng-click="showPlaylist = !showPlaylist">
+                {{showPlaylist ? 'hide' : 'view'}} playlist
+            </a>
+            <a class="pure-button" ng-href="#/event/{{event.slug}}">
+                join
+            </a>    
+            <a class="pure-button red" ng-show="owned" ng-click="delete()">
+                delete
+            </a>
+        </div>
+        <div class="details" ng-style="{
+            'background-image': 'url(' + event.photos[1].url + ')'
+        }">
+            <span class="title">{{event.name}}</span>
+            <span class="members">{{memberlist.host}} hosting {{memberlist.size}} others</span>
+        </div>
+        <div class="playlist" ng-show="showPlaylist">
+            <div ng-repeat="song in playlist.songs">
+                <div class="playlist-item">
+                    <span class="song-title">{{song.title}}</span>
+                    <span class="song-artist">&nbsp{{song.artist}}</span>
+                    <span class="song-current" ng-show="playlist.current == $index">{{playlist.isPlaying ? 'playing' : 'current'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

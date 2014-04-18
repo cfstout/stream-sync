@@ -60,6 +60,12 @@ module.exports.routes = {
     action: 'delete'
   },
 
+  // MEMBERLIST
+  'get /memberlist/:id': {
+    controller: 'MemberListController',
+    action: 'get'
+  },
+
 
   // PLAYLIST
   'put /playlist/:id/addSong': {
@@ -70,9 +76,9 @@ module.exports.routes = {
     controller: 'PlayListController',
     action: 'sync'
   },
-  'get /playlist/:id/getSongs': {
+  'get /playlist/:id': {
     controller: 'PlayListController',
-    action: 'getSongs'
+    action: 'get'
   },
 
   // SONGS

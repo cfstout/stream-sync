@@ -21,19 +21,8 @@
   </div>
 
   <div class="pure-g-r full">
-    <div class="pure-u-1-3" ng-repeat="event in events">
-      <div class="segment grid-item">
-        <h3>{{event.name}}</h3>
-        <h4>{{event.creator}} | {{event.loc}}</h4>
-        <h4>{{event.date | date: "MM/dd/yyyy"}}</h4>
-        <a class = "pure-button" ng-click="event.expanded= !event.expanded" data-hint="Click on an event to see details" ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Details</a>
-          <div ng-show="event.expanded" class ="segment grid-item">
-            <ss-event-songs info="event.playlist">
-            </ss-event-songs>
-            <a ng-href="#/event/{{event.slug}}" class="pure-button"
-        data-hint="Join the event to participate." ng-class="(hints && $first) ? 'hint--always hint--bottom' : 'hint--hidden'">Join</a>
-          </div>
-      </div>
+    <div class="pure-u-1-1" ng-repeat="event in events">
+      <event-list-item event="event" owned="false"></event-list-item>
     </div>
   </div>
 
