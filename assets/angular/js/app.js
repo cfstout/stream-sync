@@ -15,6 +15,10 @@ var streamSyncApp = angular.module('streamSyncApp', [
 streamSyncApp.config(['$routeProvider', 
   function($routeProvider) {
     $routeProvider
+      .when('/',{
+        templateUrl: 'views/user/home',
+        controller:'HomeCtrl'
+      })
       .when('/login', {
         templateUrl: 'views/user/login',
         controller: 'LoginCtrl'
@@ -22,10 +26,6 @@ streamSyncApp.config(['$routeProvider',
       .when('/signup', {
         templateUrl: 'views/user/signup',
         controller: 'SignupCtrl'
-      })
-      .when('/home',{
-        templateUrl: 'views/user/home',
-        controller:'HomeCtrl'
       })
       .when('/event/create', {
         templateUrl: 'views/event/create',
