@@ -432,4 +432,41 @@ a.pure-button.full {
 			}
 		}
 	}
+
+	.volume-bar {
+		position: relative;
+		height: em(10);
+
+		.container {
+			position: absolute;
+			height: em(10);
+			padding: 0 em(20);
+			width: 100%;
+
+			.outer {
+				background: #CCC;
+
+				.inner {
+					height: em(10);
+					width: 0%;
+					pointer-events: none;
+					background: #000;
+					@include transition(width, .5s);
+				}
+			}
+		}
+
+		.volume-icon {
+			position: absolute;
+			top: em(3);
+
+			&.volume-icon-min {
+				left: em(10);
+			}
+
+			&.volume-icon-max {
+				right: em(10);
+			}
+		}
+	}
 }

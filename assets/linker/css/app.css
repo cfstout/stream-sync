@@ -4931,3 +4931,41 @@ a.pure-button.full {
 .controls .play-controller .control-button.next {
   text-align: left;
 }
+/* line 436, ../scss/app.scss */
+.controls .volume-bar {
+  position: relative;
+  height: 0.625em;
+}
+/* line 440, ../scss/app.scss */
+.controls .volume-bar .container {
+  position: absolute;
+  height: 0.625em;
+  padding: 0 1.25em;
+  width: 100%;
+}
+/* line 446, ../scss/app.scss */
+.controls .volume-bar .container .outer {
+  background: #CCC;
+}
+/* line 449, ../scss/app.scss */
+.controls .volume-bar .container .outer .inner {
+  height: 0.625em;
+  width: 0%;
+  pointer-events: none;
+  background: #000;
+  transition: width 0.5s linear 0;
+  -webkit-transition: width 0.5s linear 0;
+}
+/* line 459, ../scss/app.scss */
+.controls .volume-bar .volume-icon {
+  position: absolute;
+  top: 0.1875em;
+}
+/* line 463, ../scss/app.scss */
+.controls .volume-bar .volume-icon.volume-icon-min {
+  left: 0.625em;
+}
+/* line 467, ../scss/app.scss */
+.controls .volume-bar .volume-icon.volume-icon-max {
+  right: 0.625em;
+}

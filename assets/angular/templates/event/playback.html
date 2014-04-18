@@ -24,7 +24,7 @@
             <div class="track-time duration">{{playlist.curDuration.pretty}}</div>
         </div>
         <div class="pure-u-1-1 pure-g controls" ng-class="isHost && playlist.isReady ? '' : 'hidden'">
-            <div class="play-controller pure-u-1-3">
+            <div class="play-controller" ng-class="isHost ? 'pure-u-1-3' : 'hidden'">
                 <div class="control-button back">
                     <span class="fa-stack fa-large">
                         <i class="fa fa-circle fa-stack-2x"></i>
@@ -49,6 +49,17 @@
                             ng-click="controls.next()">
                         </i>
                     </span>
+                </div>
+            </div>
+            <div class="volume-controller" ng-class="isHost ? 'pure-u-2-3 ' : 'pure-u-1-1'">
+                <div class="volume-bar pure-u-1-1">
+                    <div class="container">
+                        <div class="outer" ng-click="controls.changeVolume($event)">
+                            <div class="inner" ng-style="{width:(volumeLevel*100 + '%')}"></div>
+                        </div>
+                    </div>
+                    <div class="volume-icon volume-icon-min"></div>
+                    <div class="volume-icon volume-icon-max"></div>
                 </div>
             </div>
         </div>
