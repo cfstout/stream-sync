@@ -4548,14 +4548,14 @@ body, html {
 /* 0.1.0 POSITIONG */
 /* 0.1.1 CENTERING */
 /* line 41, ../scss/app.scss */
-.h-centered, .content, .no-events-message {
+.h-centered, .content, .no-events-message, #home-screen div.banner {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
 /* line 47, ../scss/app.scss */
-.v-centered {
+.v-centered, #home-screen div.banner {
   display: table;
   position: absolute;
   height: 100%;
@@ -4564,7 +4564,7 @@ body, html {
   left: 0;
 }
 /* line 54, ../scss/app.scss */
-.v-centered > div {
+.v-centered > div, #home-screen div.banner > div {
   display: table-cell;
   vertical-align: middle;
 }
@@ -4880,8 +4880,31 @@ a.pure-button.full {
   font-weight: bold;
 }
 
-/* 2.1.0 EVENT LIST ITEM */
+/* 2.1.0 HOME SCREEN */
 /* line 388, ../scss/app.scss */
+#home-screen {
+  height: 100vh;
+  width: 100vw;
+  background: black bottom center url("/img/home_splash.jpg");
+  color: #FFF;
+}
+/* line 394, ../scss/app.scss */
+#home-screen div.banner {
+  text-align: center;
+  font-weight: bold;
+}
+/* line 400, ../scss/app.scss */
+#home-screen div.banner span.title {
+  display: block;
+  font-size: 500%;
+}
+/* line 405, ../scss/app.scss */
+#home-screen div.banner .buttons-component {
+  margin: 0.625em;
+}
+
+/* 2.1.0 EVENT LIST ITEM */
+/* line 413, ../scss/app.scss */
 .event-list-item {
   width: 100%;
   background: #FFF;
@@ -4891,38 +4914,38 @@ a.pure-button.full {
   border-radius: 0.1875em;
   margin-top: 1.25em;
 }
-/* line 396, ../scss/app.scss */
+/* line 421, ../scss/app.scss */
 .event-list-item div.details {
   width: 60%;
   padding: 1.25em 7%;
   background-size: cover;
 }
-/* line 402, ../scss/app.scss */
+/* line 427, ../scss/app.scss */
 .event-list-item div.details span.title {
   font-weight: bold;
   font-size: 150%;
   display: block;
 }
-/* line 413, ../scss/app.scss */
+/* line 438, ../scss/app.scss */
 .event-list-item div.buttons {
   width: 40%;
   float: right;
   padding: 1.5625em 0;
   text-align: center;
 }
-/* line 420, ../scss/app.scss */
+/* line 445, ../scss/app.scss */
 .event-list-item div.playlist {
   margin-top: 0.625em;
 }
-/* line 424, ../scss/app.scss */
+/* line 449, ../scss/app.scss */
 .event-list-item div.playlist span {
   display: inline;
 }
-/* line 427, ../scss/app.scss */
+/* line 452, ../scss/app.scss */
 .event-list-item div.playlist span.song-title {
   font-weight: bold;
 }
-/* line 431, ../scss/app.scss */
+/* line 456, ../scss/app.scss */
 .event-list-item div.playlist span.song-current {
   float: right;
   color: #CCC;
@@ -4931,14 +4954,14 @@ a.pure-button.full {
 }
 
 /* 2.1.0 PLAYBACK ELEMENTS */
-/* line 443, ../scss/app.scss */
+/* line 468, ../scss/app.scss */
 .song-details {
   height: 12.5em;
   padding: 1.875em 2.5em;
   background-size: cover;
 }
 
-/* line 450, ../scss/app.scss */
+/* line 475, ../scss/app.scss */
 .playlist-item {
   padding-top: 0.625em;
   padding-bottom: 0.625em;
@@ -4947,58 +4970,58 @@ a.pure-button.full {
   border-bottom: 1px solid #CCC;
   overflow: auto;
 }
-/* line 456, ../scss/app.scss */
+/* line 481, ../scss/app.scss */
 .playlist-item.no-border {
   border-bottom: none;
 }
-/* line 460, ../scss/app.scss */
+/* line 485, ../scss/app.scss */
 .playlist-item span {
   display: block;
 }
-/* line 463, ../scss/app.scss */
+/* line 488, ../scss/app.scss */
 .playlist-item span.title {
   display: block;
   font-weight: bold;
   font-size: 110%;
   margin-bottom: 0.3125em;
 }
-/* line 470, ../scss/app.scss */
+/* line 495, ../scss/app.scss */
 .playlist-item span.artist {
   display: block;
   font-style: italic;
 }
-/* line 475, ../scss/app.scss */
+/* line 500, ../scss/app.scss */
 .playlist-item span.source {
   float: right;
   color: #a3a7b0;
   margin-top: 0.625em;
 }
-/* line 482, ../scss/app.scss */
+/* line 507, ../scss/app.scss */
 .playlist-item.selectable {
   min-height: 3.125em;
 }
-/* line 485, ../scss/app.scss */
+/* line 510, ../scss/app.scss */
 .playlist-item.selectable:hover {
   cursor: pointer;
   background: #f5f7f9;
 }
 
-/* line 492, ../scss/app.scss */
+/* line 517, ../scss/app.scss */
 .seek-bar {
   position: relative;
   height: 3.125em;
 }
-/* line 496, ../scss/app.scss */
+/* line 521, ../scss/app.scss */
 .seek-bar .container {
   position: absolute;
   height: 3.125em;
   width: 100%;
 }
-/* line 502, ../scss/app.scss */
+/* line 527, ../scss/app.scss */
 .seek-bar .container .outer {
   background: #CCC;
 }
-/* line 505, ../scss/app.scss */
+/* line 530, ../scss/app.scss */
 .seek-bar .container .outer .inner {
   height: 3.125em;
   width: 0%;
@@ -5008,55 +5031,55 @@ a.pure-button.full {
   -webkit-transition: width 0.5s linear 0;
 }
 
-/* line 529, ../scss/app.scss */
+/* line 554, ../scss/app.scss */
 .controls {
   padding: 1.25em 1.25em 1.875em 0;
 }
-/* line 535, ../scss/app.scss */
+/* line 560, ../scss/app.scss */
 .controls .play-controller .control-button {
   pointer-events: none;
   display: inline-block;
   width: 30%;
 }
-/* line 540, ../scss/app.scss */
+/* line 565, ../scss/app.scss */
 .controls .play-controller .control-button i {
   pointer-events: all;
 }
-/* line 544, ../scss/app.scss */
+/* line 569, ../scss/app.scss */
 .controls .play-controller .control-button.back {
   text-align: right;
 }
-/* line 548, ../scss/app.scss */
+/* line 573, ../scss/app.scss */
 .controls .play-controller .control-button.play {
   font-size: 150%;
   text-align: center;
 }
-/* line 552, ../scss/app.scss */
+/* line 577, ../scss/app.scss */
 .controls .play-controller .control-button.play span {
   margin-left: -0.625em;
 }
-/* line 557, ../scss/app.scss */
+/* line 582, ../scss/app.scss */
 .controls .play-controller .control-button.next {
   text-align: left;
 }
-/* line 563, ../scss/app.scss */
+/* line 588, ../scss/app.scss */
 .controls .volume-bar {
   position: relative;
   height: 0.4375em;
   padding-top: 1.25em;
 }
-/* line 568, ../scss/app.scss */
+/* line 593, ../scss/app.scss */
 .controls .volume-bar .container {
   position: absolute;
   height: 0.4375em;
   padding: 0 2.5em;
   width: 100%;
 }
-/* line 574, ../scss/app.scss */
+/* line 599, ../scss/app.scss */
 .controls .volume-bar .container .outer {
   background: #CCC;
 }
-/* line 577, ../scss/app.scss */
+/* line 602, ../scss/app.scss */
 .controls .volume-bar .container .outer .inner {
   height: 0.4375em;
   width: 0%;
@@ -5065,16 +5088,16 @@ a.pure-button.full {
   transition: width 0.5s linear 0;
   -webkit-transition: width 0.5s linear 0;
 }
-/* line 587, ../scss/app.scss */
+/* line 612, ../scss/app.scss */
 .controls .volume-bar .volume-icon {
   position: absolute;
   top: 0.9375em;
 }
-/* line 591, ../scss/app.scss */
+/* line 616, ../scss/app.scss */
 .controls .volume-bar .volume-icon.volume-icon-min {
   left: 0.625em;
 }
-/* line 595, ../scss/app.scss */
+/* line 620, ../scss/app.scss */
 .controls .volume-bar .volume-icon.volume-icon-max {
   right: 0.625em;
 }

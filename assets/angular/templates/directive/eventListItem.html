@@ -15,7 +15,7 @@
             'background-image': 'url(' + event.photos[1].url + ')'
         }">
             <span class="title">{{event.name}}</span>
-            <span class="members">{{memberlist.host}} hosting {{memberlist.size}} others</span>
+            <span class="members">{{memberlist.host}} hosting {{memberlist.size}} other{{memberlist.size == 1 ? '' : 's'}}</span>
         </div>
         <div class="playlist" ng-show="showPlaylist">
             <div ng-repeat="song in playlist.songs">
